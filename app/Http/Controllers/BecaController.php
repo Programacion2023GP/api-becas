@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Beca;
+use App\Models\BecasView;
 use App\Models\ObjResponse;
 
 use Illuminate\Http\Request;
