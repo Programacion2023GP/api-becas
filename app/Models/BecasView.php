@@ -11,7 +11,7 @@ class BecasView extends Model
      * Especificar la conexion si no es la por default
      * @var string
      */
-    protected $connection = "mysql_becas";
+    //protected $connection = "mysql_becas";
 
     /**
      * Nombre de la tabla asociada al modelo.

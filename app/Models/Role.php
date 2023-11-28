@@ -13,7 +13,7 @@ class Role extends Model
      * Especificar la conexion si no es la por default
      * @var string
      */
-    protected $connection = "mysql_becas";
+    //protected $connection = "mysql_becas";
 
     /**
      * Los atributos que se pueden solicitar.
