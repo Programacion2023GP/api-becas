@@ -24,7 +24,7 @@ Route::post('/signup', [UserController::class, 'signup']);
 
 Route::middleware('auth:sanctum')->group(function () {
    // Route::get('/getUser/{token}', [UserController::class,'getUser']); //cerrar sesión (eliminar los tokens creados)
-   Route::delete('/logout', [UserController::class, 'logout']); //cerrar sesión (eliminar los tokens creados)
+   Route::get('/logout', [UserController::class, 'logout']); //cerrar sesión (eliminar los tokens creados)
 
    Route::controller(UserController::class)->group(function () {
       Route::get('/users', 'index');
