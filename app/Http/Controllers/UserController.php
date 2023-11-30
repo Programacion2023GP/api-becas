@@ -35,7 +35,9 @@ class UserController extends Controller
             $field => 'required',
             'password' => 'required'
         ]);
-        $user = User::where("$field", "$value")->first();
+        $user = User::where("$field", "$value")
+            ->join('roles', 'users.role_id', '=', 'roles.id')
+            ->select('users.*', 'roles.role')->first();
 
 
         if (!$user || !Hash::check($request->password, $user->password)) {
@@ -52,7 +54,7 @@ class UserController extends Controller
         $response->data = ObjResponse::CorrectResponse();
         $response->data["message"] = "peticion satisfactoria | usuario logeado. " . Auth::user();
         $response->data["result"]["token"] = $token;
-        $response->data["result"]["user"]["id"] = $user->id;
+        $response->data["result"]["user"] = $user;
         return response()->json($response, $response->data["status_code"]);
     }
 
