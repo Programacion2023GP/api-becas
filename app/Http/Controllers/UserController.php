@@ -279,6 +279,31 @@ class UserController extends Controller
         return response()->json($response, $response->data["status_code"]);
     }
 
+    /**
+     * "Activar o Desactivar" (cambiar estado activo) usuario.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response $response
+     */
+    public function DisEnableUser(Int $id, Int $active, Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            User::where('id', $id)
+                ->update([
+                    'active' => (bool)$active
+                ]);
+
+            $description = $active == "0" ? 'desactivado' : 'reactivado';
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = "peticion satisfactoria | usuario $description.";
+            $response->data["alert_text"] = "Usuario $description";
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+
 
 
     /**

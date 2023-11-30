@@ -33,6 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('/users', 'create');
       Route::put('/users/{id?}', 'update');
       Route::delete('/users/{id}', 'destroy');
+
+      Route::get('/users/{id}/DisEnableUser/{active}', 'DisEnableUser');
    });
 
    Route::controller(RoleBecasController::class)->group(function () {
