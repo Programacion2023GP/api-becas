@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
-class LevelBecasController extends Controller
+class LevelController extends Controller
 {
     /**
      * Mostrar lista de niveles activos.
@@ -22,7 +22,6 @@ class LevelBecasController extends Controller
         $response->data = ObjResponse::DefaultResponse();
         try {
             $list = Level::where('active', true)
-                ->select('levels.id', 'levels.level')
                 ->orderBy('levels.id', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de niveles.';

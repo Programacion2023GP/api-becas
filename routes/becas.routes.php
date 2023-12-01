@@ -10,7 +10,7 @@ use App\Http\Controllers\PerimeterBecasController;
 use App\Http\Controllers\CityBecasController;
 use App\Http\Controllers\ColonyBecasController;
 use App\Http\Controllers\DisabilityBecasController;
-use App\Http\Controllers\LevelBecasController;
+use App\Http\Controllers\LevelController;
 use App\Http\Controllers\SchoolBecasController;
 use App\Http\Controllers\Beca1StudentDataController;
 use App\Http\Controllers\Beca1TutorDataController;
@@ -55,7 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::delete('/perimeters/{id}', 'destroy');
    });
 
-   Route::controller(LevelBecasController::class)->group(function () {
+   Route::controller(LevelController::class)->group(function () {
       Route::get('/levels', 'index');
       Route::get('/levels/selectIndex', 'selectIndex');
       Route::get('/levels/{id}', 'show');

@@ -22,7 +22,6 @@ class PerimeterBecasController extends Controller
         $response->data = ObjResponse::DefaultResponse();
         try {
             $list = Perimeter::where('active', true)
-                ->select('perimeters.id', 'perimeters.perimeter')
                 ->orderBy('perimeters.id', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de perimetros.';
