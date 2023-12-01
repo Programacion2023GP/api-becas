@@ -6,6 +6,7 @@
 /vendor
 /public/becas
 /config/cors.php
+.htcaccess
 .env
 .env.backup
 .env.production
