@@ -15,10 +15,12 @@ return new class extends Migration
     {
         Schema::create('beca_6_scholarship_program', function (Blueprint $table) {
             $table->id();
-            $table->integer("beca_id");
-            $table->boolean('beca_transport')->default(false);
-            $table->boolean('beca_benito_juarez')->default(false);
-            $table->string('other')->nullable();
+            $table->foreignId('beca_id')->constrained('becas', 'id');
+            $table->boolean('beca_transport')->nullable()->default(false);
+            $table->boolean('beca_benito_juarez')->nullable()->default(false);
+            $table->boolean('beca_jovenes')->nullable()->default(false);
+            $table->boolean('other')->nullable()->default(false); //$table->string('other')->nullable();
+            $table->boolean('finished')->nullable()->default(false);
 
             $table->boolean('active')->default(true);
             $table->timestamps();

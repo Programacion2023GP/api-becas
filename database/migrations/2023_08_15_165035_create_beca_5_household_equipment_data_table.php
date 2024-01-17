@@ -15,24 +15,26 @@ return new class extends Migration
     {
         Schema::create('beca_5_household_equipment_data', function (Blueprint $table) {
             $table->id();
-            $table->integer("beca_id");
-            $table->integer('beds');
-            $table->integer('washing_machines');
-            $table->integer('boilers');
-            $table->integer('tvs');
-            $table->integer('pcs');
-            $table->integer('music_player');
-            $table->integer('stoves');
-            $table->integer('refrigerators');
+            $table->foreignId('b5_beca_id')->constrained('becas', 'id');
+            $table->integer('b5_beds')->nullable();
+            $table->integer('b5_washing_machines')->nullable();
+            $table->integer('b5_boilers')->nullable();
+            $table->integer('b5_tvs')->nullable();
+            $table->integer('b5_pcs')->nullable();
+            $table->integer('b5_phones')->nullable();
+            $table->integer('b5_music_player')->nullable();
+            $table->integer('b5_stoves')->nullable();
+            $table->integer('b5_refrigerators')->nullable();
 
-            $table->boolean('drinking_water');
-            $table->boolean('electric_light');
-            $table->boolean('sewer_system');
-            $table->boolean('pavement');
-            $table->boolean('automobile');
-            $table->boolean('phone_line');
-            $table->boolean('internet');
-            $table->integer('score');
+            $table->boolean('b5_drinking_water')->nullable();
+            $table->boolean('b5_electric_light')->nullable();
+            $table->boolean('b5_sewer_system')->nullable();
+            $table->boolean('b5_pavement')->nullable();
+            $table->boolean('b5_automobile')->nullable();
+            $table->boolean('b5_phone_line')->nullable();
+            $table->boolean('b5_internet')->nullable();
+            $table->integer('b5_score')->nullable();
+            $table->boolean('b5_finished')->nullable()->default(false);
 
             $table->boolean('active')->default(true);
             $table->timestamps();

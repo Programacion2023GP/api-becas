@@ -21,12 +21,13 @@ class Beca3EconomicData extends Model
      */
     protected $fillable = [
         'id',
-        'beca_id',
-        'food',
-        'transport',
-        'living_place',
-        'services',
-        'automobile',
+        'b3_beca_id',
+        'b3_food',
+        'b3_transport',
+        'b3_living_place',
+        'b3_services',
+        'b3_automobile',
+        'b3_finished',
         'active',
         'deleted_at'
     ];

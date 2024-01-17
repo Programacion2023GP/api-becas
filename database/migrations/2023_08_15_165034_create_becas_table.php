@@ -33,7 +33,10 @@ return new class extends Migration
             $table->text('comments')->nullable();
 
             $table->enum('socioeconomic_study', ['BAJO', 'MEDIO-BAJO', 'NORMAL'])->nullable();
-            $table->enum("status", ["ALTA", "EN REVISIÓN", "APROBADA", "PAGADA", "FINALIZADA", "CANCELADA"])->default("ALTA");
+            $table->integer('current_page')->default(4)->nullable();
+            $table->enum("status", ["ALTA", "TERMINADA", "EN REVISIÓN", "RECHAZADA", "APROBADA", "PAGADA", "CANCELADA"])->default("ALTA");
+
+            $table->dateTime('end_date')->nullable();
 
             $table->boolean('active')->default(true);
             $table->timestamps();

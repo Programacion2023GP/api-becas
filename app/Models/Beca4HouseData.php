@@ -21,11 +21,12 @@ class Beca4HouseData extends Model
      */
     protected $fillable = [
         'id',
-        'beca_id',
-        'house_is',
-        'roof_material',
-        'floor_material',
-        'score',
+        'b4_beca_id',
+        'b4_house_is',
+        'b4_roof_material',
+        'b4_floor_material',
+        'b4_score',
+        'b4_finished',
         'active',
         'deleted_at'
     ];

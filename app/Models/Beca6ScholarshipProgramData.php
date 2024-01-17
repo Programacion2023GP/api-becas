@@ -21,10 +21,12 @@ class Beca6ScholarshipProgramData extends Model
      */
     protected $fillable = [
         'id',
-        'beca_id',
-        'beca_transport',
-        'beca_benito_juarez',
-        'other',
+        'b6_beca_id',
+        'b6_beca_transport',
+        'b6_beca_benito_juarez',
+        'b6_beca_jovenes',
+        'b6_other',
+        'b6_finished',
         'active',
         'deleted_at'
     ];

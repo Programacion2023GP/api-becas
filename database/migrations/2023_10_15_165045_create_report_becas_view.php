@@ -13,9 +13,13 @@ return new class extends Migration
     public function up()
     {
         DB::statement("
-        CREATE OR REPLACE VIEW becas_view AS
-        SELECT b.*, usr.email,
-        td.tutor_relationship_id tutor_relationship_id, r.relationship tutor_relationship, td.tutor_curp tutor_curp, td.tutor_name tutor_name, td.tutor_paternal_last_name tutor_paternal_last_name, td.tutor_maternal_last_name tutor_maternal_last_name, td.tutor_phone tutor_phone, td.tutor_img_ine, td.tutor_img_power_letter,
+        CREATE OR REPLACE VIEW report_becas_view AS
+        SELECT b.id, b.folio 'Folio', r.relationship 'Parentesco del Tutor', td.tutor_curp 'CURP Tutor',  td.tutor_name 'Nombre Tutor', td.tutor_paternal_last_name 'Apellido Paterno Tutor', td.tutor_maternal_last_name 'Apellido Materno Tutor', td.tutor_phone 'Teléfono Tutor',td.tutor_img_ine 'INE Tutor', td.tutor_img_power_letter 'Carta Poder Tutor'
+        
+        
+        
+        usr.email,
+        ,  , , , ,
         sd.curp, sd.name, sd.paternal_last_name, sd.maternal_last_name, sd.birthdate, sd.gender, sd.community_id, sd.street, sd.num_ext, sd.num_int, sd.disability_id, d.disability, d.description, 
         s.code, s.level_id, l.level, s.school, s.community_id as school_community_id, 
         s.street as school_street, s.num_ext as school_num_ext, s.num_int as school_num_int, s.phone, s.director, s.loc_for, s.zone,
@@ -23,11 +27,6 @@ return new class extends Migration
         b4_house_is, b4_roof_material, b4_floor_material, b4_score, b4_finished,
         b5_beds, b5_washing_machines, b5_boilers, b5_tvs, b5_pcs, b5_phones, b5_music_player, b5_stoves, b5_refrigerators, b5_drinking_water, b5_electric_light, b5_sewer_system, b5_pavement, b5_automobile, b5_phone_line, b5_internet, b5_score, b5_finished,
         b6_beca_transport, b6_beca_benito_juarez, b6_beca_jovenes, b6_other, b6_finished
-
-        -- CASE
-        --    WHEN b.extra_income > 0 and b.monthly_income > 0 THEN 5
-        --    ELSE 4
-        -- END current_page
         FROM becas as b 
         INNER JOIN users usr ON b.user_id=usr.id
         INNER JOIN beca_1_tutor_data td ON b.tutor_data_id=td.id
@@ -52,6 +51,6 @@ return new class extends Migration
      */
     public function down()
     {
-        DB::statement('DROP VIEW IF EXISTS becas_view');
+        DB::statement('DROP VIEW IF EXISTS report_becas_view');
     }
 };
