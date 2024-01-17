@@ -19,7 +19,7 @@ class Beca1TutorDataController extends Controller
     public function createOrUpdateByBeca($request)
     {
         try {
-            $tutor_data = Beca1TutorData::where('tutor_curp', $request->curp)->first();
+            $tutor_data = Beca1TutorData::where('tutor_curp', $request->tutor_curp)->first();
             if (!$tutor_data) $tutor_data = new Beca1TutorData();
             $isTutor = true;
             // print_r($tutor_data);

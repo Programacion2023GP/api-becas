@@ -36,6 +36,7 @@ class Beca extends Model
         'comments',
         'socioeconomic_study',
         'status',
+        'end_date',
         'active',
         'deleted_at'
     ];

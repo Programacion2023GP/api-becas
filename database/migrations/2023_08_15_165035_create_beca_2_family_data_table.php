@@ -15,11 +15,12 @@ return new class extends Migration
     {
         Schema::create('beca_2_family_data', function (Blueprint $table) {
             $table->id();
-            $table->integer("beca_id");
-            $table->string('relationship')->comment("parentesco con el alumno");
-            $table->integer('age');
-            $table->string('occupation');
-            $table->string('monthly_income');
+            $table->foreignId('beca_id')->constrained('becas', 'id');
+            $table->string('relationship')->nullable()->comment("parentesco con el alumno");
+            $table->integer('age')->nullable();
+            $table->string('occupation')->nullable();
+            $table->string('monthly_income')->nullable();
+
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();
