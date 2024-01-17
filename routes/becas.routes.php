@@ -14,6 +14,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\SchoolBecasController;
 use App\Http\Controllers\Beca1StudentDataController;
 use App\Http\Controllers\Beca1TutorDataController;
+use App\Http\Controllers\Beca2FamilyDataController;
 use App\Http\Controllers\BecaController;
 use App\Http\Controllers\RelationshipController;
 
@@ -115,13 +116,29 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::controller(BecaController::class)->group(function () {
       Route::get('/becas', 'index');
       Route::get('/becas/selectIndex', 'selectIndex');
-      Route::get('/becas/id/{id}', 'show');
+      Route::get('/becas/{id}', 'show');
       Route::post('/becas', 'create');
       Route::put('/becas/{id?}', 'update');
       Route::delete('/becas/{id}', 'destroy');
 
       Route::get('/becas/getLastFolio', 'getLastFolio');
-      Route::get('/becas/user/{id}', 'getRequestBecasByUser');
-      Route::get('/becas/folio/{folio}', 'getRequestBecasByFolio');
+      Route::get('/becas/user/{id}', 'getBecasByUser');
+      Route::get('/becas/folio/{folio}', 'getBecaByFolio');
+      Route::post('/becas/folio/{folio}/page/{page}/saveBeca', 'saveBeca');
+
+      Route::get('/becas/report/folio/{folio}', 'getReportRequestByFolio');
+   });
+
+   Route::controller(Beca2FamilyDataController::class)->group(function () {
+      Route::get('/families', 'index');
+      Route::get('/families/selectIndex', 'selectIndex');
+      Route::get('/families/id/{id}', 'show');
+      Route::post('/families/create', 'createOrUpdateByBeca');
+      Route::put('/families/update/{id?}', 'createOrUpdateByBeca');
+      Route::delete('/families/delete/{id}', 'destroy');
+
+      Route::get('/families/beca/{beca_id}', 'getIndexByBeca');
+      Route::get('/families/beca/folio/{folio}', 'getIndexByFolio');
+      Route::post('/families/destroy', 'delete');
    });
 });
