@@ -27,6 +27,7 @@ class Role extends Model
         'create',
         'update',
         'delete',
+        'more_permissions',
         'active',
         'deleted_at'
     ];
