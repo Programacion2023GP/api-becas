@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleBecasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PerimeterBecasController;
-use App\Http\Controllers\CityBecasController;
-use App\Http\Controllers\ColonyBecasController;
 use App\Http\Controllers\DisabilityBecasController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\SchoolBecasController;
@@ -16,6 +14,7 @@ use App\Http\Controllers\Beca1StudentDataController;
 use App\Http\Controllers\Beca1TutorDataController;
 use App\Http\Controllers\Beca2FamilyDataController;
 use App\Http\Controllers\BecaController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RelationshipController;
 
 #endregion CONTROLLERS BECAS
@@ -26,6 +25,18 @@ Route::post('/signup', [UserController::class, 'signup']);
 Route::middleware('auth:sanctum')->group(function () {
    // Route::get('/getUser/{token}', [UserController::class,'getUser']); //cerrar sesión (eliminar los tokens creados)
    Route::get('/logout', [UserController::class, 'logout']); //cerrar sesión (eliminar los tokens creados)
+
+   Route::controller(MenuController::class)->group(function () {
+      Route::get('/menus', 'index');
+      Route::get('/menus/selectIndex', 'selectIndex');
+      Route::get('/menus/{id}', 'show');
+      Route::post('/menus', 'create');
+      Route::post('/menus/update/{id?}', 'update');
+      Route::post('/menus/destroy/{id}', 'destroy');
+
+      Route::get('/menus/MenusByRole/{pages_read}', 'MenusByRole');
+      Route::post('/menus/getIdByUrl', 'getIdByUrl');
+   });
 
    Route::controller(UserController::class)->group(function () {
       Route::get('/users', 'index');
