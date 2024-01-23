@@ -58,6 +58,31 @@ class MenuController extends Controller
         }
         return response()->json($response, $response->data["status_code"]);
     }
+
+    /**
+     * "Activar o Desactivar" (cambiar estado activo) menu.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response $response
+     */
+    public function DisEnableMenu(Int $id, Int $active, Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            Menu::where('id', $id)
+                ->update([
+                    'active' => (bool)$active
+                ]);
+
+            $description = $active == "0" ? 'desactivado' : 'reactivado';
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = "peticion satisfactoria | menu $description.";
+            $response->data["alert_text"] = "Menú $description";
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
     //#region CRUD
 
     /**
@@ -69,8 +94,8 @@ class MenuController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $list = Menu::where('active', true)
-                ->select('menus.*')
+            $list = Menu::leftJoin('menus as patern', 'menus.belongs_to', '=', 'patern.id')
+                ->select('menus.*', 'patern.menu as patern')
                 ->orderBy('menus.id', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de menus.';

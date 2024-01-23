@@ -36,6 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
       Route::get('/menus/MenusByRole/{pages_read}', 'MenusByRole');
       Route::post('/menus/getIdByUrl', 'getIdByUrl');
+      Route::get('/menus/{id}/DisEnableMenu/{active}', 'DisEnableMenu');
    });
 
    Route::controller(UserController::class)->group(function () {
