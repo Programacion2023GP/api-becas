@@ -29,9 +29,10 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::controller(MenuController::class)->group(function () {
       Route::get('/menus', 'index');
       Route::get('/menus/selectIndex', 'selectIndex');
+      Route::get('/menus/headers/selectIndex', 'headersSelectIndex');
       Route::get('/menus/{id}', 'show');
-      Route::post('/menus', 'create');
-      Route::post('/menus/update/{id?}', 'update');
+      Route::post('/menus/create', 'createOrUpdate');
+      Route::post('/menus/update/{id?}', 'createOrUpdate');
       Route::post('/menus/destroy/{id}', 'destroy');
 
       Route::get('/menus/MenusByRole/{pages_read}', 'MenusByRole');
