@@ -3,29 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\ObjResponse;
 use App\Models\Role;
+use App\Models\ObjResponse;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
-class RoleBecasController extends Controller
+
+class RoleController extends Controller
 {
     /**
      * Mostrar lista de roles activos.
      *
      * @return \Illuminate\Http\Response $response
      */
-    public function index(Response $response)
+    public function index(Int $role_id, Response $response)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $list = Role::where('active', true)
-                ->select('roles.id', 'roles.role', 'roles.active')
-                ->orderBy('roles.role', 'asc')->get();
+            $list = Role::where("id", ">=", $role_id)
+                ->orderBy('roles.id', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria. Lista de roles:';
             $response->data["result"] = $list;
@@ -40,13 +38,13 @@ class RoleBecasController extends Controller
      *
      * @return \Illuminate\Http\Response $response
      */
-    public function selectIndex(Response $response)
+    public function selectIndex(Int $role_id, Response $response)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $list = Role::where('active', true)
+            $list = Role::where('active', true)->where("id", ">=", $role_id)
                 ->select('roles.id as id', 'roles.role as label')
-                ->orderBy('roles.role', 'asc')->get();
+                ->orderBy('roles.id', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria. Lista de roles:';
             $response->data["result"] = $list;
@@ -68,10 +66,15 @@ class RoleBecasController extends Controller
         try {
             $new_role = Role::create([
                 'role' => $request->role,
+                'description' => $request->description,
+                'read' => $request->read,
+                'create' => $request->create,
+                'update' => $request->update,
+                'delete' => $request->delete,
             ]);
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | rol registrado.';
-            $response->data["alert_text"] = 'rol registrada';
+            $response->data["alert_text"] = 'rol registrado';
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
@@ -82,15 +85,14 @@ class RoleBecasController extends Controller
      * Mostrar rol.
      *
      * @param   int $id
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
      */
-    public function show(int $id, Response $response)
+    public function show(Request $request, Response $response)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $role = Role::where('id', $id)
-                ->select('roles.id', 'roles.role', 'roles.active')
-                ->first();
+            $role = Role::find($request->id);
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | rol encontrado.';
@@ -111,9 +113,14 @@ class RoleBecasController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $role = Role::where('id', $request->id)
+            $role = Role::find($request->id)
                 ->update([
                     'role' => $request->role,
+                    'description' => $request->description,
+                    'read' => $request->read,
+                    'create' => $request->create,
+                    'update' => $request->update,
+                    'delete' => $request->delete,
                 ]);
 
             $response->data = ObjResponse::CorrectResponse();
@@ -129,13 +136,14 @@ class RoleBecasController extends Controller
      * Eliminar (cambiar estado activo=false) rol.
      *
      * @param  int $id
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
      */
-    public function destroy(int $id, Response $response)
+    public function destroy(Request $request, Response $response)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            Role::where('id', $id)
+            Role::find($request->id)
                 ->update([
                     'active' => false,
                     'deleted_at' => date('Y-m-d H:i:s'),
@@ -143,6 +151,31 @@ class RoleBecasController extends Controller
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | rol eliminado.';
             $response->data["alert_text"] = 'Rol eliminado';
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+
+    /**
+     * "Activar o Desactivar" (cambiar estado activo) rol.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response $response
+     */
+    public function DisEnableRole(Int $id, Int $active, Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            Role::where('id', $id)
+                ->update([
+                    'active' => (bool)$active
+                ]);
+
+            $description = $active == "0" ? 'desactivado' : 'reactivado';
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = "peticion satisfactoria | rol $description.";
+            $response->data["alert_text"] = "Rol $description";
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }

@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 #region CONTROLLERS BECAS
-use App\Http\Controllers\RoleBecasController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PerimeterBecasController;
 use App\Http\Controllers\DisabilityBecasController;
@@ -16,6 +15,7 @@ use App\Http\Controllers\Beca2FamilyDataController;
 use App\Http\Controllers\BecaController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RelationshipController;
+use App\Http\Controllers\RoleController;
 
 #endregion CONTROLLERS BECAS
 
@@ -25,6 +25,17 @@ Route::post('/signup', [UserController::class, 'signup']);
 Route::middleware('auth:sanctum')->group(function () {
    // Route::get('/getUser/{token}', [UserController::class,'getUser']); //cerrar sesión (eliminar los tokens creados)
    Route::get('/logout', [UserController::class, 'logout']); //cerrar sesión (eliminar los tokens creados)
+
+   Route::controller(RoleController::class)->group(function () {
+      Route::get('/roles/role_id/{role_id}', 'index');
+      Route::get('/roles/selectIndex/role_id/{role_id}', 'selectIndex');
+      Route::get('/roles/{id}', 'show');
+      Route::post('/roles', 'create');
+      Route::post('/roles/update/{id?}', 'update');
+      Route::post('/roles/destroy/{id}', 'destroy');
+
+      Route::get('/roles/{id}/DisEnableRole/{active}', 'DisEnableRole');
+   });
 
    Route::controller(MenuController::class)->group(function () {
       Route::get('/menus', 'index');
@@ -41,7 +52,9 @@ Route::middleware('auth:sanctum')->group(function () {
    });
 
    Route::controller(UserController::class)->group(function () {
-      Route::get('/users', 'index');
+      // Route::get('/users', 'index');
+      Route::get('/users/role_id/{role_id}', 'index');
+      Route::get('/users/by/role_id/{role_id}', 'indexByRole');
       Route::get('/users/selectIndex', 'selectIndex');
       Route::get('/users/{id}', 'show');
       Route::post('/users', 'create');
@@ -49,16 +62,9 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::delete('/users/{id}', 'destroy');
 
       Route::get('/users/{id}/DisEnableUser/{active}', 'DisEnableUser');
+      Route::post('/users/destroyMultiple', 'destroyMultiple');
    });
 
-   Route::controller(RoleBecasController::class)->group(function () {
-      Route::get('/roles', 'index');
-      Route::get('/roles/selectIndex', 'selectIndex');
-      Route::get('/roles/{id}', 'show');
-      Route::post('/roles', 'create');
-      Route::put('/roles/{id?}', 'update');
-      Route::delete('/roles/{id}', 'destroy');
-   });
 
    Route::controller(PerimeterBecasController::class)->group(function () {
       Route::get('/perimeters', 'index');

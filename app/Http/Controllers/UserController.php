@@ -35,9 +35,10 @@ class UserController extends Controller
             $field => 'required',
             'password' => 'required'
         ]);
-        $user = User::where("users.$field", "$value")->where('users.active', true)
+        $user = User::where("users.$field", "$value")->where('users.active', 1)
             ->join("roles", "users.role_id", "=", "roles.id")
             ->select("users.*", "roles.role", "roles.read", "roles.create", "roles.update", "roles.delete", "roles.more_permissions")
+            ->orderBy('users.id', 'desc')
             ->first();
 
 
@@ -68,7 +69,9 @@ class UserController extends Controller
     {
         try {
             // DB::connection('mysql_becas')->table('personal_access_tokens')->where('tokenable_id', $id)->delete();
-            auth()->user()->tokens()->delete();
+            // Auth::user()->currentAccessToken()->delete(); #Elimina solo el token activo
+
+            auth()->user()->tokens()->delete(); #Utilizar este en caso de que el usuario desee cerrar sesión en todos lados o cambie informacion de su usuario / contraseña
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | sesión cerrada.';
@@ -117,16 +120,52 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response $response
      */
-    public function index(Response $response)
+    public function index(Int $role_id, Response $response)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
             // $list = DB::select('SELECT * FROM users where active = 1');
-            // User::on('mysql_becas')->get();
-            $list = User::
-                // where('users.active', true)
-                join('roles', 'users.role_id', '=', 'roles.id')
+            // User::on('mysql_gp_center')->get();
+            //  $list = User::where('users.active', true)->where("role_id", ">=", $role_id)
+            $list = User::where("role_id", ">=", $role_id)
+                ->join('roles', 'users.role_id', '=', 'roles.id')
+                // ->join('departments', 'users.department_id', '=', 'departments.id')
                 ->select('users.*', 'roles.role')
+                // ->select('users.*', 'roles.role', 'departments.department', 'departments.description as department_description')
+                ->orderBy('users.id', 'desc')
+                ->get();
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | lista de usuarios.';
+            $response->data["alert_text"] = "usuarios encontrados";
+            $response->data["result"] = $list;
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+
+    /**
+     * Mostrar lista de usuarios activos por role
+     * uniendo con roles.
+     *
+     * @return \Illuminate\Http\Response $response
+     */
+    public function indexByrole(Int $role_id, Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            // $list = DB::select('SELECT * FROM users where active = 1');
+            // User::on('mysql_gp_center')->get();
+            $roleAuth = Auth::user()->role_id;
+            $signo = "=";
+            $signo = $role_id == 2 && $roleAuth == 1 ? "<=" : "=";
+
+
+            $list = User::where('users.active', true)->where("role_id", $signo, $role_id)
+                ->join('roles', 'users.role_id', '=', 'roles.id')
+                ->select('users.*', 'roles.role')
+                ->orderBy('users.id', 'desc')
                 ->get();
 
             $response->data = ObjResponse::CorrectResponse();
@@ -299,6 +338,33 @@ class UserController extends Controller
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = "peticion satisfactoria | usuario $description.";
             $response->data["alert_text"] = "Usuario $description";
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+
+    /**
+     * Eliminar usuario o usuarios.
+     *
+     * @param  int $id
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response $response
+     */
+    public function destroyMultiple(Request $request, Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            // echo "$request->ids";
+            // $deleteIds = explode(',', $ids);
+            $countDeleted = sizeof($request->ids);
+            User::whereIn('id', $request->ids)->update([
+                'active' => false,
+                'deleted_at' => date('Y-m-d H:i:s'),
+            ]);
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = $countDeleted == 1 ? 'peticion satisfactoria | usuario eliminado.' : "peticion satisfactoria | usuarios eliminados ($countDeleted).";
+            $response->data["alert_text"] = $countDeleted == 1 ? 'Usuario eliminado' : "Usuarios eliminados  ($countDeleted)";
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }

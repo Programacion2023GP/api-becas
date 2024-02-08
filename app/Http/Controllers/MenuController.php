@@ -172,6 +172,7 @@ class MenuController extends Controller
             if ($request->icon) $menu->icon = $request->icon;
             $menu->order = $request->order;
             if ($request->show_counter) $menu->show_counter = (bool)$request->show_counter;
+            if ($request->others_permissions) $menu->others_permissions = $request->others_permissions;
             if ($request->active) $menu->active = (bool)$request->active;
 
             $menu->save();
