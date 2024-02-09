@@ -19,8 +19,15 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'email' => 'admin@gmail.com',
             'username' => 'admin',
-            'password' => Hash::make('123'),
+            'password' => Hash::make('desarrollo'),
             'role_id' => 1, //SuperAdmin
+            'created_at' => now()
+        ]);
+        DB::table('users')->insert([
+            'email' => 'escolares@gomezpalacio.gob.mx',
+            'username' => 'escolares',
+            'password' => Hash::make('escolares789'),
+            'role_id' => 2, //Admin
             'created_at' => now()
         ]);
     }

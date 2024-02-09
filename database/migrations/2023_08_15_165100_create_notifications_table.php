@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users', 'id');
+            $table->foreignId('user_id')->default(0)->comment("Si el usuario es 0 es porque lo envio el sistema");
+            $table->foreignId('destination_user_id')->constrained('users', 'id');
             $table->string('title');
             $table->text('message');
             $table->boolean('read')->nullable();
