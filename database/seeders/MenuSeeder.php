@@ -18,7 +18,7 @@ class MenuSeeder extends Seeder
         $menuDashboard = 1;
         $menuAdmin = 4;
         $menuCatalogs = 8;
-        $menuRequests = 15;
+        $menuRequests = 14;
 
         // DASHBOARD
         $order = 0;
@@ -158,7 +158,7 @@ class MenuSeeder extends Seeder
         // Mis Solicitudes
         $order = 0;
         DB::table('menus')->insert([ #14
-            'menu' => 'Mis Solicitudes',
+            'menu' => 'Solicitudes',
             'caption' => 'Solicitudes Realizadas',
             'type' => 'group',
             'belongs_to' => 0,
@@ -166,22 +166,22 @@ class MenuSeeder extends Seeder
             'created_at' => now(),
         ]);
         $order += 1;
-        DB::table('menus')->insert([ #15 Solicitudes
-            'menu' => 'Solicitudes',
+        DB::table('menus')->insert([ #15 Listado
+            'menu' => 'Listado',
             'type' => 'item',
             'belongs_to' => $menuRequests,
             'url' => '/admin/solicitudes/',
-            'icon' => 'IconBadgeTm',
+            'icon' => 'IconStack3',
             'order' => $order,
             'created_at' => now(),
         ]);
         $order += 1;
         DB::table('menus')->insert([ #16 Mis Solicitudes
-            'menu' => 'Modelos',
+            'menu' => 'Mis Solicitudes',
             'type' => 'item',
             'belongs_to' => $menuRequests,
             'url' => '/admin/solicitudes/mis-solicitudes',
-            'icon' => 'IconBoxModel2',
+            'icon' => 'IconFileStack',
             'order' => $order,
             'created_at' => now(),
         ]);
