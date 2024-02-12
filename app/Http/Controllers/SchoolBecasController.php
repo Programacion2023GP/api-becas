@@ -46,7 +46,7 @@ class SchoolBecasController extends Controller
             $list = School::where('schools.active', true)
                 ->join('levels', 'schools.level_id', '=', 'levels.id')
                 // ->select('schools.id as value', 'schools.school as text')
-                ->select('schools.id as id', DB::raw("CONCAT(levels.level,' - ', schools.school) as label"))
+                ->select('schools.id as id', DB::raw("CONCAT(schools.code,' - ',levels.level,' - ', schools.school) as label"))
                 ->orderBy('schools.school', 'asc')->get();
             // $list = School::select(DB::raw("CONCAT(levels.level,' - ', schools.school)"))->get();
             $response->data = ObjResponse::CorrectResponse();

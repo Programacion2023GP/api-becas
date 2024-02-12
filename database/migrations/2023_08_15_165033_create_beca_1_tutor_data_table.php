@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('tutor_paternal_last_name');
             $table->string('tutor_maternal_last_name');
             // $table->boolean('single_mother')->nullable();
-            $table->string('tutor_img_ine')->nullable();
-            $table->string('tutor_img_power_letter')->nullable();
+            // $table->string('tutor_img_ine')->nullable();
+            // $table->string('tutor_img_power_letter')->nullable();
             $table->string('tutor_phone')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();

@@ -72,23 +72,19 @@ class BecaController extends Controller
                 if ((bool)$request->b4_finished && (int)$beca->current < 7) $beca->current_page = 7;
             }
             if ((int)$page === 7) {
-
                 // return ("PAGINA - 7 === $page");
                 $b5Controller = new Beca5HouseholdEquipmentDataController();
                 $b5Controller->_createOrUpdateByBeca($request, $beca->id);
                 if ((bool)$request->b5_finished && (int)$beca->current < 8) $beca->current_page = 8;
             }
             if ((int)$page === 8) {
-                // error_log("PAGINA - 8 === $page");
+
+                // return ("PAGINA - 7 === $page");
                 $b6Controller = new Beca6ScholarshipProgramDataController();
                 $b6Controller->_createOrUpdateByBeca($request, $beca->id);
                 if ($request->under_protest) {
                     $beca->under_protest = $request->under_protest;
-                    if ((bool)$request->b6_finished) {
-                        // $beca->current_page = 9;
-                        $beca->status = "TERMINADA";
-                        $beca->end_date = $request->end_date;
-                    }
+                    if ((bool)$request->b6_finished && (int)$beca->current < 9) $beca->current_page = 9;
                 } else {
                     $response->data = ObjResponse::CorrectResponse();
                     $response->data["status_code"] = 202;
@@ -96,6 +92,17 @@ class BecaController extends Controller
                     $response->data["alert_text"] = "Avance guardado (pagina $page)";
                     $response->data["alert_title"] = "Es necesario marcar la casilla de bajo protesta para terminar el proceso.";
                     return response()->json($response, $response->data["status_code"]);
+                }
+            }
+            if ((int)$page === 9) {
+                // error_log("PAGINA - 8 === $page");
+                $b7Controller = new Beca7DocumentDataController();
+                $b7Controller->createOrUpdateByBeca($request, $response, $beca->id, true);
+
+                if ((bool)$request->b7_finished && (int)$beca->current < 10) {
+                    // $beca->current_page = 10;
+                    $beca->status = "TERMINADA";
+                    $beca->end_date = $request->end_date;
                 }
             }
             // if ($request->socioeconomic_study) $beca->socioeconomic_study = $request->socioeconomic_study;

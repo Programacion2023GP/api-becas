@@ -37,7 +37,12 @@ class RoleSeeder extends Seeder
         ]);
         DB::table('roles')->insert([
             'role' => 'Ciudadano',
-            'description' => 'Rol dedicado para usuarios normales.',
+            'description' => 'Rol dedicado para el ciudadano.',
+            'read' => '1,3,14,16',
+            'create' => '3,16',
+            'update' => '16',
+            'delete' => '',
+            'more_permissions' => '',
             'created_at' => now(),
         ]);
     }
