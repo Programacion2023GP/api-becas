@@ -97,9 +97,9 @@ class BecaController extends Controller
             if ((int)$page === 9) {
                 // error_log("PAGINA - 8 === $page");
                 $b7Controller = new Beca7DocumentDataController();
-                $b7Controller->createOrUpdateByBeca($request, $response, $beca->id, true);
+                $object = $b7Controller->createOrUpdateByBeca($request, $response, $beca->id, true);
 
-                if ((bool)$request->b7_finished && (int)$beca->current < 10) {
+                if ((bool)$object->b7_finished && (int)$beca->current < 10) {
                     // $beca->current_page = 10;
                     $beca->status = "TERMINADA";
                     $beca->end_date = $request->end_date;

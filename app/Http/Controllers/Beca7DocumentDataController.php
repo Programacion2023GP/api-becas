@@ -74,6 +74,7 @@ class Beca7DocumentDataController extends Controller
             $response->data["alert_text"] = $id > 0 ? 'Documentos de Becas editados' : 'Documentos de Beca registrados';
             $response->data["result"] = $document_data;
             if (!$internal) return $response()->json($response, $response->data["status_code"]);
+            else return $document_data;
         } catch (\Exception $ex) {
             $msg =  "Error al crear o actualizar documentos de Becas por medio de la beca: " . $ex->getMessage();
             error_log("$msg");
