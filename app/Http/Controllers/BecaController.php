@@ -98,7 +98,7 @@ class BecaController extends Controller
                 // error_log("PAGINA - 8 === $page");
                 $b7Controller = new Beca7DocumentDataController();
                 $object = $b7Controller->createOrUpdateByBeca($request, $response, $beca->id, true);
-
+                // return $object;
                 if ((bool)$object->b7_finished && (int)$beca->current < 10) {
                     // $beca->current_page = 10;
                     $beca->status = "TERMINADA";
@@ -116,6 +116,37 @@ class BecaController extends Controller
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
         return response()->json($response, $response->data["status_code"]);
+    }
+
+    /**
+     * Actualizar estatus de la beca.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response $response
+     */
+    public function updateStatus(Response $response, Int $folio, String $status = "ALTA", bool $internal = false)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $beca = Beca::where('folio', $folio)->first();
+            if (!$beca) {
+                $response->data["alert_text"] = "La Beca buscada no fue encontrada";
+                return response()->json($response, $response->data["status_code"]);
+            }
+            $beca->status = $status;
+            $beca->save();
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | estatus de beca cambiado.';
+            $response->data["alert_text"] = "Solicitud $folio paso al estatus: $status";
+            $response->data["result"] = $beca;
+            if (!$internal) return $response()->json($response, $response->data["status_code"]);
+            else return 1;
+        } catch (\Exception $ex) {
+            error_log($ex->getMessage());
+            if (!$internal) return $response()->json($response, $response->data["status_code"]);
+            else return 0;
+        }
     }
 
     //#region CRUD

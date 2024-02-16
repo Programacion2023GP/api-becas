@@ -12,6 +12,58 @@ use Illuminate\Support\Facades\DB;
 class Beca7DocumentDataController extends Controller
 {
     /**
+     * Guardar o Finalizar Revision de documentos de Becas desde formulario beca.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response $response
+     */
+    public function saveOrFinishReview(Request $request, Response $response, Int $beca_id = null)
+    {
+        try {
+            $response->data = ObjResponse::DefaultResponse();
+            $document_data = Beca7DocumentData::where('b7_beca_id', $beca_id)->first();
+            if (!$document_data) {
+                $response->data["alert_text"] = "La documentación no ha sido ligada a niguna beca";
+                return response()->json($response, $response->data["status_code"]);
+            }
+            // return $document_data;
+
+            // $document_data->b7_beca_id = $id;
+            $document_data->b7_approved_tutor_ine = $request->b7_approved_tutor_ine;
+            $document_data->b7_comments_tutor_ine = $request->b7_comments_tutor_ine ?? 'Archivo cargado correctamente.';
+
+            $document_data->b7_approved_tutor_power_letter = $request->b7_approved_tutor_power_letter;
+            $document_data->b7_comments_tutor_power_letter = $request->b7_comments_tutor_power_letter ?? 'Archivo cargado correctamente.';
+
+            $document_data->b7_approved_proof_address = $request->b7_approved_proof_address;
+            $document_data->b7_comments_proof_address = $request->b7_comments_proof_address ?? 'Archivo cargado correctamente.';
+
+            $document_data->b7_approved_curp = $request->b7_approved_curp;
+            $document_data->b7_comments_curp = $request->b7_comments_curp ?? 'Archivo cargado correctamente.';
+
+            $document_data->b7_approved_birth_certificate = $request->b7_approved_birth_certificate;
+            $document_data->b7_comments_birth_certificate = $request->b7_comments_birth_certificate ?? 'Archivo cargado correctamente.';
+
+            $document_data->b7_approved_academic_transcript = $request->b7_approved_academic_transcript;
+            $document_data->b7_comments_academic_transcript = $request->b7_comments_academic_transcript ?? 'Archivo cargado correctamente.';
+
+            $document_data->save();
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = $request->action == "guardar" ? 'peticion satisfactoria | documentos de Becas guardados.' : 'satisfactoria | documentos de Becas registrados.';
+            $response->data["alert_text"] = $request->action == "guardar" ? 'Revisión guardada' : 'Revisión finalizada';
+            $response->data["result"] = $document_data;
+            return $response()->json($response, $response->data["status_code"]);
+        } catch (\Exception $ex) {
+            $msg =  "Error al crear o actualizar documentos de Becas por medio de la beca: " . $ex->getMessage();
+            error_log("$msg");
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+            return response()->json($response, $response->data["status_code"]);
+        }
+    }
+
+
+    /**
      * Crear o Actualizar documentos de Becas desde formulario beca.
      *
      * @param  \Illuminate\Http\Request $request
@@ -21,10 +73,13 @@ class Beca7DocumentDataController extends Controller
     {
         try {
             $response->data = ObjResponse::DefaultResponse();
-            $document_data = Beca7DocumentData::find($id);
-            if (!$document_data) $document_data = new Beca7DocumentData();
+            if ($internal) $document_data = Beca7DocumentData::where('b7_beca_id', $id)->first(); #si es internal el id es el id de la beca
+            else $document_data = Beca7DocumentData::find($id);
 
-            $document_data->b7_beca_id = $request->b7_beca_id;
+            if (!$document_data) $document_data = new Beca7DocumentData();
+            // return $document_data;
+
+            $document_data->b7_beca_id = $id;
 
             // $document_data->b7_img_tutor_ine = $request->b7_img_tutor_ine;
             $document_data->b7_approved_tutor_ine = $request->b7_approved_tutor_ine;
@@ -50,22 +105,23 @@ class Beca7DocumentDataController extends Controller
             $document_data->b7_approved_academic_transcript = $request->b7_approved_academic_transcript;
             $document_data->b7_comments_academic_transcript = $request->b7_comments_academic_transcript;
 
-            $document_data->b7_finished = $request->b7_finished;
+            $document_data->b7_finished = (bool)$request->b7_finished;
 
             $document_data->save();
 
             $b7_img_tutor_ine = $this->ImageUp($request, 'b7_img_tutor_ine', $request->id, 'INE-Tutor', false, "noImage.png");
-            if ($request->hasFile('b7_img_tutor_ine' || $request->b7_img_tutor_ine == "")) $document_data->b7_img_tutor_ine = $b7_img_tutor_ine;
+            // return $b7_img_tutor_ine;
+            if ($request->hasFile('b7_img_tutor_ine') || $request->b7_img_tutor_ine == "") $document_data->b7_img_tutor_ine = $b7_img_tutor_ine;
             $b7_img_tutor_power_letter = $this->ImageUp($request, 'b7_img_tutor_power_letter', $request->id, 'Carta-Poder', false, "noImage.png");
-            if ($request->hasFile('b7_img_tutor_power_letter' || $request->b7_img_tutor_power_letter == "")) $document_data->b7_img_tutor_power_letter = $b7_img_tutor_power_letter;
+            if ($request->hasFile('b7_img_tutor_power_letter') || $request->b7_img_tutor_power_letter == "") $document_data->b7_img_tutor_power_letter = $b7_img_tutor_power_letter;
             $b7_img_proof_address = $this->ImageUp($request, 'b7_img_proof_address', $request->id, 'Comprobante-De-Domicilio', false, "noImage.png");
-            if ($request->hasFile('b7_img_proof_address' || $request->b7_img_proof_address == "")) $document_data->b7_img_proof_address = $b7_img_proof_address;
+            if ($request->hasFile('b7_img_proof_address') || $request->b7_img_proof_address == "") $document_data->b7_img_proof_address = $b7_img_proof_address;
             $b7_img_curp = $this->ImageUp($request, 'b7_img_curp', $request->id, 'CURP', false, "noImage.png");
-            if ($request->hasFile('b7_img_curp' || $request->b7_img_curp == "")) $document_data->b7_img_curp = $b7_img_curp;
+            if ($request->hasFile('b7_img_curp') || $request->b7_img_curp == "") $document_data->b7_img_curp = $b7_img_curp;
             $b7_img_birth_certificate = $this->ImageUp($request, 'b7_img_birth_certificate', $request->id, 'Acta-De-Nacimineto', false, "noImage.png");
-            if ($request->hasFile('b7_img_birth_certificate' || $request->b7_img_birth_certificate == "")) $document_data->b7_img_birth_certificate = $b7_img_birth_certificate;
+            if ($request->hasFile('b7_img_birth_certificate') || $request->b7_img_birth_certificate == "") $document_data->b7_img_birth_certificate = $b7_img_birth_certificate;
             $b7_img_academic_transcript = $this->ImageUp($request, 'b7_img_academic_transcript', $request->id, 'Constancia-De-Estudios-Y-Calificaciones', false, "noImage.png");
-            if ($request->hasFile('b7_img_academic_transcript' || $request->b7_img_academic_transcript == "")) $document_data->b7_img_academic_transcript = $b7_img_academic_transcript;
+            if ($request->hasFile('b7_img_academic_transcript') || $request->b7_img_academic_transcript == "") $document_data->b7_img_academic_transcript = $b7_img_academic_transcript;
 
             $document_data->save();
 
@@ -80,6 +136,7 @@ class Beca7DocumentDataController extends Controller
             error_log("$msg");
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
             if (!$internal) return response()->json($response, $response->data["status_code"]);
+            else return "$msg";
         }
     }
 
@@ -201,18 +258,25 @@ class Beca7DocumentDataController extends Controller
 
     private function ImageUp($request, $requestFile, $id, $posFix, $create, $nameFake)
     {
-        $dir_path = "Becas/documents-by-beca";
-        $dir = public_path($dir_path);
-        $img_name = "";
-        if ($request->hasFile($requestFile)) {
-            $img_file = $request->file($requestFile);
-            $instance = new UserController();
-            $dir_path = "$dir_path/$id";
-            $dir = "$dir/$id";
-            $img_name = $instance->ImgUpload($img_file, $dir, $dir_path, "$id-$posFix");
-        } else {
-            if ($create) $img_name = "$dir_path/$nameFake";
+        try {
+            $dir_path = "Becas/documents-by-beca";
+            $dir = public_path($dir_path);
+            $img_name = "";
+            if ($request->hasFile($requestFile)) {
+                // return "ImageUp->aqui todo bien 3";
+                $img_file = $request->file($requestFile);
+                $instance = new UserController();
+                $dir_path = "$dir_path/$id";
+                $dir = "$dir/$id";
+                $img_name = $instance->ImgUpload($img_file, $dir, $dir_path, "$id-$posFix");
+            } else {
+                if ($create) $img_name = "$dir_path/$nameFake";
+            }
+            return $img_name;
+        } catch (\Exception $ex) {
+            $msg =  "Error al cargar imagen de documentos data: " . $ex->getMessage();
+            error_log("$msg");
+            return "$msg";
         }
-        return $img_name;
     }
 }
