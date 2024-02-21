@@ -12,6 +12,7 @@ use App\Http\Controllers\SchoolBecasController;
 use App\Http\Controllers\Beca1StudentDataController;
 use App\Http\Controllers\Beca1TutorDataController;
 use App\Http\Controllers\Beca2FamilyDataController;
+use App\Http\Controllers\Beca7DocumentDataController;
 use App\Http\Controllers\BecaController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RelationshipController;
@@ -160,5 +161,10 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/families/beca/{beca_id}', 'getIndexByBeca');
       Route::get('/families/beca/folio/{folio}', 'getIndexByFolio');
       Route::post('/families/destroy', 'delete');
+   });
+
+   Route::controller(Beca7DocumentDataController::class)->group(function () {
+      Route::post('/documents/folio/{folio}/page/{page}/saveOrFinishReview', 'saveOrFinishReview');
+      // Route::get('/becas/updateStatus/folio/{folio}/status/{status}', 'updateStatus');
    });
 });

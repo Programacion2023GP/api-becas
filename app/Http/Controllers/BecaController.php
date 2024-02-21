@@ -140,11 +140,11 @@ class BecaController extends Controller
             $response->data["message"] = 'peticion satisfactoria | estatus de beca cambiado.';
             $response->data["alert_text"] = "Solicitud $folio paso al estatus: $status";
             $response->data["result"] = $beca;
-            if (!$internal) return $response()->json($response, $response->data["status_code"]);
+            if (!$internal) return response()->json($response, $response->data["status_code"]);
             else return 1;
         } catch (\Exception $ex) {
             error_log($ex->getMessage());
-            if (!$internal) return $response()->json($response, $response->data["status_code"]);
+            if (!$internal) return response()->json($response, $response->data["status_code"]);
             else return 0;
         }
     }

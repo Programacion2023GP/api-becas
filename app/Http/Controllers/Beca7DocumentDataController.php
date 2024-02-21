@@ -17,11 +17,14 @@ class Beca7DocumentDataController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
      */
-    public function saveOrFinishReview(Request $request, Response $response, Int $beca_id = null)
+    public function saveOrFinishReview(Request $request, Response $response, Int $folio = null)
     {
         try {
             $response->data = ObjResponse::DefaultResponse();
-            $document_data = Beca7DocumentData::where('b7_beca_id', $beca_id)->first();
+            $becaController = new BecaController();
+            $beca = $becaController->_getBecaByFolio($folio);
+            // return $beca;
+            $document_data = Beca7DocumentData::where('b7_beca_id', $beca->id)->first();
             if (!$document_data) {
                 $response->data["alert_text"] = "La documentación no ha sido ligada a niguna beca";
                 return response()->json($response, $response->data["status_code"]);
@@ -29,31 +32,36 @@ class Beca7DocumentDataController extends Controller
             // return $document_data;
 
             // $document_data->b7_beca_id = $id;
-            $document_data->b7_approved_tutor_ine = $request->b7_approved_tutor_ine;
-            $document_data->b7_comments_tutor_ine = $request->b7_comments_tutor_ine ?? 'Archivo cargado correctamente.';
+            $document_data->b7_approved_tutor_ine = (bool)$request->b7_approved_tutor_ine;
+            $document_data->b7_comments_tutor_ine = $request->b7_comments_tutor_ine;
 
-            $document_data->b7_approved_tutor_power_letter = $request->b7_approved_tutor_power_letter;
-            $document_data->b7_comments_tutor_power_letter = $request->b7_comments_tutor_power_letter ?? 'Archivo cargado correctamente.';
+            $document_data->b7_approved_tutor_power_letter = (bool)$request->b7_approved_tutor_power_letter;
+            $document_data->b7_comments_tutor_power_letter = $request->b7_comments_tutor_power_letter;
 
-            $document_data->b7_approved_proof_address = $request->b7_approved_proof_address;
-            $document_data->b7_comments_proof_address = $request->b7_comments_proof_address ?? 'Archivo cargado correctamente.';
+            $document_data->b7_approved_proof_address = (bool)$request->b7_approved_proof_address;
+            $document_data->b7_comments_proof_address = $request->b7_comments_proof_address;
 
-            $document_data->b7_approved_curp = $request->b7_approved_curp;
-            $document_data->b7_comments_curp = $request->b7_comments_curp ?? 'Archivo cargado correctamente.';
+            $document_data->b7_approved_curp = (bool)$request->b7_approved_curp;
+            $document_data->b7_comments_curp = $request->b7_comments_curp;
 
-            $document_data->b7_approved_birth_certificate = $request->b7_approved_birth_certificate;
-            $document_data->b7_comments_birth_certificate = $request->b7_comments_birth_certificate ?? 'Archivo cargado correctamente.';
+            $document_data->b7_approved_birth_certificate = (bool)$request->b7_approved_birth_certificate;
+            $document_data->b7_comments_birth_certificate = $request->b7_comments_birth_certificate;
 
-            $document_data->b7_approved_academic_transcript = $request->b7_approved_academic_transcript;
-            $document_data->b7_comments_academic_transcript = $request->b7_comments_academic_transcript ?? 'Archivo cargado correctamente.';
+            $document_data->b7_approved_academic_transcript = (bool)$request->b7_approved_academic_transcript;
+            $document_data->b7_comments_academic_transcript = $request->b7_comments_academic_transcript;
 
             $document_data->save();
 
+            if ($request->action == "finish") {
+                $beca->status = "EN EVALUACIÓN";
+                $beca->save();
+            }
+
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = $request->action == "guardar" ? 'peticion satisfactoria | documentos de Becas guardados.' : 'satisfactoria | documentos de Becas registrados.';
-            $response->data["alert_text"] = $request->action == "guardar" ? 'Revisión guardada' : 'Revisión finalizada';
+            $response->data["message"] = $request->action == "save" ? 'peticion satisfactoria | documentos de Becas guardados.' : 'satisfactoria | documentos de Becas registrados.';
+            $response->data["alert_text"] = $request->action == "save" ? 'Revisión guardada' : 'Revisión finalizada';
             $response->data["result"] = $document_data;
-            return $response()->json($response, $response->data["status_code"]);
+            return response()->json($response, $response->data["status_code"]);
         } catch (\Exception $ex) {
             $msg =  "Error al crear o actualizar documentos de Becas por medio de la beca: " . $ex->getMessage();
             error_log("$msg");
@@ -129,7 +137,7 @@ class Beca7DocumentDataController extends Controller
             $response->data["message"] = $id > 0 ? 'peticion satisfactoria | documentos de Becas editados.' : 'satisfactoria | documentos de Becas registrados.';
             $response->data["alert_text"] = $id > 0 ? 'Documentos de Becas editados' : 'Documentos de Beca registrados';
             $response->data["result"] = $document_data;
-            if (!$internal) return $response()->json($response, $response->data["status_code"]);
+            if (!$internal) return response()->json($response, $response->data["status_code"]);
             else return $document_data;
         } catch (\Exception $ex) {
             $msg =  "Error al crear o actualizar documentos de Becas por medio de la beca: " . $ex->getMessage();

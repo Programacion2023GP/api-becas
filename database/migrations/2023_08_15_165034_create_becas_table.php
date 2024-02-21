@@ -32,9 +32,9 @@ return new class extends Migration
 
             $table->text('comments')->nullable();
 
-            $table->enum('socioeconomic_study', ['BAJO', 'MEDIO-BAJO', 'NORMAL'])->nullable();
+            $table->enum('socioeconomic_study', ['SIN EVALUAR', 'BAJO', 'MEDIO-BAJO', 'NORMAL'])->default('SIN EVALUAR')->nullable();
             $table->integer('current_page')->default(4)->nullable();
-            $table->enum("status", ["ALTA", "TERMINADA", "EN REVISIÓN", "RECHAZADA", "APROBADA", "PAGADA", "ENTREGADA", "CANCELADA"])->default("ALTA");
+            $table->enum("status", ["ALTA", "TERMINADA", "EN REVISIÓN", "EN EVALUACIÓN", "RECHAZADA", "APROBADA", "PAGADA", "ENTREGADA", "CANCELADA"])->default("ALTA");
 
             $table->dateTime('end_date')->nullable();
 
