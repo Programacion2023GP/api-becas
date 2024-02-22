@@ -64,6 +64,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
       Route::get('/users/{id}/DisEnableUser/{active}', 'DisEnableUser');
       Route::post('/users/destroyMultiple', 'destroyMultiple');
+      Route::post('/users/changePasswordAuth', 'changePasswordAuth');
    });
 
 
