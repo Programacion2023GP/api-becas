@@ -82,8 +82,8 @@ class BecaController extends Controller
                 // return ("PAGINA - 7 === $page");
                 $b6Controller = new Beca6ScholarshipProgramDataController();
                 $b6Controller->_createOrUpdateByBeca($request, $beca->id);
-                if ($request->under_protest) {
-                    $beca->under_protest = $request->under_protest;
+                if ((bool)$request->under_protest) {
+                    $beca->under_protest = (bool)$request->under_protest;
                     if ((bool)$request->b6_finished && (int)$beca->current < 9) $beca->current_page = 9;
                 } else {
                     $response->data = ObjResponse::CorrectResponse();
