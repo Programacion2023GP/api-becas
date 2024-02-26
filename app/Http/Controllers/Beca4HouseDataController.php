@@ -29,7 +29,7 @@ class Beca4HouseDataController extends Controller
             $house_data->b4_roof_material = $request->b4_roof_material;
             $house_data->b4_floor_material = $request->b4_floor_material;
             $house_data->b4_score = $request->b4_score;
-            $house_data->b4_finished = $request->b4_finished;
+            $house_data->b4_finished = (bool)$request->b4_finished;
 
             $house_data->save();
 
@@ -57,7 +57,7 @@ class Beca4HouseDataController extends Controller
             $house_data->b4_roof_material = $request->b4_roof_material;
             $house_data->b4_floor_material = $request->b4_floor_material;
             $house_data->b4_score = $request->b4_score;
-            $house_data->b4_finished = $request->b4_finished;
+            $house_data->b4_finished = (bool)$request->b4_finished;
 
             $house_data->save();
 

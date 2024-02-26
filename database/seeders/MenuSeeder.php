@@ -78,7 +78,7 @@ class MenuSeeder extends Seeder
             'menu' => 'Roles',
             'type' => 'item',
             'belongs_to' => $menuAdmin,
-            'url' => '/admin/roles',
+            'url' => '/admin/roles-y-permisos',
             'icon' => 'IconPaperBag',
             'order' => $order,
             'created_at' => now(),

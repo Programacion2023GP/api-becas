@@ -25,11 +25,11 @@ class Beca6ScholarshipProgramDataController extends Controller
             if (!$scholariship_program_data) $scholariship_program_data = new Beca6ScholarshipProgramData();
 
             $scholariship_program_data->b6_beca_id = $request->b6_beca_id;
-            $scholariship_program_data->b6_beca_transport = $request->b6_beca_transport;
-            $scholariship_program_data->b6_beca_benito_juarez = $request->b6_beca_benito_juarez;
-            $scholariship_program_data->b6_beca_jovenes = $request->b6_beca_jovenes;
-            $scholariship_program_data->b6_other = $request->b6_other;
-            $scholariship_program_data->b6_finished = $request->b6_finished;
+            $scholariship_program_data->b6_beca_transport = (bool)$request->b6_beca_transport;
+            $scholariship_program_data->b6_beca_benito_juarez = (bool)$request->b6_beca_benito_juarez;
+            $scholariship_program_data->b6_beca_jovenes = (bool)$request->b6_beca_jovenes;
+            $scholariship_program_data->b6_other = (bool)$request->b6_other;
+            $scholariship_program_data->b6_finished = (bool)$request->b6_finished;
 
             $scholariship_program_data->save();
 
@@ -54,11 +54,11 @@ class Beca6ScholarshipProgramDataController extends Controller
             // return $scholariship_program_data;
 
             $scholariship_program_data->b6_beca_id = $beca_id;
-            $scholariship_program_data->b6_beca_transport = $request->b6_beca_transport;
-            $scholariship_program_data->b6_beca_benito_juarez = $request->b6_beca_benito_juarez;
-            $scholariship_program_data->b6_beca_jovenes = $request->b6_beca_jovenes;
-            $scholariship_program_data->b6_other = $request->b6_other;
-            $scholariship_program_data->b6_finished = $request->b6_finished;
+            $scholariship_program_data->b6_beca_transport = (bool)$request->b6_beca_transport;
+            $scholariship_program_data->b6_beca_benito_juarez = (bool)$request->b6_beca_benito_juarez;
+            $scholariship_program_data->b6_beca_jovenes = (bool)$request->b6_beca_jovenes;
+            $scholariship_program_data->b6_other = (bool)$request->b6_other;
+            $scholariship_program_data->b6_finished = (bool)$request->b6_finished;
 
             $scholariship_program_data->save();
 

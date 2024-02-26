@@ -30,7 +30,7 @@ class Beca3EconomicDataController extends Controller
             $economic_data->b3_living_place = $request->b3_living_place;
             $economic_data->b3_services = $request->b3_services;
             $economic_data->b3_automobile = $request->b3_automobile;
-            $economic_data->b3_finished = $request->b3_finished;
+            $economic_data->b3_finished = (bool)$request->b3_finished;
 
             $economic_data->save();
 
@@ -52,14 +52,14 @@ class Beca3EconomicDataController extends Controller
         try {
             $economic_data = Beca3EconomicData::where("b3_beca_id", $beca_id)->first();
             if (!$economic_data) $economic_data = new Beca3EconomicData();
-
+            
             $economic_data->b3_beca_id = $beca_id;
             $economic_data->b3_food = $request->b3_food;
             $economic_data->b3_transport = $request->b3_transport;
             $economic_data->b3_living_place = $request->b3_living_place;
             $economic_data->b3_services = $request->b3_services;
             $economic_data->b3_automobile = $request->b3_automobile;
-            $economic_data->b3_finished = $request->b3_finished;
+            $economic_data->b3_finished = (bool)$request->b3_finished;
 
             $economic_data->save();
 

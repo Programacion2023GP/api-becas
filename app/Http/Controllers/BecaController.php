@@ -53,7 +53,7 @@ class BecaController extends Controller
                 if ((int)$beca->current < 4) $beca->current_page = 4;
             }
             if ((int)$page === 4) {
-                // error_log("PAGINA - 4 === $page");
+                // return ("PAGINA - 4 === $page");
                 if ($request->extra_income) $beca->extra_income = $request->extra_income;
                 if ($request->monthly_income) $beca->monthly_income = $request->monthly_income;
                 if ((bool)$request->finished && (int)$beca->current < 5) $beca->current_page = 5;

@@ -34,16 +34,17 @@ class Beca5HouseholdEquipmentDataController extends Controller
             $household_equipment_data->b5_music_player = $request->b5_music_player;
             $household_equipment_data->b5_stoves = $request->b5_stoves;
             $household_equipment_data->b5_refrigerators = $request->b5_refrigerators;
-            $household_equipment_data->b5_drinking_water = $request->b5_drinking_water;
-            $household_equipment_data->b5_electric_light = $request->b5_electric_light;
-            $household_equipment_data->b5_sewer_system = $request->b5_sewer_system;
-            $household_equipment_data->b5_pavement = $request->b5_pavement;
-            $household_equipment_data->b5_automobile = $request->b5_automobile;
-            $household_equipment_data->b5_phone_line = $request->b5_phone_line;
-            $household_equipment_data->b5_internet = $request->b5_internet;
+            $household_equipment_data->b5_drinking_water = (bool)$request->b5_drinking_water;
+            $household_equipment_data->b5_electric_light = (bool)$request->b5_electric_light;
+            $household_equipment_data->b5_sewer_system = (bool)$request->b5_sewer_system;
+            $household_equipment_data->b5_pavement = (bool)$request->b5_pavement;
+            $household_equipment_data->b5_automobile = (bool)$request->b5_automobile;
+            $household_equipment_data->b5_phone_line = (bool)$request->b5_phone_line;
+            $household_equipment_data->b5_internet = (bool)$request->b5_internet;
             $household_equipment_data->b5_score = $request->b5_score;
-            $household_equipment_data->b5_finished = $request->b5_finished;
+            $household_equipment_data->b5_finished = (bool)$request->b5_finished;
 
+            return $household_equipment_data;
             $household_equipment_data->save();
 
             $response->data = ObjResponse::CorrectResponse();
@@ -76,15 +77,15 @@ class Beca5HouseholdEquipmentDataController extends Controller
             $household_equipment_data->b5_music_player = $request->b5_music_player;
             $household_equipment_data->b5_stoves = $request->b5_stoves;
             $household_equipment_data->b5_refrigerators = $request->b5_refrigerators;
-            $household_equipment_data->b5_drinking_water = $request->b5_drinking_water;
-            $household_equipment_data->b5_electric_light = $request->b5_electric_light;
-            $household_equipment_data->b5_sewer_system = $request->b5_sewer_system;
-            $household_equipment_data->b5_pavement = $request->b5_pavement;
-            $household_equipment_data->b5_automobile = $request->b5_automobile;
-            $household_equipment_data->b5_phone_line = $request->b5_phone_line;
-            $household_equipment_data->b5_internet = $request->b5_internet;
+            $household_equipment_data->b5_drinking_water = (bool)$request->b5_drinking_water;
+            $household_equipment_data->b5_electric_light = (bool)$request->b5_electric_light;
+            $household_equipment_data->b5_sewer_system = (bool)$request->b5_sewer_system;
+            $household_equipment_data->b5_pavement = (bool)$request->b5_pavement;
+            $household_equipment_data->b5_automobile = (bool)$request->b5_automobile;
+            $household_equipment_data->b5_phone_line = (bool)$request->b5_phone_line;
+            $household_equipment_data->b5_internet = (bool)$request->b5_internet;
             $household_equipment_data->b5_score = $request->b5_score;
-            $household_equipment_data->b5_finished = $request->b5_finished;
+            $household_equipment_data->b5_finished = (bool)$request->b5_finished;
 
             $household_equipment_data->save();
 
