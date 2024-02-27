@@ -171,11 +171,25 @@ class MenuController extends Controller
             if ($request->url) $menu->url = $request->url;
             if ($request->icon) $menu->icon = $request->icon;
             $menu->order = $request->order;
-            if ($request->show_counter) $menu->show_counter = (bool)$request->show_counter;
             if ($request->others_permissions) $menu->others_permissions = $request->others_permissions;
+            if ($request->show_counter) $menu->show_counter = (bool)$request->show_counter;
             if ($request->active) $menu->active = (bool)$request->active;
 
             $menu->save();
+
+            // $new_others_permissions = "";
+            // if (strlen($request->others_permissions) > 1) {
+            //     $others_permissions = explode(",", $request->others_permissions);
+            //     foreach ($others_permissions as $op) {
+            //         $trim_op = trim($op);
+            //         $new_others_permissions .= "$menu->id@$trim_op, ";
+            //     }
+            //     rtrim($new_others_permissions, ", ");
+            //     return $new_others_permissions;
+            // }
+            // if ($request->others_permissions) $menu->others_permissions = $request->others_permissions;
+            // $menu->save();
+
 
             $response->data = ObjResponse::CorrectResponse();
 

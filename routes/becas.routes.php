@@ -36,6 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('/roles/destroy/{id}', 'destroy');
 
       Route::get('/roles/{id}/DisEnableRole/{active}', 'DisEnableRole');
+      Route::post('/roles/updatePermissions', 'updatePermissions');
    });
 
    Route::controller(MenuController::class)->group(function () {
