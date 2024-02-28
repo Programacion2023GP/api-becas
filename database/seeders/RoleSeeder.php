@@ -22,7 +22,7 @@ class RoleSeeder extends Seeder
             'create' => 'todas',
             'update' => 'todas',
             'delete' => 'todas',
-            'more_permissions' => 'todas',
+            'more_permissions' => '6@Asignar Roles,15@Validar Documentos,15@Evaluar,15@Cancelar,16@Cancelar',
             'created_at' => now(),
         ]);
         DB::table('roles')->insert([
@@ -32,7 +32,7 @@ class RoleSeeder extends Seeder
             'create' => 'todas',
             'update' => 'todas',
             'delete' => 'todas',
-            'more_permissions' => 'todas',
+            'more_permissions' => '6@Asignar Roles,15@Validar Documentos,15@Evaluar,15@Cancelar,16@Cancelar',
             'created_at' => now(),
         ]);
         DB::table('roles')->insert([
@@ -40,9 +40,9 @@ class RoleSeeder extends Seeder
             'description' => 'Rol dedicado para el ciudadano.',
             'read' => '1,3,14,16',
             'create' => '3,16',
-            'update' => '16',
+            'update' => '',
             'delete' => '',
-            'more_permissions' => '',
+            'more_permissions' => '16@Cancelar',
             'created_at' => now(),
         ]);
     }

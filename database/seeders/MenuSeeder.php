@@ -80,6 +80,7 @@ class MenuSeeder extends Seeder
             'belongs_to' => $menuAdmin,
             'url' => '/admin/roles-y-permisos',
             'icon' => 'IconPaperBag',
+            'others_permissions' => "6@Asignar Roles",
             'order' => $order,
             'created_at' => now(),
         ]);
@@ -173,6 +174,7 @@ class MenuSeeder extends Seeder
             'url' => '/admin/solicitudes/',
             'icon' => 'IconStack3',
             'order' => $order,
+            'others_permissions' => "15@Validar Documentos,15@Evaluar,15@Cancelar",
             'created_at' => now(),
         ]);
         $order += 1;
@@ -183,6 +185,7 @@ class MenuSeeder extends Seeder
             'url' => '/admin/solicitudes/mis-solicitudes',
             'icon' => 'IconFileStack',
             'order' => $order,
+            'others_permissions' => "16@Cancelar",
             'created_at' => now(),
         ]);
     }
