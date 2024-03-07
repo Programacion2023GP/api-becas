@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('answers_scores', function (Blueprint $table) {
             $table->id();
-            $table->string('question');
-            $table->string('option_1');
-            $table->integer('score_1')->default(0);
-            $table->string('option_1');
-            $table->integer('score_1')->default(0);
-            $table->boolean('active')->default(true);
+            // $table->string('question');
+            // $table->string('option_1');
+            // $table->integer('score_1')->default(0);
+            // $table->string('option_1');
+            // $table->integer('score_1')->default(0);
+            // $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();
         });
