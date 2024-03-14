@@ -28,6 +28,7 @@ class Role extends Model
         'update',
         'delete',
         'more_permissions',
+        'page_index',
         'active',
         'deleted_at'
     ];

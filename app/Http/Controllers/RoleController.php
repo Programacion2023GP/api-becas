@@ -67,6 +67,7 @@ class RoleController extends Controller
             $new_role = Role::create([
                 'role' => $request->role,
                 'description' => $request->description,
+                'page_index' => $request->page_index,
                 'read' => $request->read,
                 'create' => $request->create,
                 'update' => $request->update,
@@ -117,6 +118,7 @@ class RoleController extends Controller
                 ->update([
                     'role' => $request->role,
                     'description' => $request->description,
+                    'page_index' => $request->page_index,
                     'read' => $request->read,
                     'create' => $request->create,
                     'update' => $request->update,

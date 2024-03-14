@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('update')->nullable();
             $table->string('delete')->nullable();
             $table->string('more_permissions')->nullable();
+            $table->string('page_index')->default('/admin')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();

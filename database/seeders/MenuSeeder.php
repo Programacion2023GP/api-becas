@@ -17,8 +17,8 @@ class MenuSeeder extends Seeder
     {
         $menuDashboard = 1;
         $menuAdmin = 4;
-        $menuCatalogs = 8;
-        $menuRequests = 14;
+        $menuCatalogs = 9;
+        $menuRequests = 15;
 
         // DASHBOARD
         $order = 0;
@@ -53,11 +53,11 @@ class MenuSeeder extends Seeder
             'created_at' => now(),
         ]);
 
-        // ADMINISTRATIVO
+        // CONFIGURACIONES
         $order = 0;
         DB::table('menus')->insert([ #4
-            'menu' => 'Administrativo',
-            'caption' => 'Control de usuarios y roles',
+            'menu' => 'Configuraciones',
+            'caption' => 'Configuración del sistema y Control de usuarios y roles',
             'type' => 'group',
             'belongs_to' => 0,
             'order' => 2,
@@ -68,17 +68,17 @@ class MenuSeeder extends Seeder
             'menu' => 'Menus',
             'type' => 'item',
             'belongs_to' => $menuAdmin,
-            'url' => '/admin/menus',
+            'url' => '/admin/configuraciones/menus',
             'icon' => 'IconCategory2',
             'order' => $order,
             'created_at' => now(),
         ]);
         $order += 1;
         DB::table('menus')->insert([ #6 Roles
-            'menu' => 'Roles',
+            'menu' => 'Roles y Permisos',
             'type' => 'item',
             'belongs_to' => $menuAdmin,
-            'url' => '/admin/roles-y-permisos',
+            'url' => '/admin/configuraciones/roles-y-permisos',
             'icon' => 'IconPaperBag',
             'others_permissions' => "6@Asignar Roles",
             'order' => $order,
@@ -89,15 +89,25 @@ class MenuSeeder extends Seeder
             'menu' => 'Usuarios',
             'type' => 'item',
             'belongs_to' => $menuAdmin,
-            'url' => '/admin/usuarios',
+            'url' => '/admin/configuraciones/usuarios',
             'icon' => 'IconUsers',
             'order' => $order,
             'created_at' => now(),
         ]);
+        $order += 1;
+        DB::table('menus')->insert([ #8 Usuarios
+            'menu' => 'Respuestas y Puntajes',
+            'type' => 'item',
+            'belongs_to' => $menuAdmin,
+            'url' => '/admin/configuraciones/respuestas-y-puntajes',
+            'icon' => 'IconAbacus',
+            'order' => $order,
+            'created_at' => now(),
+        ]);
 
-        // Catalgoos
+        // Catalgos
         $order = 0;
-        DB::table('menus')->insert([ #8
+        DB::table('menus')->insert([ #9
             'menu' => 'Catalogos',
             'caption' => 'Gestion de Catalogos',
             'type' => 'group',
@@ -106,7 +116,7 @@ class MenuSeeder extends Seeder
             'created_at' => now(),
         ]);
         $order += 1;
-        DB::table('menus')->insert([ #9 Escuelas
+        DB::table('menus')->insert([ #10 Escuelas
             'menu' => 'Escuelas',
             'type' => 'item',
             'belongs_to' => $menuCatalogs,
@@ -116,7 +126,7 @@ class MenuSeeder extends Seeder
             'created_at' => now(),
         ]);
         $order += 1;
-        DB::table('menus')->insert([ #10 Niveles
+        DB::table('menus')->insert([ #11 Niveles
             'menu' => 'Niveles',
             'type' => 'item',
             'belongs_to' => $menuCatalogs,
@@ -126,7 +136,7 @@ class MenuSeeder extends Seeder
             'created_at' => now(),
         ]);
         $order += 1;
-        DB::table('menus')->insert([ #11 Discapacidades
+        DB::table('menus')->insert([ #12 Discapacidades
             'menu' => 'Discapacidades',
             'type' => 'item',
             'belongs_to' => $menuCatalogs,
@@ -136,7 +146,7 @@ class MenuSeeder extends Seeder
             'created_at' => now(),
         ]);
         $order += 1;
-        DB::table('menus')->insert([ #12 Perímetros
+        DB::table('menus')->insert([ #13 Perímetros
             'menu' => 'Perímetros',
             'type' => 'item',
             'belongs_to' => $menuCatalogs,
@@ -146,19 +156,20 @@ class MenuSeeder extends Seeder
             'created_at' => now(),
         ]);
         $order += 1;
-        DB::table('menus')->insert([ #13 Comunidades
+        DB::table('menus')->insert([ #14 Comunidades
             'menu' => 'Comunidades',
             'type' => 'item',
             'belongs_to' => $menuCatalogs,
             'url' => '/admin/catalogos/comunidades',
             'icon' => 'IconMapPin',
+            'others_permissions' => "14@Asignar Perímetro",
             'order' => $order,
             'created_at' => now(),
         ]);
 
         // Mis Solicitudes
         $order = 0;
-        DB::table('menus')->insert([ #14
+        DB::table('menus')->insert([ #15
             'menu' => 'Solicitudes',
             'caption' => 'Solicitudes Realizadas',
             'type' => 'group',
@@ -167,25 +178,25 @@ class MenuSeeder extends Seeder
             'created_at' => now(),
         ]);
         $order += 1;
-        DB::table('menus')->insert([ #15 Listado
+        DB::table('menus')->insert([ #16 Listado
             'menu' => 'Listado',
             'type' => 'item',
             'belongs_to' => $menuRequests,
             'url' => '/admin/solicitudes/',
             'icon' => 'IconStack3',
             'order' => $order,
-            'others_permissions' => "15@Validar Documentos,15@Evaluar,15@Cancelar",
+            'others_permissions' => "16@Validar Documentos, 16@Continuar, 16@Evaluar, 16@Aprobar, 16@Rechazar, 16@Cancelar",
             'created_at' => now(),
         ]);
         $order += 1;
-        DB::table('menus')->insert([ #16 Mis Solicitudes
+        DB::table('menus')->insert([ #17 Mis Solicitudes
             'menu' => 'Mis Solicitudes',
             'type' => 'item',
             'belongs_to' => $menuRequests,
             'url' => '/admin/solicitudes/mis-solicitudes',
             'icon' => 'IconFileStack',
             'order' => $order,
-            'others_permissions' => "16@Cancelar",
+            'others_permissions' => "17@Cancelar",
             'created_at' => now(),
         ]);
     }
