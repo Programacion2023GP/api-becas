@@ -80,7 +80,7 @@ class MenuSeeder extends Seeder
             'belongs_to' => $menuAdmin,
             'url' => '/admin/configuraciones/roles-y-permisos',
             'icon' => 'IconPaperBag',
-            'others_permissions' => "6@Asignar Roles",
+            'others_permissions' => "6@Asignar Permisos",
             'order' => $order,
             'created_at' => now(),
         ]);

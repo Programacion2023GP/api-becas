@@ -37,7 +37,7 @@ class UserController extends Controller
         ]);
         $user = User::where("users.$field", "$value")->where('users.active', 1)
             ->join("roles", "users.role_id", "=", "roles.id")
-            ->select("users.*", "roles.role", "roles.read", "roles.create", "roles.update", "roles.delete", "roles.more_permissions")
+            ->select("users.*", "roles.role", "roles.read", "roles.create", "roles.update", "roles.delete", "roles.more_permissions", "roles.page_index")
             ->orderBy('users.id', 'desc')
             ->first();
 
@@ -114,38 +114,38 @@ class UserController extends Controller
     }
 
     /**
-    * Cambiar contraseña usuario.
-    *
-    * @param  \Illuminate\Http\Request $request
-    * @return \Illuminate\Http\Response $response
-    */
-   public function changePasswordAuth(Request $request, Response $response)
-   {
-      $response->data = ObjResponse::DefaultResponse();
-      try {
-         $userAuth = Auth::user();
-         $user = User::find($userAuth->id);
+     * Cambiar contraseña usuario.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response $response
+     */
+    public function changePasswordAuth(Request $request, Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $userAuth = Auth::user();
+            $user = User::find($userAuth->id);
 
-         $response->data = ObjResponse::CorrectResponse();
-         if (!Hash::check($request->password, $user->password)) {
-            $response->data["message"] = 'peticion satisfactoria | la contraseña actual no es correcta.';
-            $response->data["alert_icon"] = "error";
-            $response->data["alert_text"] = "La contraseña actual que ingresas no es correcta";
-            return response()->json($response, $response->data["status_code"]);
-         }
+            $response->data = ObjResponse::CorrectResponse();
+            if (!Hash::check($request->password, $user->password)) {
+                $response->data["message"] = 'peticion satisfactoria | la contraseña actual no es correcta.';
+                $response->data["alert_icon"] = "error";
+                $response->data["alert_text"] = "La contraseña actual que ingresas no es correcta";
+                return response()->json($response, $response->data["status_code"]);
+            }
 
-         $user->password = Hash::make($request->new_password);
-         $user->save();
-         auth()->user()->tokens()->delete(); #Utilizar este en caso de que el usuario desee cerrar sesión en todos lados o cambie informacion de su usuario / contraseña
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+            auth()->user()->tokens()->delete(); #Utilizar este en caso de que el usuario desee cerrar sesión en todos lados o cambie informacion de su usuario / contraseña
 
-         $response->data = ObjResponse::CorrectResponse();
-         $response->data["message"] = 'peticion satisfactoria | contraseña actualizada.';
-         $response->data["alert_text"] = "Contraseña actualizada - todas tus sesiones se cerraran para aplicar cambios.";
-      } catch (\Exception $ex) {
-         $response->data = ObjResponse::CatchResponse($ex->getMessage());
-      }
-      return response()->json($response, $response->data["status_code"]);
-   }
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | contraseña actualizada.';
+            $response->data["alert_text"] = "Contraseña actualizada - todas tus sesiones se cerraran para aplicar cambios.";
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
 
 
     /**
