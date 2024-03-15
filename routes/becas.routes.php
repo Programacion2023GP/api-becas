@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnswerScoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -168,5 +169,16 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::controller(Beca7DocumentDataController::class)->group(function () {
       Route::post('/documents/folio/{folio}/page/{page}/saveOrFinishReview', 'saveOrFinishReview');
       // Route::get('/becas/updateStatus/folio/{folio}/status/{status}', 'updateStatus');
+   });
+
+   Route::controller(AnswerScoreController::class)->group(function () {
+      Route::get('/answersScores', 'index');
+      Route::get('/answersScores/selectIndex', 'selectIndex');
+      Route::get('/answersScores/id/{id}', 'show');
+      Route::post('/answersScores/create', 'createOrUpdate');
+      Route::put('/answersScores/update/{id?}', 'createOrUpdate');
+      Route::delete('/answersScores/delete/{id}', 'destroy');
+
+      Route::get('/answersScores/getAnswerScoreActive', 'getAnswerScoreActive');
    });
 });
