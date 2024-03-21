@@ -176,7 +176,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/answersScores/selectIndex', 'selectIndex');
       Route::get('/answersScores/id/{id}', 'show');
       Route::post('/answersScores/create', 'createOrUpdate');
-      Route::put('/answersScores/update/{id?}', 'createOrUpdate');
+      Route::post('/answersScores/update/{id?}', 'createOrUpdate');
       Route::delete('/answersScores/delete/{id}', 'destroy');
 
       Route::get('/answersScores/getAnswerScoreActive', 'getAnswerScoreActive');
