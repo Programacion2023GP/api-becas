@@ -68,15 +68,15 @@ class Beca5HouseholdEquipmentDataController extends Controller
             // return $household_equipment_data;
 
             $household_equipment_data->b5_beca_id = $beca_id;
-            $household_equipment_data->b5_beds = $request->b5_beds;
-            $household_equipment_data->b5_washing_machines = $request->b5_washing_machines;
-            $household_equipment_data->b5_boilers = $request->b5_boilers;
-            $household_equipment_data->b5_tvs = $request->b5_tvs;
-            $household_equipment_data->b5_pcs = $request->b5_pcs;
-            $household_equipment_data->b5_phones = $request->b5_phones;
-            $household_equipment_data->b5_music_player = $request->b5_music_player;
-            $household_equipment_data->b5_stoves = $request->b5_stoves;
-            $household_equipment_data->b5_refrigerators = $request->b5_refrigerators;
+            $household_equipment_data->b5_beds = (int)$request->b5_beds;
+            $household_equipment_data->b5_washing_machines = (int)$request->b5_washing_machines;
+            $household_equipment_data->b5_boilers = (int)$request->b5_boilers;
+            $household_equipment_data->b5_tvs = (int)$request->b5_tvs;
+            $household_equipment_data->b5_pcs = (int)$request->b5_pcs;
+            $household_equipment_data->b5_phones = (int)$request->b5_phones;
+            $household_equipment_data->b5_music_player = (int)$request->b5_music_player;
+            $household_equipment_data->b5_stoves = (int)$request->b5_stoves;
+            $household_equipment_data->b5_refrigerators = (int)$request->b5_refrigerators;
             $household_equipment_data->b5_drinking_water = (bool)$request->b5_drinking_water;
             $household_equipment_data->b5_electric_light = (bool)$request->b5_electric_light;
             $household_equipment_data->b5_sewer_system = (bool)$request->b5_sewer_system;
@@ -84,7 +84,7 @@ class Beca5HouseholdEquipmentDataController extends Controller
             $household_equipment_data->b5_automobile = (bool)$request->b5_automobile;
             $household_equipment_data->b5_phone_line = (bool)$request->b5_phone_line;
             $household_equipment_data->b5_internet = (bool)$request->b5_internet;
-            $household_equipment_data->b5_score = $request->b5_score;
+            $household_equipment_data->b5_score = (int)$request->b5_score;
             $household_equipment_data->b5_finished = (bool)$request->b5_finished;
 
             $household_equipment_data->save();

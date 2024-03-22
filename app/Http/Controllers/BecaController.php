@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\AnswerScore;
 use App\Models\Beca;
 use App\Models\Beca6ScholarshipProgramData;
-use App\Models\BecasView;
+use App\Models\BecaView;
 use App\Models\ObjResponse;
 
 use Illuminate\Http\Request;
@@ -159,7 +160,7 @@ class BecaController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $list = BecasView::all();
+            $list = BecaView::all();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de becas.';
             $response->data["result"] = $list;
@@ -331,7 +332,7 @@ class BecaController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $beca = BecasView::where('folio', $folio)->first();
+            $beca = BecaView::where('folio', $folio)->first();
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | beca encontrada.';
@@ -353,7 +354,7 @@ class BecaController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $beca = BecasView::where('folio', $folio)->first();
+            $beca = BecaView::where('folio', $folio)->first();
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | beca encontrada.';
@@ -397,7 +398,7 @@ class BecaController extends Controller
         try {
             $role_id = Auth::user()->role_id;
             // return "que tengo aqui? -> $role_id";
-            $beca = BecasView::where('folio', $request->folio)->get();
+            $beca = BecaView::where('folio', $request->folio)->get();
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | beca encontrada.';
@@ -422,6 +423,28 @@ class BecaController extends Controller
             return $folio;
         } catch (\Exception $ex) {
             $msg =  "Error al crear o actualizar estudiante por medio de la beca: " . $ex->getMessage();
+            echo "$msg";
+            return $msg;
+        }
+    }
+
+
+    /**
+     * Obtener el ultimo folio.
+     *
+     * @return \Illuminate\Http\Int $folio
+     */
+    public function calculateRequest(Request $request, Response $response, int $folio)
+    {
+        try {
+            $beca = BecaView::where('folio', $folio)->first();
+            $instancefamily = new Beca2FamilyDataController();
+            // $instancefamily->getIndexByBeca($beca->id);
+            $instanceAnswerScore = new AnswerScoreController();
+            $answer_score_active = $instanceAnswerScore->getAnswerScoreActive($request, $response, true);
+            return $beca;
+        } catch (\Exception $ex) {
+            $msg =  "Error al calcular la solicitud de beca: " . $ex->getMessage();
             echo "$msg";
             return $msg;
         }

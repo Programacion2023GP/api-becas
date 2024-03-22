@@ -33,13 +33,13 @@ class Beca1TutorDataController extends Controller
 
             if ($request->tutor_relationship_id === 1 || $request->tutor_relationship_id === 2) $isTutor = false;
 
-            if ($isTutor) {
-                $tutor_img_ine = $this->ImageUp($request, "tutor_img_ine", $tutor_data->id, true);
-                $tutor_img_power_letter = $this->ImageUp($request, "tutor_img_power_letter", $tutor_data->id, true);
+            // if ($isTutor) {
+            //     $tutor_img_ine = $this->ImageUp($request, "tutor_img_ine", $tutor_data->id, true);
+            //     $tutor_img_power_letter = $this->ImageUp($request, "tutor_img_power_letter", $tutor_data->id, true);
 
-                $tutor_data->tutor_img_ine = $tutor_img_ine;
-                $tutor_data->tutor_img_power_letter = $tutor_img_power_letter;
-            }
+            //     $tutor_data->tutor_img_ine = $tutor_img_ine;
+            //     $tutor_data->tutor_img_power_letter = $tutor_img_power_letter;
+            // }
 
             $tutor_data->save();
             return $tutor_data;

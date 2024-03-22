@@ -51,12 +51,15 @@ class Beca2FamilyDataController extends Controller
      *
      * @return \Illuminate\Http\Response $response
      */
-    public function getIndexByBeca(Int $beca_id, Response $response)
+    public function getIndexByBeca(Int $beca_id, Response $response, bool $internal = false)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
             $list = Beca2FamilyData::where('beca_2_family_data.active', true)->where('beca_2_family_data.beca_id', $beca_id)
                 ->orderBy('beca_2_family_data.id', 'asc')->get();
+
+            if ((bool)$internal) return $list;
+
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de familiares por beca.';
             $response->data["result"] = $list;

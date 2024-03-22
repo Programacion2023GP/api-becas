@@ -115,12 +115,14 @@ class AnswerScoreController extends Controller
             $answer_score->scholarship_2 = $request->scholarship_2;
             $answer_score->scholarship_3 = $request->scholarship_3;
             $answer_score->scholarship_4 = $request->scholarship_4;
+            $answer_score->total_score = $request->total_score;
 
             $answer_score->save();
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = $id > 0 ? 'peticion satisfactoria | respuestas y puntajes editado.' : 'peticion satisfactoria | respuestas y puntajes registrado.';
             $response->data["alert_text"] = $id > 0 ? "Respuestas y Puntajes editado" : "Respuestas y Puntajes registrado";
+            $response->data["result"] = $answer_score;
         } catch (\Exception $ex) {
             error_log("Hubo un error al crear o actualizar el respuestas y puntajes ->" . $ex->getMessage());
             $response->data = ObjResponse::CatchResponse($ex->getMessage());

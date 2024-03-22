@@ -151,6 +151,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
       Route::get('/becas/report/folio/{folio}', 'getReportRequestByFolio');
       Route::get('/becas/updateStatus/folio/{folio}/status/{status}', 'updateStatus');
+
+      Route::get('/becas/calculateRequest/folio/{folio}', 'calculateRequest');
    });
 
    Route::controller(Beca2FamilyDataController::class)->group(function () {

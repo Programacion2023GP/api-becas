@@ -41,6 +41,7 @@ return new class extends Migration
             $table->integer('scholarship_2')->comment("estructura: pts");
             $table->integer('scholarship_3')->comment("estructura: pts");
             $table->integer('scholarship_4')->comment("estructura: pts");
+            $table->integer('total_score')->comment("puntaje acumulado");
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();
