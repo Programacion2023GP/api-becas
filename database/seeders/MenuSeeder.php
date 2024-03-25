@@ -95,7 +95,7 @@ class MenuSeeder extends Seeder
             'created_at' => now(),
         ]);
         $order += 1;
-        DB::table('menus')->insert([ #8 Usuarios
+        DB::table('menus')->insert([ #8 Respuestas y puntajes
             'menu' => 'Respuestas y Puntajes',
             'type' => 'item',
             'belongs_to' => $menuAdmin,
