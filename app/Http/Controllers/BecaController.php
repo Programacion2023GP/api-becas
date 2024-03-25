@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use App\ModelsView;
 use DateTime;
 
+use function PHPUnit\Framework\countOf;
+
 class BecaController extends Controller
 {
     /**
@@ -434,19 +436,205 @@ class BecaController extends Controller
      *
      * @return \Illuminate\Http\Int $folio
      */
-    public function calculateRequest(Request $request, Response $response, int $folio)
+    public function calculateRequest(Request $request, Response $response, int $folio, bool $internal = false)
     {
         try {
-            $beca = BecaView::where('folio', $folio)->first();
+            //#region OBTENIENDO DATAS
+            $beca_view = BecaView::where('folio', $folio)->first();
             $instancefamily = new Beca2FamilyDataController();
-            // $instancefamily->getIndexByBeca($beca->id);
+            $members_family = $instancefamily->getIndexByFolio($folio, $response, true);
             $instanceAnswerScore = new AnswerScoreController();
             $answer_score_active = $instanceAnswerScore->getAnswerScoreActive($request, $response, true);
-            return $beca;
+            $answerScoreTemp = [];
+            $answerScore = array(
+                'id' => 0,
+                'low_score' => 0,
+                'medium_low_score' => 0,
+                'medium_score' => 0,
+                'score_total' => 0,
+                'socioeconomic_study' => 'SIN EVALUAR'
+            );
+            // return $beca_view;
+            $familys = [];
+            $familysResponse = [];
+            #CUANTOS MIEMBROS DE LA FAMILIA SON?
+            array_push($familys, explode(",", $answer_score_active->family_1));
+            array_push($familysResponse, count($members_family));
+            array_push($answerScoreTemp, $this->mappingQuestions($familys, "family", "range", $familysResponse));
+
+            $economics = [];
+            $economicsResponse = [];
+            #INGRESOS MENSUALES
+            array_push($economics, explode(",", $answer_score_active->economic_1));
+            array_push($economicsResponse, (int)$beca_view->monthly_income);
+            #EGRESOS MENSUALES
+            array_push($economics, explode(",", $answer_score_active->economic_2));
+            array_push($economicsResponse, (int)$beca_view->total_expenses);
+            array_push($answerScoreTemp, $this->mappingQuestions($economics, "economic", "range", $economicsResponse));
+
+            $houses = [];
+            $housesResponse = [];
+            array_push($houses, explode(",", $answer_score_active->house_1));
+            array_push($housesResponse, (int)explode("@", $beca_view->b4_house_is)[0]);
+            array_push($houses, explode(",", $answer_score_active->house_2));
+            array_push($housesResponse, (int)explode("@", $beca_view->b4_roof_material)[0]);
+            array_push($houses, explode(",", $answer_score_active->house_3));
+            array_push($housesResponse, (int)explode("@", $beca_view->b4_floor_material)[0]);
+            array_push($answerScoreTemp, $this->mappingQuestions($houses, "house", "multiple", $housesResponse));
+
+            $household_equipments = [];
+            $household_equipmentsResponse = [];
+            array_push($household_equipments, explode(",", $answer_score_active->household_equipment_1));
+            array_push($household_equipmentsResponse, (int)$beca_view->b5_beds);
+            array_push($household_equipments, explode(",", $answer_score_active->household_equipment_2));
+            array_push($household_equipmentsResponse, (int)$beca_view->b5_washing_machines);
+            array_push($household_equipments, explode(",", $answer_score_active->household_equipment_3));
+            array_push($household_equipmentsResponse, (int)$beca_view->b5_boilers);
+            array_push($household_equipments, explode(",", $answer_score_active->household_equipment_4));
+            array_push($household_equipmentsResponse, (int)$beca_view->b5_tvs);
+            array_push($household_equipments, explode(",", $answer_score_active->household_equipment_5));
+            array_push($household_equipmentsResponse, (int)$beca_view->b5_pcs);
+            array_push($household_equipments, explode(",", $answer_score_active->household_equipment_6));
+            array_push($household_equipmentsResponse, (int)$beca_view->b5_phones);
+            array_push($household_equipments, explode(",", $answer_score_active->household_equipment_7));
+            array_push($household_equipmentsResponse, (int)$beca_view->b5_music_player);
+            array_push($household_equipments, explode(",", $answer_score_active->household_equipment_8));
+            array_push($household_equipmentsResponse, (int)$beca_view->b5_stoves);
+            array_push($household_equipments, explode(",", $answer_score_active->household_equipment_9));
+            array_push($household_equipmentsResponse, (int)$beca_view->b5_refrigerators);
+            array_push($answerScoreTemp, $this->mappingQuestions($household_equipments, "household_equipment", "range", $household_equipmentsResponse));
+
+            $services = [];
+            $servicesResponse = [];
+            array_push($services, $answer_score_active->service_1);
+            array_push($servicesResponse, (bool)$beca_view->b5_drinking_water);
+            array_push($services, $answer_score_active->service_2);
+            array_push($servicesResponse, (bool)$beca_view->b5_electric_light);
+            array_push($services, $answer_score_active->service_3);
+            array_push($servicesResponse, (bool)$beca_view->b5_sewer_system);
+            array_push($services, $answer_score_active->service_4);
+            array_push($servicesResponse, (bool)$beca_view->b5_pavement);
+            array_push($services, $answer_score_active->service_5);
+            array_push($servicesResponse, (bool)$beca_view->b5_automobile);
+            array_push($services, $answer_score_active->service_6);
+            array_push($servicesResponse, (bool)$beca_view->b5_phone_line);
+            array_push($services, $answer_score_active->service_7);
+            array_push($servicesResponse, (bool)$beca_view->b5_internet);
+            array_push($answerScoreTemp, $this->mappingQuestions($services, "service", "check", $servicesResponse));
+
+            $scholarships = [];
+            $scholarshipsResponse = [];
+            array_push($scholarships, $answer_score_active->scholarship_1);
+            array_push($scholarshipsResponse, (bool)$beca_view->b6_beca_transport);
+            array_push($scholarships, $answer_score_active->scholarship_2);
+            array_push($scholarshipsResponse, (bool)$beca_view->b6_beca_benito_juarez);
+            array_push($scholarships, $answer_score_active->scholarship_3);
+            array_push($scholarshipsResponse, (bool)$beca_view->b6_beca_jovenes);
+            array_push($scholarships, $answer_score_active->scholarship_4);
+            array_push($scholarshipsResponse, (bool)$beca_view->b6_other);
+            array_push($answerScoreTemp, $this->mappingQuestions($scholarships, "scholarship", "check", $scholarshipsResponse));
+
+
+            $answerScore = array_merge($answerScoreTemp[0], $answerScoreTemp[1], $answerScoreTemp[2], $answerScoreTemp[3], $answerScoreTemp[4], $answerScoreTemp[5]);
+            $answerScore['id'] = $answer_score_active->id;
+            $answerScore['low_score'] = (int)$answer_score_active->low_score;
+            $answerScore['medium_low_score'] = (int)$answer_score_active->medium_low_score;
+            $answerScore['medium_score'] = (int)$answer_score_active->medium_score;
+            //#endregion OBTENIENDO DATAS
+            // return $answerScoreTemp;
+
+            //#region EMPAREJANDO RESULTADOS
+            $scoreTotal = 0;
+            foreach ($answerScore as $value) {
+                $scoreTotal += $value;
+            }
+            if ($scoreTotal >= $answerScore['low_score'] && $scoreTotal < $answerScore['medium_low_score']) $answerScore['socioeconomic_study'] = 'BAJO';
+            elseif ($scoreTotal >= $answerScore['medium_low_score'] && $scoreTotal < $answerScore['medium_score']) $answerScore['socioeconomic_study'] = 'MEDIO-BAJO';
+            elseif ($scoreTotal >= $answerScore['medium_score']) $answerScore['socioeconomic_study'] = 'MEDIO';
+            $answerScore['score_total'] = $scoreTotal;
+            //#endregion EMPAREJANDO RESULTADOS
+
+            $beca = Beca::find($beca_view->id);
+            $beca->socioeconomic_study = $answerScore['socioeconomic_study'];
+            $beca->save();
+
+            if ((bool)$internal) return $answerScore;
+
+
+            return $answerScore;
         } catch (\Exception $ex) {
             $msg =  "Error al calcular la solicitud de beca: " . $ex->getMessage();
             echo "$msg";
             return $msg;
         }
+    }
+
+    private function mappingQuestions($arrayQuestions, $questionName, $optionType, $responses)
+    {
+        $obj = [];
+        // echo ("mappingQuestions" . $obj);
+        $qi = 0;
+        foreach ($arrayQuestions as $questions) {
+            if ($optionType === "range") {
+                // echo "aqui bien";
+                foreach ($questions as $r) {
+                    $q = $qi + 1;
+                    // echo ("reg" . $r);
+                    $reg = trim($r);
+                    // console.log("reg", reg);
+                    $op = explode(":", $reg)[0];
+                    // console.log("op", op);
+                    $data = explode(":", $reg)[1];
+                    // console.log("data", data);
+                    $min = explode("-", $data)[0];
+                    $max = explode("-", $data)[1];
+                    $max = explode("=", $max)[0];
+                    $pts = explode("=", $data)[1];
+                    // console.log("dataReal: ", `${questionName}_${q}_${op}: ${min}-${max}=${pts}`);
+                    // $obj[$questionName . "_" . $q . "_" . $op . "_min"] = (int)$min;
+                    // $obj[$questionName . "_" . $q . "_" . $op . "_max"] = (int)$max;
+                    // $obj[$questionName . "_" . $q . "_" . $op] = (int)$pts;
+
+                    // EVALUAR RESPUSTA DEL ESTUDIO SOCIO-ECONOMICO
+                    if ((int)$responses[$qi] >= (int)$min && (int)$responses[$qi] <= (int)$max) $obj[$questionName . "_" . $q . "_" . $op] = (int)$pts;
+                    // EVALUAR RESPUSTA DEL ESTUDIO SOCIO-ECONOMICO
+
+                    // console.log(`${questionName}_${q}_${op}`);
+                    // console.log(obj);
+                };
+            } elseif ($optionType === "multiple") {
+                foreach ($questions as $r) {
+                    $q = $qi + 1;
+                    // console.log("reg", r);
+                    $reg = trim($r);
+                    // console.log("reg", reg);
+                    $op = explode(":", $reg)[0];
+                    // console.log("op", op);
+                    $pts = explode(":", $reg)[1];
+                    // console.log("data", pts);
+                    // console.log("dataReal: ", `${questionName}_${q}_${op}= ${pts}`);
+                    // $obj[$questionName . "_" . $q . "_" . $op] = (int)$pts;
+
+                    // EVALUAR RESPUSTA DEL ESTUDIO SOCIO-ECONOMICO
+                    if ((int)$responses[$qi] == (int)$op) $obj[$questionName . "_" . $q . "_" . $op] = (int)$pts;
+                    // EVALUAR RESPUSTA DEL ESTUDIO SOCIO-ECONOMICO
+
+                };
+            } elseif ($optionType === "check") {
+                // console.log(questions);
+                $q = $qi + 1;
+                $pts = $questions;
+                // console.log("pts", pts);
+                // console.log("dataReal: ", `${questionName}_${q}= ${pts}`);
+                // $obj[$questionName . "_" . $q] = (int)$pts;
+
+                // EVALUAR RESPUSTA DEL ESTUDIO SOCIO-ECONOMICO
+                if ((bool)$responses[$qi]) $obj[$questionName . "_" . $q] = (int)$pts;
+                else $obj[$questionName . "_" . $q] = 0;
+                // EVALUAR RESPUSTA DEL ESTUDIO SOCIO-ECONOMICO
+            }
+            $qi += 1;
+        }
+        return $obj;
     }
 }

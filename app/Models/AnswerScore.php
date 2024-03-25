@@ -47,6 +47,9 @@ class AnswerScore extends Model
         'scholarship_3',
         'scholarship_4',
         'total_score',
+        'medium_score',
+        'medium_low_score',
+        'low_score',
         'active',
         'deleted_at'
     ];

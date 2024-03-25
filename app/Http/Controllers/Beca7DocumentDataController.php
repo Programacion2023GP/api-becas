@@ -55,6 +55,7 @@ class Beca7DocumentDataController extends Controller
             if ($request->action == "finish") {
                 $beca->status = "EN EVALUACIÓN";
                 $beca->save();
+                $becaController->calculateRequest($request, $response, $folio, true);
             }
 
             $response->data = ObjResponse::CorrectResponse();

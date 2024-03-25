@@ -41,7 +41,10 @@ return new class extends Migration
             $table->integer('scholarship_2')->comment("estructura: pts");
             $table->integer('scholarship_3')->comment("estructura: pts");
             $table->integer('scholarship_4')->comment("estructura: pts");
-            $table->integer('total_score')->comment("puntaje acumulado");
+            $table->integer('total_score')->nullable()->comment("puntaje acumulado");
+            $table->integer('medium_score')->comment("escribir el puntaje minimo para una evaluación socio-economica media.");
+            $table->integer('medium_low_score')->comment("escribir el puntaje minimo para una evaluación socio-economica media-baja.");
+            $table->integer('low_score')->comment("escribir el puntaje minimo para una evaluación socio-economica baja.");
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();

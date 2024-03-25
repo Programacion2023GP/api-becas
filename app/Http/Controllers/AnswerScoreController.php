@@ -116,6 +116,9 @@ class AnswerScoreController extends Controller
             $answer_score->scholarship_3 = $request->scholarship_3;
             $answer_score->scholarship_4 = $request->scholarship_4;
             $answer_score->total_score = $request->total_score;
+            $answer_score->medium_score = $request->medium_score;
+            $answer_score->medium_low_score = $request->medium_low_score;
+            $answer_score->low_score = $request->low_score;
 
             $answer_score->save();
 
