@@ -38,6 +38,9 @@ class Beca extends Model
         'status',
         'end_date',
         'active',
+        'rejected_by',
+        'rejected_feedback',
+        'rejected_at',
         'deleted_at'
     ];
 

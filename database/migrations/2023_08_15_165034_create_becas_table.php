@@ -39,6 +39,10 @@ return new class extends Migration
             $table->dateTime('end_date')->nullable();
 
             $table->boolean('active')->default(true);
+            $table->integer('rejected_by')->nullable();
+            $table->dateTime('rejected_feedback')->nullable();
+            $table->dateTime('rejected_at')->nullable();
+
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();
         });

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\ModelsView;
 use DateTime;
+use Illuminate\Support\Facades\Date;
 
 use function PHPUnit\Framework\countOf;
 
@@ -127,7 +128,7 @@ class BecaController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
      */
-    public function updateStatus(Response $response, Int $folio, String $status = "ALTA", bool $internal = false)
+    public function updateStatus(Response $response, Request $request, Int $folio, String $status = "ALTA", bool $internal = false)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
@@ -137,6 +138,13 @@ class BecaController extends Controller
                 return response()->json($response, $response->data["status_code"]);
             }
             $beca->status = $status;
+            if ($status == "RECHAZADA") {
+                $userAuth = Auth::user();
+                $beca->rejected_by = $userAuth->id;
+                $beca->rejected_feedback = $request->rejected_feedback;
+                $beca->rejected_at = new Date();
+            } elseif ($status == "APROBADA") {
+            }
             $beca->save();
 
             $response->data = ObjResponse::CorrectResponse();

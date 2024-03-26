@@ -23,7 +23,8 @@ return new class extends Migration
         b4_house_is, b4_roof_material, b4_floor_material, b4_score, b4_finished,
         b5_beds, b5_washing_machines, b5_boilers, b5_tvs, b5_pcs, b5_phones, b5_music_player, b5_stoves, b5_refrigerators, b5_drinking_water, b5_electric_light, b5_sewer_system, b5_pavement, b5_automobile, b5_phone_line, b5_internet, b5_score, b5_finished,
         b6_beca_transport, b6_beca_benito_juarez, b6_beca_jovenes, b6_other, b6_finished,
-        b7_img_tutor_ine, b7_approved_tutor_ine, b7_comments_tutor_ine, b7_img_tutor_power_letter, b7_approved_tutor_power_letter, b7_comments_tutor_power_letter, b7_img_proof_address, b7_approved_proof_address, b7_comments_proof_address, b7_img_curp, b7_approved_curp, b7_comments_curp, b7_img_birth_certificate, b7_approved_birth_certificate, b7_comments_birth_certificate, b7_img_academic_transcript, b7_approved_academic_transcript, b7_comments_academic_transcript, b7_finished
+        b7_img_tutor_ine, b7_approved_tutor_ine, b7_comments_tutor_ine, b7_img_tutor_power_letter, b7_approved_tutor_power_letter, b7_comments_tutor_power_letter, b7_img_proof_address, b7_approved_proof_address, b7_comments_proof_address, b7_img_curp, b7_approved_curp, b7_comments_curp, b7_img_birth_certificate, b7_approved_birth_certificate, b7_comments_birth_certificate, b7_img_academic_transcript, b7_approved_academic_transcript, b7_comments_academic_transcript, b7_finished,
+        ur.username
         FROM becas as b 
         INNER JOIN users usr ON b.user_id=usr.id
         INNER JOIN beca_1_tutor_data td ON b.tutor_data_id=td.id
@@ -38,6 +39,7 @@ return new class extends Migration
         LEFT JOIN beca_5_household_equipment_data b5 ON b.id=b5_beca_id
         LEFT JOIN beca_6_scholarship_program b6 ON b.id=b6_beca_id
         LEFT JOIN beca_7_documents_data b7 ON b.id=b7_beca_id
+        LEFT JOIN users ur ON b.rejected_by=ur.id
         WHERE b.active=1;
         ");
     }
