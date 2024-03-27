@@ -28,6 +28,7 @@ return new class extends Migration
             // $table->string('icon')->nullable();
             $table->integer('order')->nullable();
             $table->boolean('show_counter')->default(false);
+            $table->string('counter_name', 100)->nullable();
             $table->longText('others_permissions')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();

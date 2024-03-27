@@ -142,8 +142,10 @@ class BecaController extends Controller
                 $userAuth = Auth::user();
                 $beca->rejected_by = $userAuth->id;
                 $beca->rejected_feedback = $request->rejected_feedback;
-                $beca->rejected_at = new Date();
+                $beca->rejected_at = $request->rejected_at;
             } elseif ($status == "APROBADA") {
+                $becaApprovedController = new BecaApprovedController();
+                $beca_approved = $becaApprovedController->createOrUpdate($request, $response, null, true);
             }
             $beca->save();
 
@@ -166,11 +168,13 @@ class BecaController extends Controller
      *
      * @return \Illuminate\Http\Response $response
      */
-    public function index(Response $response)
+    public function index(Response $response, string $status = null)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $list = BecaView::all();
+            $values = explode(',', $status);
+            if (!$status) $list = BecaView::all();
+            else $list = BecaView::whereIn('status', $values);
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de becas.';
             $response->data["result"] = $list;

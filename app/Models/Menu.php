@@ -29,6 +29,7 @@ class Menu extends Model
         'icon',
         'order',
         'show_counter',
+        'counter_name',
         'others_permissions',
         'active',
         'deleted_at'
