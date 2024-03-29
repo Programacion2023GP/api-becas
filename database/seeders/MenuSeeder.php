@@ -185,7 +185,7 @@ class MenuSeeder extends Seeder
             'url' => '/admin/solicitudes/',
             'icon' => 'IconStack3',
             'order' => $order,
-            'others_permissions' => "16@Validar Documentos, 16@Continuar, 16@Evaluar, 16@Aprobar, 16@Rechazar, 16@Cancelar",
+            'others_permissions' => "16@Validar Documentos, 16@Continuar, 16@Evaluar, 16@Aprobar, 16@Rechazar, 16@Pagar, 16@Cancelar",
             'created_at' => now(),
         ]);
         $order += 1;
@@ -196,7 +196,87 @@ class MenuSeeder extends Seeder
             'url' => '/admin/solicitudes/mis-solicitudes',
             'icon' => 'IconFileStack',
             'order' => $order,
+            'show_counter'=> true,
+            'counter_name'=> 'requestByUser',
             'others_permissions' => "17@Cancelar",
+            'created_at' => now(),
+        ]);
+        $order += 1;
+        DB::table('menus')->insert([ #18 En Revisión
+            'menu' => 'En Revisión',
+            'type' => 'item',
+            'belongs_to' => $menuRequests,
+            'url' => '/admin/solicitudes/en-revision',
+            'icon' => 'IconFileSearch',
+            'order' => $order,
+            'show_counter'=> true,
+            'counter_name'=>'requestInReview',
+            'others_permissions' => "18@Validar Documentos, 18@Cancelar",
+            'created_at' => now(),
+        ]);
+        $order += 1;
+        DB::table('menus')->insert([ #20 En Evaluación
+            'menu' => 'En Evaluación',
+            'type' => 'item',
+            'belongs_to' => $menuRequests,
+            'url' => '/admin/solicitudes/en-evaluacion',
+            'icon' => 'IconCheckupList',
+            'order' => $order,
+            'show_counter'=> true,
+            'counter_name'=>'requestInEvaluation',
+            'others_permissions' => "19@Evaluar, 19@Aprobar, 19@Rechazar, 19@Cancelar",
+            'created_at' => now(),
+        ]);
+        $order += 1;
+        DB::table('menus')->insert([ #20 Aprobadas
+            'menu' => 'Aprobadas',
+            'type' => 'item',
+            'belongs_to' => $menuRequests,
+            'url' => '/admin/solicitudes/aprobadas',
+            'icon' => 'IconFileCheck',
+            'order' => $order,
+            'show_counter'=> true,
+            'counter_name'=>'requestApproved',
+            'others_permissions' => "20@Pagar, 20@Cancelar",
+            'created_at' => now(),
+        ]);
+        $order += 1;
+        DB::table('menus')->insert([ #21 Pagadas
+            'menu' => 'Pagadas',
+            'type' => 'item',
+            'belongs_to' => $menuRequests,
+            'url' => '/admin/solicitudes/pagadas',
+            'icon' => 'IconFileDollar',
+            'order' => $order,
+            'show_counter'=> true,
+            'counter_name'=>'requesPayed',
+            'others_permissions' => "",
+            'created_at' => now(),
+        ]);
+        $order += 1;
+        DB::table('menus')->insert([ #22 Rechazadas
+            'menu' => 'Rechazadas',
+            'type' => 'item',
+            'belongs_to' => $menuRequests,
+            'url' => '/admin/solicitudes/rechazadas',
+            'icon' => 'IconFileDislike',
+            'order' => $order,
+            'show_counter'=> true,
+            'counter_name'=>'requestRejected',
+            // 'others_permissions' => "",
+            'created_at' => now(),
+        ]);
+        $order += 1;
+        DB::table('menus')->insert([ #23 Canceladas
+            'menu' => 'Canceladas',
+            'type' => 'item',
+            'belongs_to' => $menuRequests,
+            'url' => '/admin/solicitudes/canceladas',
+            'icon' => 'IconFilesOff',
+            'order' => $order,
+            'show_counter'=> true,
+            'counter_name'=>'requestRejected',
+            // 'others_permissions' => "",
             'created_at' => now(),
         ]);
     }

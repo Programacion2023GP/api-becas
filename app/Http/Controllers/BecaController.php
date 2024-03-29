@@ -174,7 +174,7 @@ class BecaController extends Controller
         try {
             $values = explode(',', $status);
             if (!$status) $list = BecaView::all();
-            else $list = BecaView::whereIn('status', $values);
+            else $list = BecaView::whereIn('status', $values)->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de becas.';
             $response->data["result"] = $list;
@@ -337,7 +337,7 @@ class BecaController extends Controller
     /**
      * Mostrar reporte de beca por folio.
      * Propiedades en español
-     * 
+     *
      * @param   Int $folio
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response

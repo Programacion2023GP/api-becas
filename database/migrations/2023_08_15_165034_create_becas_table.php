@@ -35,14 +35,13 @@ return new class extends Migration
             $table->enum('socioeconomic_study', ['SIN EVALUAR', 'BAJO', 'MEDIO-BAJO', 'MEDIO'])->default('SIN EVALUAR')->nullable();
             $table->integer('current_page')->default(4)->nullable();
             $table->enum("status", ["ALTA", "TERMINADA", "EN REVISIÓN", "EN EVALUACIÓN", "RECHAZADA", "APROBADA", "PAGADA", "ENTREGADA", "CANCELADA"])->default("ALTA");
-
             $table->dateTime('end_date')->nullable();
 
-            $table->boolean('active')->default(true);
             $table->integer('rejected_by')->nullable();
             $table->dateTime('rejected_feedback')->nullable();
             $table->dateTime('rejected_at')->nullable();
 
+            $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();
         });

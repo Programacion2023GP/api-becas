@@ -15,6 +15,7 @@ use App\Http\Controllers\Beca1TutorDataController;
 use App\Http\Controllers\Beca2FamilyDataController;
 use App\Http\Controllers\Beca7DocumentDataController;
 use App\Http\Controllers\BecaController;
+use App\Http\Controllers\CounterController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RelationshipController;
 use App\Http\Controllers\RoleController;
@@ -27,6 +28,10 @@ Route::post('/signup', [UserController::class, 'signup']);
 Route::middleware('auth:sanctum')->group(function () {
    // Route::get('/getUser/{token}', [UserController::class,'getUser']); //cerrar sesión (eliminar los tokens creados)
    Route::get('/logout', [UserController::class, 'logout']); //cerrar sesión (eliminar los tokens creados)
+
+   Route::controller(CounterController::class)->group(function () {
+    Route::get('/counters/counterOfMenus', 'counterOfMenus');
+ });
 
    Route::controller(RoleController::class)->group(function () {
       Route::get('/roles/role_id/{role_id}', 'index');
@@ -44,7 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/menus', 'index');
       Route::get('/menus/selectIndex', 'selectIndex');
       Route::get('/menus/headers/selectIndex', 'headersSelectIndex');
-      Route::get('/menus/{id}', 'show');
+      Route::get('/menus/id/{id}', 'show');
       Route::post('/menus/create', 'createOrUpdate');
       Route::post('/menus/update/{id?}', 'createOrUpdate');
       Route::post('/menus/destroy/{id}', 'destroy');
