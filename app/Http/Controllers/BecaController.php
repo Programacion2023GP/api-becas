@@ -132,6 +132,7 @@ class BecaController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
+
             $beca = Beca::where('folio', $folio)->first();
             if (!$beca) {
                 $response->data["alert_text"] = "La Beca buscada no fue encontrada";
@@ -145,7 +146,8 @@ class BecaController extends Controller
                 $beca->rejected_at = $request->rejected_at;
             } elseif ($status == "APROBADA") {
                 $becaApprovedController = new BecaApprovedController();
-                $beca_approved = $becaApprovedController->createOrUpdate($request, $response, null, true);
+                // return "checkPoint 2 - $status";
+                $beca_approved =  $becaApprovedController->createOrUpdate(null, true);
             }
             $beca->save();
 

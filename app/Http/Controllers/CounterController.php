@@ -22,13 +22,13 @@ class CounterController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $list= [];
-            $requestList = BecaView::select("status as counter", DB::raw("COUNT(status) as total"))->groupBy('status')->get();
+            $list = [];
+            $requestList = BecaView::select("status as counter", DB::raw("COUNT(status) as total"), "user_id")->groupBy('status', "user_id")->get();
             $usersList = User::select("roles.role as counter", DB::raw("COUNT(role_id) as total"))
-            ->join('roles', 'users.role_id', '=', 'roles.id')
-            ->groupBy('role_id')->get();
-            array_push($list,...$requestList);
-            array_push($list,...$usersList);
+                ->join('roles', 'users.role_id', '=', 'roles.id')
+                ->groupBy('role_id')->get();
+            array_push($list, ...$requestList);
+            array_push($list, ...$usersList);
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | contadores de los menus';
