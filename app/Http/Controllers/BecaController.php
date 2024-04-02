@@ -146,8 +146,9 @@ class BecaController extends Controller
                 $beca->rejected_at = $request->rejected_at;
             } elseif ($status == "APROBADA") {
                 $becaApprovedController = new BecaApprovedController();
+                $beca_approved =  $becaApprovedController->createOrUpdate($response, $request, null, $beca->id, true);
+                // return $beca_approved;
                 // return "checkPoint 2 - $status";
-                $beca_approved =  $becaApprovedController->createOrUpdate(null, true);
             }
             $beca->save();
 

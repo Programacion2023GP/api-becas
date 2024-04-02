@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users', 'id');
             $table->foreignId('beca_id')->constrained('becas', 'id');
-            $table->boolean('approved')->nullable();
+            $table->boolean('approved')->default(true);
             $table->text('feedback')->nullable();
 
             $table->boolean('active')->default(true);
