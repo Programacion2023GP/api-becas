@@ -65,13 +65,12 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response $response
      */
-    public function logout(Response $response)
+    public function logout(Response $response, bool $all_sessions = false)
     {
         try {
-            // DB::connection('mysql_becas')->table('personal_access_tokens')->where('tokenable_id', $id)->delete();
-            // Auth::user()->currentAccessToken()->delete(); #Elimina solo el token activo
-
-            auth()->user()->tokens()->delete(); #Utilizar este en caso de que el usuario desee cerrar sesión en todos lados o cambie informacion de su usuario / contraseña
+            //  DB::table('personal_access_tokens')->where('tokenable_id', $id)->delete();
+            if (!$all_sessions) Auth::user()->currentAccessToken()->delete(); #Elimina solo el token activo
+            else auth()->user()->tokens()->delete(); #Utilizar este en caso de que el usuario desee cerrar sesión en todos lados o cambie informacion de su usuario / contraseña
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | sesión cerrada.';
@@ -309,16 +308,16 @@ class UserController extends Controller
                 return response()->json($response);
             }
 
-            $user = User::where('id', $request->id)
-                ->update([
-                    // 'name' => $request->name,
-                    // 'last_name' => $request->last_name,
-                    'email' => $request->email,
-                    'username' => $request->username,
-                    'password' => Hash::make($request->password),
-                    // 'phone' => $request->phone,
-                    'role_id' => $request->role_id,
-                ]);
+            $user = User::find($request->id);
+            // 'name' => $request->name,
+            // 'last_name' => $request->last_name,
+            $user->email = $request->email;
+            $user->username = $request->username;
+            if (strlen($request->password) > 0) $user->password = Hash::make($request->password);
+            // $user->phone = $request->phone;
+            $user->role_id = $request->role_id;
+
+            $user->save();
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | usuario actualizado.';
