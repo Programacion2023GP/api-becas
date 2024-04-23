@@ -313,7 +313,7 @@ class UserController extends Controller
             // 'last_name' => $request->last_name,
             $user->email = $request->email;
             $user->username = $request->username;
-            if (strlen($request->password) > 0) $user->password = Hash::make($request->password);
+            if ((bool)$request->change_password && strlen($request->password) > 0) $user->password = Hash::make($request->password);
             // $user->phone = $request->phone;
             $user->role_id = $request->role_id;
 
