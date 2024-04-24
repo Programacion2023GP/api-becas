@@ -152,7 +152,7 @@ class MenuController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $list = Menu::where('active', true)
+            $list = Menu::where('active', true)->where('belongs_to', '>', '0')
                 ->select('menus.url as id', DB::raw("CONCAT(menus.menu,' - ', menus.url) as label"))
                 ->orderBy('menus.menu', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
