@@ -133,12 +133,12 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response $response
      */
-    public function selectIndex(Response $response, string $fieldLabel = 'menu', string $fieldId = 'id')
+    public function selectIndex(Response $response)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
             $list = Menu::where('active', true)
-                ->select("menus.$fieldId as id", "menus.$fieldLabel as label")
+                ->select('menus.id as id', 'menus.menu as label')
                 ->orderBy('menus.menu', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de menus';
@@ -153,7 +153,7 @@ class MenuController extends Controller
         $response->data = ObjResponse::DefaultResponse();
         try {
             $list = Menu::where('active', true)
-                ->select('menus.url as id', 'menus.menu as label')
+                ->select('menus.url as id', DB::raw("CONCAT(menus.menu,' - ', menus.url) as label"))
                 ->orderBy('menus.menu', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de menus';
