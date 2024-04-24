@@ -133,12 +133,27 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response $response
      */
-    public function selectIndex(Response $response)
+    public function selectIndex(Response $response, string $fieldLabel = 'menu', string $fieldId = 'id')
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
             $list = Menu::where('active', true)
-                ->select('menus.id as id', 'menus.menu as label')
+                ->select("menus.$fieldId as id", "menus.$fieldLabel as label")
+                ->orderBy('menus.menu', 'asc')->get();
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'Peticion satisfactoria | Lista de menus';
+            $response->data["result"] = $list;
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+    public function selectIndexToRole(Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $list = Menu::where('active', true)
+                ->select('menus.url as id', 'menus.menu as label')
                 ->orderBy('menus.menu', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de menus';

@@ -30,8 +30,8 @@ Route::middleware('auth:sanctum')->group(function () {
    Route::get('/logout', [UserController::class, 'logout']); //cerrar sesión (eliminar los tokens creados)
 
    Route::controller(CounterController::class)->group(function () {
-    Route::get('/counters/counterOfMenus', 'counterOfMenus');
- });
+      Route::get('/counters/counterOfMenus', 'counterOfMenus');
+   });
 
    Route::controller(RoleController::class)->group(function () {
       Route::get('/roles/role_id/{role_id}', 'index');
@@ -47,7 +47,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
    Route::controller(MenuController::class)->group(function () {
       Route::get('/menus', 'index');
-      Route::get('/menus/selectIndex', 'selectIndex');
+      Route::get('/menus/selectIndex/{fieldLabel?}/{fieldId}', 'selectIndex');
+      Route::get('/menus/selectIndexToRole', 'selectIndexToRole');
       Route::get('/menus/headers/selectIndex', 'headersSelectIndex');
       Route::get('/menus/id/{id}', 'show');
       Route::post('/menus/create', 'createOrUpdate');
