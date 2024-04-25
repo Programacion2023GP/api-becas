@@ -231,11 +231,14 @@ class MenuController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
      */
-    public function show(Request $request, Response $response, bool $internal = false)
+    public function show(Request $request, Response $response, Int $id, bool $internal = false)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $menu = Menu::where('menus.id', (bool)$internal ? $request->page_index : $request->id)
+            // return "el internal " . (bool)$internal;
+            $id_menu = $request->id;
+            if ($internal == 1) $id_menu = $request->page_index;
+            $menu = Menu::where('menus.id', $id_menu)
                 ->leftJoin('menus as patern', 'menus.belongs_to', '=', 'patern.id')
                 ->select('menus.*', 'patern.menu as patern')
                 ->first();
