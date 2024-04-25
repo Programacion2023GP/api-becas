@@ -68,7 +68,6 @@ class RoleController extends Controller
             $menuController = new MenuController();
             $menu = $menuController->show($request, $response, true);
 
-
             $new_role = Role::create([
                 'role' => $request->role,
                 'description' => $request->description,
@@ -119,11 +118,14 @@ class RoleController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
+            $menuController = new MenuController();
+            $menu = $menuController->show($request, $response, true);
+
             $role = Role::find($request->id)
                 ->update([
                     'role' => $request->role,
                     'description' => $request->description,
-                    'page_index' => $request->page_index,
+                    'page_index' => $menu->url,
                     'read' => $request->read,
                     'create' => $request->create,
                     'update' => $request->update,
