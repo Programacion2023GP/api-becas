@@ -235,7 +235,7 @@ class MenuController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $menu = Menu::where('menus.id', $internal ? $request->page_index : $request->id)
+            $menu = Menu::where('menus.id', (bool)$internal ? $request->page_index : $request->id)
                 ->leftJoin('menus as patern', 'menus.belongs_to', '=', 'patern.id')
                 ->select('menus.*', 'patern.menu as patern')
                 ->first();
