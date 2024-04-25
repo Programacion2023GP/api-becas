@@ -152,7 +152,7 @@ class MenuController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $list = Menu::where('active', true)->where('belongs_to', '>', '0')
+            $list = Menu::where('menus.active', true)->where('menus.belongs_to', '>', 0)
                 ->leftJoin('menus as patern', 'menus.belongs_to', '=', 'patern.id')
                 ->select(
                     "menus.id as id",
