@@ -121,16 +121,17 @@ class RoleController extends Controller
             $menuController = new MenuController();
             $menu = $menuController->show($request, $response, true);
 
-            $role = Role::find($request->id)
-                ->update([
-                    'role' => $request->role,
-                    'description' => $request->description,
-                    'page_index' => $menu->url,
-                    'read' => $request->read,
-                    'create' => $request->create,
-                    'update' => $request->update,
-                    'delete' => $request->delete,
-                ]);
+            $role = Role::find($request->id);
+            $role->role = $request->role;
+            $role->description = $request->description;
+            $role->page_index = $menu->url;
+            $role->read = $request->read;
+            $role->create = $request->create;
+            $role->update = $request->update;
+            $role->delete = $request->delete;
+            $role->active = (bool)$request->active;
+
+            $role->save();
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | rol actualizado.';

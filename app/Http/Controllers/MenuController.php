@@ -156,7 +156,7 @@ class MenuController extends Controller
                 ->leftJoin('menus as patern', 'menus.belongs_to', '=', 'patern.id')
                 ->select(
                     "menus.id as id",
-                    DB::raw("CONCAT(patern.menu,':', menus.menu,' - ', menus.url) as label")
+                    DB::raw("CONCAT(patern.menu,' : ', menus.menu) as label")
                 )
                 ->orderBy('menus.menu', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
