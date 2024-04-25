@@ -148,7 +148,7 @@ class MenuController extends Controller
         }
         return response()->json($response, $response->data["status_code"]);
     }
-    public function selectIndexToRole(Response $response)
+    public function selectIndexToRoles(Response $response)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
