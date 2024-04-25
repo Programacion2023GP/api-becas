@@ -153,7 +153,11 @@ class MenuController extends Controller
         $response->data = ObjResponse::DefaultResponse();
         try {
             $list = Menu::where('active', true)->where('belongs_to', '>', '0')
-                ->select('menus.url as id', DB::raw("CONCAT(menus.menu,' - ', menus.url) as label"))
+                ->leftJoin('menus as patern', 'menus.belongs_to', '=', 'patern.id')
+                ->select(
+                    "menus.id as id",
+                    DB::raw("CONCAT(patern.menu as patern ,':', menus.menu,' - ', menus.url) as label")
+                )
                 ->orderBy('menus.menu', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de menus';
@@ -227,14 +231,16 @@ class MenuController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
      */
-    public function show(Request $request, Response $response)
+    public function show(Request $request, Response $response, bool $internal = false)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $menu = Menu::where('menus.id', $request->id)
+            $menu = Menu::where('menus.id', $internal ? $request->page_index : $request->id)
                 ->leftJoin('menus as patern', 'menus.belongs_to', '=', 'patern.id')
                 ->select('menus.*', 'patern.menu as patern')
                 ->first();
+
+            if ($internal) return $menu;
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | menu encontrado.';
