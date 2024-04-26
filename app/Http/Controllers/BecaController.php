@@ -175,9 +175,11 @@ class BecaController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
+            $userAuth = Auth::user();
+
             $values = explode(',', $status);
-            if (!$status) $list = BecaView::all();
-            else $list = BecaView::whereIn('status', $values)->get();
+            if (!$status) $list = $userAuth->role_id == 3 ? BecaView::where('user_id', $userAuth->id)->get() : BecaView::all();
+            else $list = $userAuth->role_id == 3 ? BecaView::where('user_id', $userAuth->id)->whereIn('status', $values)->get() : BecaView::whereIn('status', $values)->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de becas.';
             $response->data["result"] = $list;
