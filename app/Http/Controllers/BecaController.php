@@ -537,7 +537,7 @@ class BecaController extends Controller
             array_push($servicesResponse, (bool)$beca_view->b5_phone_line);
             array_push($services, $answer_score_active->service_7);
             array_push($servicesResponse, (bool)$beca_view->b5_internet);
-            array_push($answerScoreTemp, $this->mappingQuestions($services, "service", "check", $servicesResponse));
+            array_push($answerScoreTemp, $this->mappingQuestions($services, "service", "check", $servicesResponse, true));
 
             $scholarships = [];
             $scholarshipsResponse = [];
@@ -549,8 +549,9 @@ class BecaController extends Controller
             array_push($scholarshipsResponse, (bool)$beca_view->b6_beca_jovenes);
             array_push($scholarships, $answer_score_active->scholarship_4);
             array_push($scholarshipsResponse, (bool)$beca_view->b6_other);
-            array_push($answerScoreTemp, $this->mappingQuestions($scholarships, "scholarship", "check", $scholarshipsResponse));
+            array_push($answerScoreTemp, $this->mappingQuestions($scholarships, "scholarship", "check", $scholarshipsResponse, true));
 
+            var_dump($answerScoreTemp[4], $answerScoreTemp[5]);
 
             $answerScore = array_merge($answerScoreTemp[0], $answerScoreTemp[1], $answerScoreTemp[2], $answerScoreTemp[3], $answerScoreTemp[4], $answerScoreTemp[5]);
             $answerScore['id'] = $answer_score_active->id;
@@ -586,7 +587,7 @@ class BecaController extends Controller
         }
     }
 
-    private function mappingQuestions($arrayQuestions, $questionName, $optionType, $responses)
+    private function mappingQuestions($arrayQuestions, $questionName, $optionType, $responses, $flipValue = false)
     {
         $obj = [];
         // echo ("mappingQuestions" . $obj);
@@ -646,8 +647,11 @@ class BecaController extends Controller
                 // $obj[$questionName . "_" . $q] = (int)$pts;
 
                 // EVALUAR RESPUSTA DEL ESTUDIO SOCIO-ECONOMICO
-                if ((bool)$responses[$qi]) $obj[$questionName . "_" . $q] = (int)$pts;
-                else $obj[$questionName . "_" . $q] = 0;
+                if ((bool)$flipValue) { // Invertir Valores; seleccionado|check vale 0
+                    $obj[$questionName . "_" . $q] = (bool)$responses[$qi] ? 0 : (int)$pts;
+                } else {
+                    $obj[$questionName . "_" . $q] = (bool)$responses[$qi] ? (int)$pts : 0;
+                }
                 // EVALUAR RESPUSTA DEL ESTUDIO SOCIO-ECONOMICO
             }
             $qi += 1;
