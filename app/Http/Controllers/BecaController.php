@@ -551,7 +551,7 @@ class BecaController extends Controller
             array_push($scholarshipsResponse, (bool)$beca_view->b6_other);
             array_push($answerScoreTemp, $this->mappingQuestions($scholarships, "scholarship", "check", $scholarshipsResponse, true));
 
-            // var_dump($answerScoreTemp[4], $answerScoreTemp[5]);
+            var_dump($answerScoreTemp[4], $answerScoreTemp[5]);
 
             $answerScore = array_merge($answerScoreTemp[0], $answerScoreTemp[1], $answerScoreTemp[2], $answerScoreTemp[3], $answerScoreTemp[4], $answerScoreTemp[5]);
             $answerScore['id'] = $answer_score_active->id;
