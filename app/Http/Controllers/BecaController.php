@@ -105,7 +105,7 @@ class BecaController extends Controller
                 // return $object;
                 if ((bool)$object->b7_finished && (int)$beca->current < 10) {
                     // $beca->current_page = 10;
-                    $beca->status = "TERMINADA";
+                    if (in_array($beca->status, ['ALTA'])) $beca->status = "TERMINADA";
                     $beca->end_date = $request->end_date;
                 }
             }
