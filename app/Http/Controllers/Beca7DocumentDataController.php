@@ -98,6 +98,10 @@ class Beca7DocumentDataController extends Controller
             $document_data->b7_approved_tutor_power_letter = $request->b7_approved_tutor_power_letter;
             $document_data->b7_comments_tutor_power_letter = $request->b7_comments_tutor_power_letter;
 
+            // $document_data->b7_img_second_ref = $request->b7_img_second_ref;
+            $document_data->b7_approved_second_ref = $request->b7_approved_second_ref;
+            $document_data->b7_comments_second_ref = $request->b7_comments_second_ref;
+
             // $document_data->b7_img_proof_address = $request->b7_img_proof_address;
             $document_data->b7_approved_proof_address = $request->b7_approved_proof_address;
             $document_data->b7_comments_proof_address = $request->b7_comments_proof_address;
@@ -119,8 +123,9 @@ class Beca7DocumentDataController extends Controller
             $document_data->save();
 
             $b7_img_tutor_ine = $this->ImageUp($request, 'b7_img_tutor_ine', $request->id, 'INE-Tutor', false, "noImage.png");
-            // return $b7_img_tutor_ine;
             if ($request->hasFile('b7_img_tutor_ine') || $request->b7_img_tutor_ine == "") $document_data->b7_img_tutor_ine = $b7_img_tutor_ine;
+            if ($request->hasFile('b7_img_second_ref') || $request->b7_img_second_ref == "") $document_data->b7_img_second_ref = $b7_img_second_ref;
+
             $b7_img_tutor_power_letter = $this->ImageUp($request, 'b7_img_tutor_power_letter', $request->id, 'Carta-Poder', false, "noImage.png");
             if ($request->hasFile('b7_img_tutor_power_letter') || $request->b7_img_tutor_power_letter == "") $document_data->b7_img_tutor_power_letter = $b7_img_tutor_power_letter;
             $b7_img_proof_address = $this->ImageUp($request, 'b7_img_proof_address', $request->id, 'Comprobante-De-Domicilio', false, "noImage.png");

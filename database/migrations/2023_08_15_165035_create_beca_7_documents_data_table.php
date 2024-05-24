@@ -25,6 +25,11 @@ return new class extends Migration
             $table->boolean('b7_approved_tutor_power_letter')->nullable();
             $table->string('b7_comments_tutor_power_letter', 250)->nullable()->default("Archivo cargado correctamente.")->comment("Aplica solo en caso de que el tutor no sea su padre o madre");
 
+            $table->string('b7_img_second_ref', 255)->nullable();
+            $table->boolean('b7_approved_second_ref')->nullable();
+            $table->string('b7_comments_second_ref', 250)->nullable()->default("Archivo cargado correctamente.")->comment("Aplica solo en caso de que quieran un represnetante (2da opcion) para recoger la beca");
+
+
             $table->string('b7_img_proof_address', 255)->nullable();
             $table->boolean('b7_approved_proof_address')->nullable();
             $table->string('b7_comments_proof_address', 250)->nullable()->default("Archivo cargado correctamente.");

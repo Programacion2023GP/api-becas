@@ -41,6 +41,11 @@ return new class extends Migration
             $table->dateTime('rejected_feedback')->nullable();
             $table->dateTime('rejected_at')->nullable();
 
+            $table->string('second_ref')->nullable()->comment("esto indica si habra una segunda persona que pueda recoger la beca");
+            $table->boolean('correction_permission')->default(0)->comment("para cuando los admin solicitan cambiar documentos, Des/habilitar el btn");
+            $table->boolean('corrction_completed')->default(0)->comment("para cuando finalizan estos cambios en documentos, notificar al admin");
+
+
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();

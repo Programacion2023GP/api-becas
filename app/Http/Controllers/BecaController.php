@@ -103,6 +103,20 @@ class BecaController extends Controller
                 $b7Controller = new Beca7DocumentDataController();
                 $object = $b7Controller->createOrUpdateByBeca($request, $response, $beca->id, true);
                 // return $object;
+
+                $approvedDocs = [];
+                array_push($approvedDocs, $object->b7_approved_tutor_ine);
+
+                if ($request->hasFile('b7_img_tutor_power_letter') || $request->b7_img_tutor_power_letter == "") array_push($approvedDocs, $object->b7_approved_tutor_power_letter);
+                if ($request->hasFile('b7_img_second_ref') || $request->b7_img_second_ref == "") array_push($approvedDocs, $object->b7_approved_second_ref);
+                array_push($approvedDocs, $object->b7_approved_proof_address);
+                array_push($approvedDocs, $object->b7_approved_curp);
+                array_push($approvedDocs, $object->b7_approved_birth_certificate);
+                array_push($approvedDocs, $object->b7_approved_academic_transcript);
+                $beca->correction_permission = in_array(0, $approvedDocs);
+
+                return ($beca);
+
                 if ((bool)$object->b7_finished && (int)$beca->current < 10) {
                     // $beca->current_page = 10;
                     if (in_array($beca->status, ['ALTA'])) $beca->status = "TERMINADA";
@@ -232,6 +246,7 @@ class BecaController extends Controller
                 'user_id' => $request->user_id,
                 // 'single_mother' => $request->single_mother,
                 'tutor_data_id' => $tutor_data->id,
+                'second_ref' => $request->second_ref,
                 'student_data_id' => $student_data->id,
                 'school_id' => $request->school_id,
                 'grade' => $request->grade,
@@ -291,6 +306,7 @@ class BecaController extends Controller
                     'user_id' => $request->user_id,
                     // 'single_mother' => $request->single_mother,
                     'tutor_data_id' => $request->tutor_data_id,
+                    'second_ref' => $request->second_ref,
                     'student_data_id' => $request->student_data_id,
                     'school_id' => $request->school_id,
                     'grade' => $request->grade,
@@ -543,13 +559,13 @@ class BecaController extends Controller
             $scholarshipsResponse = [];
             array_push($scholarships, $answer_score_active->scholarship_1);
             array_push($scholarshipsResponse, (bool)$beca_view->b6_beca_transport);
-            array_push($scholarships, $answer_score_active->scholarship_2);
+            // array_push($scholarships, $answer_score_active->scholarship_2);
             array_push($scholarshipsResponse, (bool)$beca_view->b6_beca_benito_juarez);
-            array_push($scholarships, $answer_score_active->scholarship_3);
+            // array_push($scholarships, $answer_score_active->scholarship_3);
             array_push($scholarshipsResponse, (bool)$beca_view->b6_beca_jovenes);
-            array_push($scholarships, $answer_score_active->scholarship_4);
+            // array_push($scholarships, $answer_score_active->scholarship_4);
             array_push($scholarshipsResponse, (bool)$beca_view->b6_other);
-            array_push($answerScoreTemp, $this->mappingQuestions($scholarships, "scholarship", "check", $scholarshipsResponse, true));
+            array_push($answerScoreTemp, $this->mappingQuestions($scholarships, "scholarship", "check", $scholarshipsResponse));
 
             var_dump($answerScoreTemp[4], $answerScoreTemp[5]);
 
@@ -563,8 +579,11 @@ class BecaController extends Controller
 
             //#region EMPAREJANDO RESULTADOS
             $scoreTotal = 0;
+            $indexBecas = 5;
+            $index = 0;
             foreach ($answerScore as $value) {
-                $scoreTotal += $value;
+                $index += 1;
+                $scoreTotal += $index == $indexBecas ? $value * -1 : $value;
             }
             if ($scoreTotal >= $answerScore['low_score'] && $scoreTotal < $answerScore['medium_low_score']) $answerScore['socioeconomic_study'] = 'BAJO';
             elseif ($scoreTotal >= $answerScore['medium_low_score'] && $scoreTotal < $answerScore['medium_score']) $answerScore['socioeconomic_study'] = 'MEDIO-BAJO';

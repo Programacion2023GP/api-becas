@@ -41,6 +41,9 @@ class Beca extends Model
         'rejected_by',
         'rejected_feedback',
         'rejected_at',
+        'second_ref',
+        'correction_permission',
+        'corrction_completed',
         'deleted_at'
     ];
 

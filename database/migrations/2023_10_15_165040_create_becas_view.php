@@ -14,8 +14,8 @@ return new class extends Migration
     {
         DB::statement("
         CREATE OR REPLACE VIEW becas_view AS
-        SELECT b.*, usr.email,
-        td.tutor_relationship_id tutor_relationship_id, r.relationship tutor_relationship, td.tutor_curp tutor_curp, td.tutor_name tutor_name, td.tutor_paternal_last_name tutor_paternal_last_name, td.tutor_maternal_last_name tutor_maternal_last_name, td.tutor_phone tutor_phone,
+        SELECT b.*, usr.username, usr.email,
+        td.tutor_relationship_id tutor_relationship_id, r.relationship tutor_relationship, td.tutor_type, td.tutor_curp tutor_curp, td.tutor_name tutor_name, td.tutor_paternal_last_name tutor_paternal_last_name, td.tutor_maternal_last_name tutor_maternal_last_name, td.tutor_phone tutor_phone,
         sd.curp, sd.name, sd.paternal_last_name, sd.maternal_last_name, sd.birthdate, sd.gender, sd.community_id, sd.street, sd.num_ext, sd.num_int, sd.disability_id, d.disability, d.description, 
         s.code, s.level_id, l.level, s.school, CONCAT(s.code,' - ', l.level,' - ', s.school) school_full, s.community_id as school_community_id, 
         s.street as school_street, s.num_ext as school_num_ext, s.num_int as school_num_int, s.phone, s.director, s.loc_for, s.zone,
@@ -23,8 +23,8 @@ return new class extends Migration
         b4_house_is, b4_roof_material, b4_floor_material, b4_score, b4_finished,
         b5_beds, b5_washing_machines, b5_boilers, b5_tvs, b5_pcs, b5_phones, b5_music_player, b5_stoves, b5_refrigerators, b5_drinking_water, b5_electric_light, b5_sewer_system, b5_pavement, b5_automobile, b5_phone_line, b5_internet, b5_score, b5_finished,
         b6_beca_transport, b6_beca_benito_juarez, b6_beca_jovenes, b6_other, b6_finished,
-        b7_img_tutor_ine, b7_approved_tutor_ine, b7_comments_tutor_ine, b7_img_tutor_power_letter, b7_approved_tutor_power_letter, b7_comments_tutor_power_letter, b7_img_proof_address, b7_approved_proof_address, b7_comments_proof_address, b7_img_curp, b7_approved_curp, b7_comments_curp, b7_img_birth_certificate, b7_approved_birth_certificate, b7_comments_birth_certificate, b7_img_academic_transcript, b7_approved_academic_transcript, b7_comments_academic_transcript, b7_finished,
-        ur.username
+        b7_img_tutor_ine, b7_approved_tutor_ine, b7_comments_tutor_ine, b7_img_tutor_power_letter, b7_approved_tutor_power_letter, b7_comments_tutor_power_letter, b7_img_second_ref, b7_approved_second_ref, b7_comments_second_ref, b7_img_proof_address, b7_approved_proof_address, b7_comments_proof_address, b7_img_curp, b7_approved_curp, b7_comments_curp, b7_img_birth_certificate, b7_approved_birth_certificate, b7_comments_birth_certificate, b7_img_academic_transcript, b7_approved_academic_transcript, b7_comments_academic_transcript, b7_finished,
+        ur.username user_rejected
         FROM becas as b 
         INNER JOIN users usr ON b.user_id=usr.id
         INNER JOIN beca_1_tutor_data td ON b.tutor_data_id=td.id
