@@ -115,7 +115,7 @@ class BecaController extends Controller
                 array_push($approvedDocs, $object->b7_approved_academic_transcript);
                 $beca->correction_permission = in_array(0, $approvedDocs);
 
-                return ($beca);
+                // return ($beca);
 
                 if ((bool)$object->b7_finished && (int)$beca->current < 10) {
                     // $beca->current_page = 10;
