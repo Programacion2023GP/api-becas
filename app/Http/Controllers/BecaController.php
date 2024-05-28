@@ -99,27 +99,18 @@ class BecaController extends Controller
                 }
             }
             if ((int)$page === 9) {
-                // error_log("PAGINA - 8 === $page");
+                // echo ("PAGINA - 8 === $page");
                 $b7Controller = new Beca7DocumentDataController();
                 $object = $b7Controller->createOrUpdateByBeca($request, $response, $beca->id, true);
                 // return $object;
 
-                $approvedDocs = [];
-                array_push($approvedDocs, $object->b7_approved_tutor_ine);
-
-                if ($request->hasFile('b7_img_tutor_power_letter') || $request->b7_img_tutor_power_letter == "") array_push($approvedDocs, $object->b7_approved_tutor_power_letter);
-                if ($request->hasFile('b7_img_second_ref') || $request->b7_img_second_ref == "") array_push($approvedDocs, $object->b7_approved_second_ref);
-                array_push($approvedDocs, $object->b7_approved_proof_address);
-                array_push($approvedDocs, $object->b7_approved_curp);
-                array_push($approvedDocs, $object->b7_approved_birth_certificate);
-                array_push($approvedDocs, $object->b7_approved_academic_transcript);
-                $beca->correction_permission = in_array(0, $approvedDocs);
-
-                // return ($beca);
-
                 if ((bool)$object->b7_finished && (int)$beca->current < 10) {
                     // $beca->current_page = 10;
                     if (in_array($beca->status, ['ALTA'])) $beca->status = "TERMINADA";
+                    if ($beca->correction_permission == 1) {
+                        $beca->correction_permission = 0;
+                        $beca->correction_completed = $beca->correction_completed == 0 ? 1 : null;
+                    }
                     $beca->end_date = $request->end_date;
                 }
             }
@@ -559,37 +550,46 @@ class BecaController extends Controller
             $scholarshipsResponse = [];
             array_push($scholarships, $answer_score_active->scholarship_1);
             array_push($scholarshipsResponse, (bool)$beca_view->b6_beca_transport);
-            // array_push($scholarships, $answer_score_active->scholarship_2);
+            array_push($scholarships, $answer_score_active->scholarship_2);
             array_push($scholarshipsResponse, (bool)$beca_view->b6_beca_benito_juarez);
-            // array_push($scholarships, $answer_score_active->scholarship_3);
+            array_push($scholarships, $answer_score_active->scholarship_3);
             array_push($scholarshipsResponse, (bool)$beca_view->b6_beca_jovenes);
-            // array_push($scholarships, $answer_score_active->scholarship_4);
+            array_push($scholarships, $answer_score_active->scholarship_4);
             array_push($scholarshipsResponse, (bool)$beca_view->b6_other);
             array_push($answerScoreTemp, $this->mappingQuestions($scholarships, "scholarship", "check", $scholarshipsResponse));
 
-            var_dump($answerScoreTemp[4], $answerScoreTemp[5]);
+            $scoreBecas =  array(
+                'score' => 0
+            );
+            foreach ($answerScoreTemp[5] as $score) if ($score > 0) $scoreBecas["score"] = $score * -1;
+            // var_dump($answerScoreTemp[4], $answerScoreTemp[5], $scoreBecas[0]);
 
-            $answerScore = array_merge($answerScoreTemp[0], $answerScoreTemp[1], $answerScoreTemp[2], $answerScoreTemp[3], $answerScoreTemp[4], $answerScoreTemp[5]);
-            $answerScore['id'] = $answer_score_active->id;
-            $answerScore['low_score'] = (int)$answer_score_active->low_score;
-            $answerScore['medium_low_score'] = (int)$answer_score_active->medium_low_score;
-            $answerScore['medium_score'] = (int)$answer_score_active->medium_score;
+            $answerScore = array_merge($answerScoreTemp[0], $answerScoreTemp[1], $answerScoreTemp[2], $answerScoreTemp[3], $answerScoreTemp[4], $scoreBecas);
             //#endregion OBTENIENDO DATAS
             // return $answerScoreTemp;
 
             //#region EMPAREJANDO RESULTADOS
             $scoreTotal = 0;
-            $indexBecas = 5;
-            $index = 0;
             foreach ($answerScore as $value) {
-                $index += 1;
-                $scoreTotal += $index == $indexBecas ? $value * -1 : $value;
+                $scoreTotal += $value;
             }
-            if ($scoreTotal >= $answerScore['low_score'] && $scoreTotal < $answerScore['medium_low_score']) $answerScore['socioeconomic_study'] = 'BAJO';
-            elseif ($scoreTotal >= $answerScore['medium_low_score'] && $scoreTotal < $answerScore['medium_score']) $answerScore['socioeconomic_study'] = 'MEDIO-BAJO';
-            elseif ($scoreTotal >= $answerScore['medium_score']) $answerScore['socioeconomic_study'] = 'MEDIO';
+            $answerScore['id'] = $answer_score_active->id;
+            $answerScore['low_score'] = (int)$answer_score_active->low_score;
+            $answerScore['medium_low_score'] = (int)$answer_score_active->medium_low_score;
+            $answerScore['medium_score'] = (int)$answer_score_active->medium_score;
+
+            if ($scoreTotal <= $answer_score_active['medium_score']) $answerScore['socioeconomic_study'] = 'MEDIO';
+            elseif ($scoreTotal > $answer_score_active['medium_score'] && $scoreTotal <= $answer_score_active['medium_low_score']) $answerScore['socioeconomic_study'] = 'MEDIO-BAJO';
+            elseif ($scoreTotal >= $answer_score_active['low_score']) $answerScore['socioeconomic_study'] = 'BAJO';
             $answerScore['score_total'] = $scoreTotal;
+
+
+            // if ($scoreTotal >= $answer_score_active['low_score'] && $scoreTotal < $answer_score_active['medium_low_score']) $answerScore['socioeconomic_study'] = 'BAJO';
+            // elseif ($scoreTotal >= $answer_score_active['medium_low_score'] && $scoreTotal < $answer_score_active['medium_score']) $answerScore['socioeconomic_study'] = 'MEDIO-BAJO';
+            // elseif ($scoreTotal >= $answer_score_active['medium_score']) $answerScore['socioeconomic_study'] = 'MEDIO';
+            // $answerScore['score_total'] = $scoreTotal;
             //#endregion EMPAREJANDO RESULTADOS
+            // var_dump($answerScore, $scoreTotal);
 
             $beca = Beca::find($beca_view->id);
             $beca->socioeconomic_study = $answerScore['socioeconomic_study'];

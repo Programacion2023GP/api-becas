@@ -15,7 +15,7 @@ return new class extends Migration
         DB::statement("
         CREATE OR REPLACE VIEW becas_view AS
         SELECT b.*, usr.username, usr.email,
-        td.tutor_relationship_id tutor_relationship_id, r.relationship tutor_relationship, td.tutor_type, td.tutor_curp tutor_curp, td.tutor_name tutor_name, td.tutor_paternal_last_name tutor_paternal_last_name, td.tutor_maternal_last_name tutor_maternal_last_name, td.tutor_phone tutor_phone,
+        td.tutor_relationship_id tutor_relationship_id, r.relationship tutor_relationship, td.tutor_curp tutor_curp, td.tutor_name tutor_name, td.tutor_paternal_last_name tutor_paternal_last_name, td.tutor_maternal_last_name tutor_maternal_last_name, td.tutor_phone tutor_phone,
         sd.curp, sd.name, sd.paternal_last_name, sd.maternal_last_name, sd.birthdate, sd.gender, sd.community_id, sd.street, sd.num_ext, sd.num_int, sd.disability_id, d.disability, d.description, 
         s.code, s.level_id, l.level, s.school, CONCAT(s.code,' - ', l.level,' - ', s.school) school_full, s.community_id as school_community_id, 
         s.street as school_street, s.num_ext as school_num_ext, s.num_int as school_num_int, s.phone, s.director, s.loc_for, s.zone,
