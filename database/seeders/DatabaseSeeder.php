@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             MenuSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
-            AnswerScore::class,
+            AnswerScoreSeeder::class,
             // PerimeterSeeder::class,
             LevelSeeder::class,
             SchoolSeeder::class,
