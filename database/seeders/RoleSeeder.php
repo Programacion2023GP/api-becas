@@ -23,7 +23,7 @@ class RoleSeeder extends Seeder
                 'create' => 'todas',
                 'update' => 'todas',
                 'delete' => 'todas',
-                'more_permissions' => '6@Asignar Permisos, 14@Asignar Perímetro, 16@Continuar, 16@Validar Documentos, 16@Evaluar, 16@Rechazar, 16@Aprobar, 16@Cancelar, 16@Exportar Lista Contraloría, 16@Exportar Lista Pública,16@Pagar, 16@Corregir Documentos',
+                'more_permissions' => '6@Asignar Permisos,14@Asignar Perímetro,16@Continuar,16@Validar Documentos,16@Evaluar,16@Rechazar,16@Aprobar,16@Cancelar,16@Exportar Lista Contraloría,16@Exportar Lista Pública,16@Pagar,16@Corregir Documentos',
                 'created_at' => now(),
             ], [
                 'role' => 'Administrador',
@@ -32,7 +32,7 @@ class RoleSeeder extends Seeder
                 'create' => 'todas',
                 'update' => 'todas',
                 'delete' => 'todas',
-                'more_permissions' => '6@Asignar Permisos, 14@Asignar Perímetro, 16@Continuar, 16@Validar Documentos, 16@Evaluar, 16@Rechazar, 16@Aprobar, 16@Cancelar, 16@Exportar Lista Contraloría, 16@Exportar Lista Pública,16@Pagar, 16@Corregir Documentos',
+                'more_permissions' => '6@Asignar Permisos,14@Asignar Perímetro,16@Continuar,16@Validar Documentos,16@Evaluar,16@Rechazar,16@Aprobar,16@Cancelar,16@Exportar Lista Contraloría,16@Exportar Lista Pública,16@Pagar,16@Corregir Documentos',
                 'created_at' => now(),
             ], [
                 'role' => 'Ciudadano',
