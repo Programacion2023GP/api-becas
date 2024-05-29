@@ -185,7 +185,7 @@ class MenuSeeder extends Seeder
             'url' => '/admin/solicitudes/',
             'icon' => 'IconStack3',
             'order' => $order,
-            'others_permissions' => "16@Validar Documentos, 16@Continuar, 16@Evaluar, 16@Aprobar, 16@Rechazar, 16@Pagar, 16@Cancelar",
+            'others_permissions' => "16@Validar Documentos, 16@Continuar, 16@Corregir Documentos, 16@Evaluar, 16@Aprobar, 16@Pagar, 16@Rechazar, 16@Cancelar, 16@Exportar Lista Pública, 16@Exportar Lista Contraloría",
             'created_at' => now(),
         ]);
         $order += 1;
@@ -196,9 +196,9 @@ class MenuSeeder extends Seeder
             'url' => '/admin/solicitudes/mis-solicitudes',
             'icon' => 'IconFileStack',
             'order' => $order,
-            'show_counter'=> true,
-            'counter_name'=> 'requestByUser',
-            'others_permissions' => "17@Cancelar",
+            'show_counter' => true,
+            'counter_name' => 'requestByUser',
+            // 'others_permissions' => "",
             'created_at' => now(),
         ]);
         $order += 1;
@@ -209,9 +209,9 @@ class MenuSeeder extends Seeder
             'url' => '/admin/solicitudes/en-revision',
             'icon' => 'IconFileSearch',
             'order' => $order,
-            'show_counter'=> true,
-            'counter_name'=>'requestInReview',
-            'others_permissions' => "18@Validar Documentos, 18@Cancelar",
+            'show_counter' => true,
+            'counter_name' => 'requestInReview',
+            // 'others_permissions' => "",
             'created_at' => now(),
         ]);
         $order += 1;
@@ -222,9 +222,9 @@ class MenuSeeder extends Seeder
             'url' => '/admin/solicitudes/en-evaluacion',
             'icon' => 'IconCheckupList',
             'order' => $order,
-            'show_counter'=> true,
-            'counter_name'=>'requestInEvaluation',
-            'others_permissions' => "19@Evaluar, 19@Aprobar, 19@Rechazar, 19@Cancelar",
+            'show_counter' => true,
+            'counter_name' => 'requestInEvaluation',
+            // 'others_permissions' => "",
             'created_at' => now(),
         ]);
         $order += 1;
@@ -235,9 +235,9 @@ class MenuSeeder extends Seeder
             'url' => '/admin/solicitudes/aprobadas',
             'icon' => 'IconFileCheck',
             'order' => $order,
-            'show_counter'=> true,
-            'counter_name'=>'requestApproved',
-            'others_permissions' => "20@Pagar, 20@Cancelar",
+            'show_counter' => true,
+            'counter_name' => 'requestApproved',
+            // 'others_permissions' => "",
             'created_at' => now(),
         ]);
         $order += 1;
@@ -248,9 +248,9 @@ class MenuSeeder extends Seeder
             'url' => '/admin/solicitudes/pagadas',
             'icon' => 'IconFileDollar',
             'order' => $order,
-            'show_counter'=> true,
-            'counter_name'=>'requesPayed',
-            'others_permissions' => "",
+            'show_counter' => true,
+            'counter_name' => 'requesPayed',
+            // 'others_permissions' => "",
             'created_at' => now(),
         ]);
         $order += 1;
@@ -261,8 +261,8 @@ class MenuSeeder extends Seeder
             'url' => '/admin/solicitudes/rechazadas',
             'icon' => 'IconFileDislike',
             'order' => $order,
-            'show_counter'=> true,
-            'counter_name'=>'requestRejected',
+            'show_counter' => true,
+            'counter_name' => 'requestRejected',
             // 'others_permissions' => "",
             'created_at' => now(),
         ]);
@@ -274,8 +274,8 @@ class MenuSeeder extends Seeder
             'url' => '/admin/solicitudes/canceladas',
             'icon' => 'IconFilesOff',
             'order' => $order,
-            'show_counter'=> true,
-            'counter_name'=>'requestRejected',
+            'show_counter' => true,
+            'counter_name' => 'requestRejected',
             // 'others_permissions' => "",
             'created_at' => now(),
         ]);
