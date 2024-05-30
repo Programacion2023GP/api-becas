@@ -109,7 +109,7 @@ class BecaController extends Controller
                     if (in_array($beca->status, ['ALTA'])) $beca->status = "TERMINADA";
                     if ($beca->correction_permission == 1) {
                         $beca->correction_permission = 0;
-                        $beca->correction_completed = $beca->correction_completed == 0 ? 1 : null;
+                        // $beca->correction_completed = $beca->correction_completed == 0 ? 1 : null;
                     }
                     $beca->end_date = $request->end_date;
                 }

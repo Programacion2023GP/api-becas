@@ -41,7 +41,7 @@ class RoleSeeder extends Seeder
                 'create' => '3,17',
                 'update' => '',
                 'delete' => '',
-                'more_permissions' => '16@Continuar, 16@Cancelar, 16@Corregir Documentos',
+                'more_permissions' => '16@Continuar,16@Cancelar,16@Corregir Documentos',
                 'created_at' => now(),
             ]
         ]);
