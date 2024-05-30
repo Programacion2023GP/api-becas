@@ -71,7 +71,7 @@ class Beca7DocumentDataController extends Controller
             if ($request->action == "finish") {
                 $beca->status = "EN EVALUACIÓN";
                 $beca->correction_permission = 0;
-                $beca->correction_completed = $beca->correction_completed == 0 ? 1 : null;
+                // $beca->correction_completed = $beca->correction_completed == 0 ? 1 : null;
                 $beca->save();
                 $becaController->calculateRequest($request, $response, $folio, true);
             }
