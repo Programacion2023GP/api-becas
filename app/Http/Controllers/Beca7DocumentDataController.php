@@ -57,8 +57,8 @@ class Beca7DocumentDataController extends Controller
 
             $approvedDocs = [];
             array_push($approvedDocs, $document_data->b7_approved_tutor_ine);
-            if ($request->hasFile('b7_img_tutor_power_letter') && $request->b7_img_tutor_power_letter == "") array_push($approvedDocs, $document_data->b7_approved_tutor_power_letter);
-            if ($request->hasFile('b7_img_second_ref') && $request->b7_img_second_ref == "") array_push($approvedDocs, $document_data->b7_approved_second_ref);
+            if ($request->tutor_relationship_id > 2) array_push($approvedDocs, $document_data->b7_approved_tutor_power_letter);
+            if ($request->second_ref != "NULL") array_push($approvedDocs, $document_data->b7_approved_second_ref);
             array_push($approvedDocs, $document_data->b7_approved_proof_address);
             array_push($approvedDocs, $document_data->b7_approved_curp);
             array_push($approvedDocs, $document_data->b7_approved_birth_certificate);
