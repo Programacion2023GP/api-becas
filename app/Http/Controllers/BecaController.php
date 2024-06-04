@@ -583,7 +583,6 @@ class BecaController extends Controller
             elseif ($scoreTotal >= $answer_score_active['low_score']) $answerScore['socioeconomic_study'] = 'BAJO';
             $answerScore['score_total'] = $scoreTotal;
 
-
             // if ($scoreTotal >= $answer_score_active['low_score'] && $scoreTotal < $answer_score_active['medium_low_score']) $answerScore['socioeconomic_study'] = 'BAJO';
             // elseif ($scoreTotal >= $answer_score_active['medium_low_score'] && $scoreTotal < $answer_score_active['medium_score']) $answerScore['socioeconomic_study'] = 'MEDIO-BAJO';
             // elseif ($scoreTotal >= $answer_score_active['medium_score']) $answerScore['socioeconomic_study'] = 'MEDIO';
