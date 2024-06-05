@@ -185,7 +185,7 @@ class MenuSeeder extends Seeder
             'url' => '/admin/solicitudes/',
             'icon' => 'IconStack3',
             'order' => $order,
-            'others_permissions' => "16@Validar Documentos, 16@Continuar, 16@Corregir Documentos, 16@Evaluar, 16@Aprobar, 16@Pagar, 16@Rechazar, 16@Cancelar, 16@Exportar Lista Pública, 16@Exportar Lista Contraloría",
+            'others_permissions' => "16@Ver Puntaje, 16@Validar Documentos, 16@Continuar, 16@Corregir Documentos, 16@Evaluar, 16@Aprobar, 16@Pagar, 16@Rechazar, 16@Cancelar, 16@Exportar Lista Pública, 16@Exportar Lista Contraloría",
             'created_at' => now(),
         ]);
         $order += 1;
@@ -249,7 +249,7 @@ class MenuSeeder extends Seeder
             'icon' => 'IconFileDollar',
             'order' => $order,
             'show_counter' => true,
-            'counter_name' => 'requesPayed',
+            'counter_name' => 'requestPayed',
             // 'others_permissions' => "",
             'created_at' => now(),
         ]);
