@@ -35,6 +35,7 @@ class Beca extends Model
         'under_protest',
         'comments',
         'socioeconomic_study',
+        'score_total',
         'status',
         'end_date',
         'active',
