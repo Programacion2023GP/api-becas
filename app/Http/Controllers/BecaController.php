@@ -592,7 +592,8 @@ class BecaController extends Controller
             // var_dump($answerScore, $scoreTotal);
 
             $beca = Beca::find($beca_view->id);
-            $beca->socioeconomic_study = $answerScore['socioeconomic_study'];
+            // var_dump($beca);
+            // $beca->socioeconomic_study = $answerScore['socioeconomic_study'];
             $beca->score_total = $answerScore['score_total'];
             $beca->save();
 
