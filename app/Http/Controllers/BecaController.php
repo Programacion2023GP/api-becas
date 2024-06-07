@@ -470,14 +470,15 @@ class BecaController extends Controller
             $instanceAnswerScore = new AnswerScoreController();
             $answer_score_active = $instanceAnswerScore->getAnswerScoreActive($request, $response, true);
             $answerScoreTemp = [];
-            $answerScore = array(
-                'id' => 0,
-                'low_score' => 0,
-                'medium_low_score' => 0,
-                'medium_score' => 0,
-                'score_total' => 0,
-                'socioeconomic_study' => 'SIN EVALUAR'
-            );
+            $answerScore = [];
+            // $answerScore = array(
+            //     'id' => 0,
+            //     'low_score' => 0,
+            //     'medium_low_score' => 0,
+            //     'medium_score' => 0,
+            //     'score_total' => 0,
+            //     'socioeconomic_study' => 'SIN EVALUAR'
+            // );
             // return $beca_view;
             $familys = [];
             $familysResponse = [];
