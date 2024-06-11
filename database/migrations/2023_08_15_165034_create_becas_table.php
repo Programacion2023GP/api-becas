@@ -39,7 +39,7 @@ return new class extends Migration
             $table->dateTime('end_date')->nullable();
 
             $table->integer('rejected_by')->nullable();
-            $table->dateTime('rejected_feedback')->nullable();
+            $table->text('rejected_feedback')->nullable();
             $table->dateTime('rejected_at')->nullable();
 
             $table->string('second_ref')->nullable()->comment("esto indica si habra una segunda persona que pueda recoger la beca");
