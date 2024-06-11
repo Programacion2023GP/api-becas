@@ -164,7 +164,9 @@ class BecaController extends Controller
             if (!$internal) return response()->json($response, $response->data["status_code"]);
             else return 1;
         } catch (\Exception $ex) {
-            error_log($ex->getMessage());
+            $msg =  "Error al actualizar el estatus de la Beca: " . $ex->getMessage();
+            $response->data = ObjResponse::CatchResponse($msg);
+            error_log($msg);
             if (!$internal) return response()->json($response, $response->data["status_code"]);
             else return 0;
         }
