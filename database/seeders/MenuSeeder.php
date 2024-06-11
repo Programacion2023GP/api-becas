@@ -199,6 +199,7 @@ class MenuSeeder extends Seeder
             'show_counter' => true,
             'counter_name' => 'requestByUser',
             // 'others_permissions' => "",
+            "read_only" => true,
             'created_at' => now(),
         ]);
         $order += 1;
@@ -212,6 +213,7 @@ class MenuSeeder extends Seeder
             'show_counter' => true,
             'counter_name' => 'requestInReview',
             // 'others_permissions' => "",
+            "read_only" => true,
             'created_at' => now(),
         ]);
         $order += 1;
@@ -225,6 +227,7 @@ class MenuSeeder extends Seeder
             'show_counter' => true,
             'counter_name' => 'requestInEvaluation',
             // 'others_permissions' => "",
+            "read_only" => true,
             'created_at' => now(),
         ]);
         $order += 1;
@@ -238,6 +241,7 @@ class MenuSeeder extends Seeder
             'show_counter' => true,
             'counter_name' => 'requestApproved',
             // 'others_permissions' => "",
+            "read_only" => true,
             'created_at' => now(),
         ]);
         $order += 1;
@@ -251,6 +255,7 @@ class MenuSeeder extends Seeder
             'show_counter' => true,
             'counter_name' => 'requestPayed',
             // 'others_permissions' => "",
+            "read_only" => true,
             'created_at' => now(),
         ]);
         $order += 1;
@@ -264,6 +269,7 @@ class MenuSeeder extends Seeder
             'show_counter' => true,
             'counter_name' => 'requestRejected',
             // 'others_permissions' => "",
+            "read_only" => true,
             'created_at' => now(),
         ]);
         $order += 1;
@@ -277,6 +283,7 @@ class MenuSeeder extends Seeder
             'show_counter' => true,
             'counter_name' => 'requestRejected',
             // 'others_permissions' => "",
+            "read_only" => true,
             'created_at' => now(),
         ]);
     }

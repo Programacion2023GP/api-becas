@@ -31,6 +31,7 @@ class Menu extends Model
         'show_counter',
         'counter_name',
         'others_permissions',
+        'read_only',
         'active',
         'deleted_at'
     ];
