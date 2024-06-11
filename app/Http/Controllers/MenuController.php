@@ -193,6 +193,7 @@ class MenuController extends Controller
             $menu->order = $request->order;
             $menu->others_permissions = $request->others_permissions;
             $menu->show_counter = (bool)$request->show_counter;
+            $menu->read_only = (bool)$request->read_only;
             $menu->counter_name = $request->counter_name;
             $menu->active = (bool)$request->active;
 

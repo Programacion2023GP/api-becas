@@ -30,6 +30,7 @@ return new class extends Migration
             $table->boolean('show_counter')->default(false);
             $table->string('counter_name', 100)->nullable();
             $table->longText('others_permissions')->nullable();
+            $table->boolean('read_only')->default(false)->comment("solo tendra la casilla de lectura, porque sus permisos se concentran en una 'pagina maestra'");
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();
