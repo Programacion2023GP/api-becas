@@ -14,6 +14,7 @@ use App\Http\Controllers\Beca1StudentDataController;
 use App\Http\Controllers\Beca1TutorDataController;
 use App\Http\Controllers\Beca2FamilyDataController;
 use App\Http\Controllers\Beca7DocumentDataController;
+use App\Http\Controllers\BecaApprovedController;
 use App\Http\Controllers\BecaController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\MenuController;
@@ -142,6 +143,9 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::delete('/students/{id}', 'destroy');
    });
 
+   Route::controller(BecaApprovedController::class)->group(function () {
+      Route::post('/becas/approved', 'index');
+   });
    Route::controller(BecaController::class)->group(function () {
       Route::get('/becas', 'index');
       Route::get('/becas/status/{status}', 'index');
