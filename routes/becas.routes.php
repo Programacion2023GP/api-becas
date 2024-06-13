@@ -144,7 +144,7 @@ Route::middleware('auth:sanctum')->group(function () {
    });
 
    Route::controller(BecaApprovedController::class)->group(function () {
-      Route::post('/becas/approved', 'index');
+      Route::get('/becas/approved', 'index');
    });
    Route::controller(BecaController::class)->group(function () {
       Route::get('/becas', 'index');
