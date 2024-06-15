@@ -23,7 +23,7 @@ class RoleSeeder extends Seeder
                 'create' => 'todas',
                 'update' => 'todas',
                 'delete' => 'todas',
-                'more_permissions' => '6@Asignar Permisos,14@Asignar Perímetro,16@Ver Puntaje,16@Continuar,16@Validar Documentos,16@Evaluar,16@Rechazar,16@Aprobar,16@Cancelar,16@Exportar Lista Contraloría,16@Exportar Lista Pública,16@Pagar,16@Corregir Documentos',
+                'more_permissions' => '6@Asignar Permisos,15@Asignar Perímetro,17@Ver Puntaje,17@Continuar,17@Validar Documentos,17@Evaluar,17@Rechazar,17@Aprobar,17@Cancelar,17@Exportar Lista Contraloría,17@Exportar Lista Pública,17@Pagar,17@Corregir Documentos',
                 'created_at' => now(),
             ], [
                 'role' => 'Administrador',
@@ -32,16 +32,16 @@ class RoleSeeder extends Seeder
                 'create' => 'todas',
                 'update' => 'todas',
                 'delete' => 'todas',
-                'more_permissions' => '6@Asignar Permisos,14@Asignar Perímetro,16@Ver Puntaje,16@Continuar,16@Validar Documentos,16@Evaluar,16@Rechazar,16@Aprobar,16@Cancelar,16@Exportar Lista Contraloría,16@Exportar Lista Pública,16@Pagar,16@Corregir Documentos',
+                'more_permissions' => '6@Asignar Permisos,15@Asignar Perímetro,17@Ver Puntaje,17@Continuar,17@Validar Documentos,17@Evaluar,17@Rechazar,17@Aprobar,17@Cancelar,17@Exportar Lista Contraloría,17@Exportar Lista Pública,17@Pagar,17@Corregir Documentos',
                 'created_at' => now(),
             ], [
                 'role' => 'Ciudadano',
                 'description' => 'Rol dedicado para el ciudadano.',
-                'read' => '1,3,15,17',
-                'create' => '3,17',
+                'read' => '1,3,16,18',
+                'create' => '3,18',
                 'update' => '',
                 'delete' => '',
-                'more_permissions' => '16@Continuar,16@Cancelar,16@Corregir Documentos',
+                'more_permissions' => '17@Continuar,17@Cancelar,17@Corregir Documentos',
                 'created_at' => now(),
             ]
         ]);
