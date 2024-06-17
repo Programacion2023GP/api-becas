@@ -13,13 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->default(0)->comment("Si el usuario es 0 es porque lo envio el sistema");
-            $table->foreignId('destination_user_id')->default(0)->comment("Si el destino es 0 es porque es para todos");
-            $table->string('title');
-            $table->text('message');
-            $table->boolean('read')->nullable();
+            #Seccion generales
+            $table->text('description')->nullable();
+            #Seccion catalogos
+            $table->string('filtered_state_ids')->nullable();
+            #Seccion becas
+            $table->integer('monthly_income_min')->default(0);
+            $table->integer('total_expenses_min')->default(0);
+            // $table->dateTime('')
 
             $table->boolean('active')->default(true);
             $table->timestamps();
@@ -34,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('settings');
     }
 };
