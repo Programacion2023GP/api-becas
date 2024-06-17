@@ -32,7 +32,7 @@ class RoleSeeder extends Seeder
                 'create' => 'todas',
                 'update' => 'todas',
                 'delete' => 'todas',
-                'more_permissions' => 'Asignar Permisos,Asignar Perímetro,Ver Puntaje,Continuar Solicitud,Validar Documentos,Evaluar Solicitud,Rechazar Solicitud,Aprobar Solicitud,Cancelar Solicitud,Exportar Lista Contraloría,Exportar Lista Pública,Pagar Solicitud,Corregir Documentos',
+                'more_permissions' => 'Asignar Permisos,Asignar Perímetro,Ver Puntaje,Continuar Solicitud,Validar Documentos,Evaluar Solicitud,Cancelar Solicitud,Exportar Lista Contraloría,Exportar Lista Pública,Pagar Solicitud,Corregir Documentos',
                 'created_at' => now(),
             ], [
                 'role' => 'Ciudadano',
