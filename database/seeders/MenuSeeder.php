@@ -236,7 +236,7 @@ class MenuSeeder extends Seeder
             'order' => $order,
             'show_counter' => true,
             'counter_name' => 'requestInEvaluation',
-            'others_permissions' => "Evaluar Solicitud,",
+            'others_permissions' => "Evaluar Solicitud",
             "read_only" => true,
             'created_at' => now(),
         ]);

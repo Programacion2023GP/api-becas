@@ -24,15 +24,18 @@ class RoleSeeder extends Seeder
                 'update' => 'todas',
                 'delete' => 'todas',
                 'more_permissions' => 'todas',
+                'page_index' => '/app',
                 'created_at' => now(),
             ], [
                 'role' => 'Administrador',
                 'description' => 'Rol dedicado para usuarios que gestionaran el sistema.',
-                'read' => 'todas',
-                'create' => 'todas',
-                'update' => 'todas',
-                'delete' => 'todas',
-                'more_permissions' => 'Asignar Permisos,Asignar Perímetro,Ver Puntaje,Continuar Solicitud,Validar Documentos,Evaluar Solicitud,Cancelar Solicitud,Exportar Lista Contraloría,Exportar Lista Pública,Pagar Solicitud,Corregir Documentos',
+                'read' => '1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24',
+                'create' => '1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24',
+                'update' => '1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24',
+                'delete' => '1,2,3,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24',
+                'more_permissions' => 'Asignar Permisos,Asignar Perímetro,Ver Puntaje,Continuar Solicitud,Validar Documentos,Evaluar
+Solicitud,Cancelar Solicitud,Exportar Lista Contraloría,Exportar Lista Pública,Pagar Solicitud,Corregir Documentos',
+                'page_index' => '/app',
                 'created_at' => now(),
             ], [
                 'role' => 'Ciudadano',
@@ -42,6 +45,7 @@ class RoleSeeder extends Seeder
                 'update' => '',
                 'delete' => '',
                 'more_permissions' => 'Continuar Solicitud,Cancelar Solicitud,Corregir Documentos',
+                'page_index' => '/app/solicitudes/',
                 'created_at' => now(),
             ]
         ]);
