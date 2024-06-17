@@ -80,7 +80,7 @@ class MenuSeeder extends Seeder
             'belongs_to' => $menuAdmin,
             'url' => '/app/configuraciones/roles-y-permisos',
             'icon' => 'IconPaperBag',
-            'others_permissions' => "6@Asignar Permisos",
+            'others_permissions' => "Asignar Permisos",
             'order' => $order,
             'created_at' => now(),
         ]);
@@ -109,7 +109,7 @@ class MenuSeeder extends Seeder
             'menu' => 'Ajustes',
             'type' => 'item',
             'belongs_to' => $menuAdmin,
-            'url' => '/app/configuraciones/Ajustes',
+            'url' => '/app/configuraciones/ajustes',
             'icon' => 'IconAdjustmentsAlt',
             'order' => $order,
             'created_at' => now(),
@@ -172,7 +172,7 @@ class MenuSeeder extends Seeder
             'belongs_to' => $menuCatalogs,
             'url' => '/app/catalogos/comunidades',
             'icon' => 'IconMapPin',
-            'others_permissions' => "15@Asignar Perímetro",
+            'others_permissions' => "Asignar Perímetro",
             'order' => $order,
             'created_at' => now(),
         ]);
@@ -195,7 +195,7 @@ class MenuSeeder extends Seeder
             'url' => '/app/solicitudes/',
             'icon' => 'IconStack3',
             'order' => $order,
-            'others_permissions' => "17@Ver Puntaje, 17@Validar Documentos, 17@Continuar, 17@Corregir Documentos, 17@Evaluar, 17@Aprobar, 17@Pagar, 17@Rechazar, 17@Cancelar, 17@Exportar Lista Pública, 17@Exportar Lista Contraloría",
+            'others_permissions' => "Ver Puntaje, Continuar Solicitud, Evaluar Solicitud, Cancelar Solicitud",
             'created_at' => now(),
         ]);
         $order += 1;
@@ -222,7 +222,7 @@ class MenuSeeder extends Seeder
             'order' => $order,
             'show_counter' => true,
             'counter_name' => 'requestInReview',
-            // 'others_permissions' => "",
+            'others_permissions' => "Validar Documentos, Corregir Documentos",
             "read_only" => true,
             'created_at' => now(),
         ]);
@@ -236,7 +236,7 @@ class MenuSeeder extends Seeder
             'order' => $order,
             'show_counter' => true,
             'counter_name' => 'requestInEvaluation',
-            // 'others_permissions' => "",
+            'others_permissions' => "Aprobar Solicitud, Rechazar Solicitud",
             "read_only" => true,
             'created_at' => now(),
         ]);
@@ -250,7 +250,7 @@ class MenuSeeder extends Seeder
             'order' => $order,
             'show_counter' => true,
             'counter_name' => 'requestApproved',
-            // 'others_permissions' => "",
+            'others_permissions' => "Pagar Solicitud, Exportar Lista Pública, Exportar Lista Contraloría",
             "read_only" => true,
             'created_at' => now(),
         ]);
