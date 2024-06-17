@@ -195,7 +195,7 @@ class MenuSeeder extends Seeder
             'url' => '/app/solicitudes/',
             'icon' => 'IconStack3',
             'order' => $order,
-            'others_permissions' => "Ver Puntaje, Continuar Solicitud, Evaluar Solicitud, Cancelar Solicitud",
+            'others_permissions' => "Ver Puntaje, Continuar Solicitud,  Cancelar Solicitud",
             'created_at' => now(),
         ]);
         $order += 1;
@@ -236,7 +236,7 @@ class MenuSeeder extends Seeder
             'order' => $order,
             'show_counter' => true,
             'counter_name' => 'requestInEvaluation',
-            'others_permissions' => "Aprobar Solicitud, Rechazar Solicitud",
+            'others_permissions' => "Evaluar Solicitud,",
             "read_only" => true,
             'created_at' => now(),
         ]);
