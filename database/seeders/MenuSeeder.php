@@ -291,7 +291,7 @@ class MenuSeeder extends Seeder
             'icon' => 'IconFilesOff',
             'order' => $order,
             'show_counter' => true,
-            'counter_name' => 'requestRejected',
+            'counter_name' => 'requestCanceled',
             // 'others_permissions' => "",
             "read_only" => true,
             'created_at' => now(),

@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BecaPaid extends Model
+class BecaPaymentDetail extends Model
 {
     use HasFactory;
 
@@ -22,10 +22,13 @@ class BecaPaid extends Model
      */
     protected $fillable = [
         'id',
-        'beca_id',
-        'paid',
-        'payments',
-        'total_amount',
+        'beca_paid_id',
+        'paid_by',
+        'relationship_id',
+        'paid_to',
+        'amount_paid',
+        'img_evidence',
+        'paid_feedback',
         'active',
         'deleted_at'
     ];
@@ -34,7 +37,7 @@ class BecaPaid extends Model
      * Nombre de la tabla asociada al modelo.
      * @var string
      */
-    protected $table = 'becas_paid';
+    protected $table = 'becas_payment_details';
 
     /**
      * LlavePrimaria asociada a la tabla.
@@ -46,17 +49,17 @@ class BecaPaid extends Model
     /**
      * Obtener usuario asociada con la beca aprovada.
      */
-    // public function user()
-    // {   //primero se declara FK y despues la PK del modelo asociado
-    //     return $this->belongsTo(User::class, 'user_id', 'id');
-    // }
+    public function user()
+    {   //primero se declara FK y despues la PK del modelo asociado
+        return $this->belongsTo(User::class, 'paid_by', 'id');
+    }
 
     /**
      * Obtener beca asociada con la beca aprovada.
      */
     public function beca()
     {   //primero se declara FK y despues la PK del modelo asociado
-        return $this->belongsTo(Beca::class, 'beca_id', 'id');
+        return $this->belongsTo(Beca::class, 'beca_paid_id', 'id');
     }
 
 

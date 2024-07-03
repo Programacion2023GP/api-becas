@@ -154,6 +154,11 @@ class BecaController extends Controller
                 $beca_approved =  $becaApprovedController->createOrUpdate($response, $request, null, $beca->id, true);
                 // return $beca_approved;
                 // return "checkPoint 2 - $status";
+            } elseif ($status == "PAGANDO") {
+                $becaPaidController = new BecaPaidController();
+                $beca_paid =  $becaPaidController->createOrUpdate($response, $request, null, $beca->id, true);
+                // return $beca_paid;
+                // return "checkPoint 2 - $status";
             }
             $beca->save();
 

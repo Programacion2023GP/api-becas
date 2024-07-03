@@ -15,12 +15,11 @@ return new class extends Migration
     {
         Schema::create('becas_paid', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users', 'id');
             $table->foreignId('beca_id')->constrained('becas', 'id');
-            $table->boolean('paid')->default(true);
-            $table->decimal('amount', 8, 2)->default(0.00);
-            $table->text('feedback')->nullable();
-
+            $table->boolean('paid')->default(false);
+            $table->integer('payments')->default(0);
+            $table->decimal('total_amount', 8, 2)->default(0.00);
+            
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->dateTime('deleted_at')->nullable();
