@@ -143,9 +143,9 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::delete('/students/{id}', 'destroy');
    });
 
-   Route::controller(BecaApprovedController::class)->group(function () {
-      Route::get('/becas/approved', 'index');
-   });
+   // Route::controller(BecaApprovedController::class)->group(function () {
+   //    Route::get('/becas/approved', 'index');
+   // });
    Route::controller(BecaController::class)->group(function () {
       Route::get('/becas', 'index');
       Route::get('/becas/status/{status}', 'index');
@@ -162,6 +162,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
       Route::get('/becas/report/folio/{folio}', 'getReportRequestByFolio');
       Route::post('/becas/updateStatus/folio/{folio}/status/{status}', 'updateStatus');
+
+      Route::get('/becas/approved', 'getBecasApproved');
+
 
       Route::get('/becas/calculateRequest/folio/{folio}', 'calculateRequest');
    });

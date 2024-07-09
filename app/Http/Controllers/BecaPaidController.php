@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Beca;
 use App\Models\BecaPaid;
 use App\Models\BecaView;
 use Illuminate\Http\Request;
@@ -39,33 +40,44 @@ class BecaPaidController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $beca_paid = BecaPaid::find($id);
+            $beca_paid = $beca_id > 0 ? BecaPaid::where('beca_id', $beca_id)->get() : BecaPaid::find($id);
             if (!$beca_paid) $beca_paid = new BecaPaid();
 
-            // # VALIDACIONES
-            // # 1.- Cuantos pagos se daran en esta ocasion? (al tener la tabla de configuraciones) obtendremos si ya se pago la beca completamente
             $paid = false;
-            if (!$paid) {
-                $becaPaymentDetailController->createOrUpdate($response, $request, null, $beca_paid->id, true);
-            }
-
-            // # 2.- Cuantos pagos tiene registrados y su monto?
-            $becaPaymentDetailController = new BecaPaymentDetailController();
-            $paymentsDetail = $becaPaymentDetailController->index($response, $beca_paid->id, true);
-            $payments = count($paymentsDetail);
+            $payments = 0;
             $total_amount = 0;
-            foreach ($paymentsDetail as $payment) {
-                $total_amount += $payment['amount_paid'];
-            }
 
-            $beca_paid->beca_id = $request->beca_id;
+            $beca_paid->beca_id = $beca_id > 0 ? $beca_id : $request->beca_id;
             $beca_paid->paid = $paid;
             $beca_paid->payments = $payments;
             $beca_paid->total_amount = $total_amount;
-
             // return $beca_paid;
             $beca_paid->save();
-            if ((bool)$internal) return $beca_paid; # al regresar a la beca, si paid es true, cambiar status a "PAGADO"
+
+            // # VALIDACIONES
+            if ($beca_id) {
+                // # 1.- Cuantos pagos se daran en esta ocasion? (al tener la tabla de configuraciones) obtendremos si ya se pago la beca completamente (es decir 1/1 o 3/3)
+                #consulta
+                $becaPaymentDetailController = new BecaPaymentDetailController();
+                if (!$paid) {
+                    $becaPaymentDetailController->createOrUpdate($response, $request, null, $beca_paid->id, true);
+                }
+
+                // # 2.- Cuantos pagos tiene registrados y su monto?
+                $paymentsDetail = $becaPaymentDetailController->index($response, $beca_paid->id, true);
+                $payments = count($paymentsDetail);
+                foreach ($paymentsDetail as $payment) {
+                    $total_amount += $payment['amount_paid'];
+                }
+            }
+            $beca_paid->paid = $paid;
+            $beca_paid->payments = $payments;
+            $beca_paid->total_amount = $total_amount;
+            // return $beca_paid;
+            $beca_paid->save();
+
+
+            if ((bool)$internal) return $beca_paid;
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = $id > 0 ? 'peticion satisfactoria | beca pagada editada.' : 'peticion satisfactoria | beca pagada registrada.';

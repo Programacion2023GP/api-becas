@@ -13,12 +13,16 @@ return new class extends Migration
     public function up()
     {
         DB::statement("
-        CREATE OR REPLACE VIEW becas_approved_view AS
-        SELECT bv.*, ba.user_id 'user_approved_id', ua.username 'user_approved', ba.feedback, ba. created_at 'created_at_approved' FROM becas_approved ba
-        INNER JOIN  becas_view bv ON ba.beca_id=bv.id
-        INNER JOIN users ua ON ba.user_id=ua.id
-        WHERE ba.active=1;
+        CREATE OR REPLACE VIEW vw_becas_approved AS
+        SELECT * FROM becas_view WHERE status IN ('APROBADA');
         ");
+        // DB::statement("
+        // CREATE OR REPLACE VIEW becas_approved_view AS
+        // SELECT bv.*, ba.user_id 'user_approved_id', ua.username 'user_approved', ba.feedback, ba. created_at 'created_at_approved' FROM becas_approved ba
+        // INNER JOIN  becas_view bv ON ba.beca_id=bv.id
+        // INNER JOIN users ua ON ba.user_id=ua.id
+        // WHERE ba.active=1;
+        // ");
     }
 
     /**
