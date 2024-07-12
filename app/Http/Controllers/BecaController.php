@@ -250,18 +250,18 @@ class BecaController extends Controller
             $userAuth = Auth::user();
 
             // $values = explode(',', $status);
-            $View = new BecaView();
-            if ($status == "EN REVISIÓN") $View = new BecaInReviewView();
-            elseif ($status == "EN EVALUACIÓN") $View = new BecaInEvaluationView();
-            elseif ($status == "APROBADA") $View = new BecaApprovedView();
-            elseif ($status == "PAGADA") $View = new BecaPaidView();
-            elseif ($status == "ENTREGADA") $View = new BecaDeliveredView();
-            elseif ($status == "RECHAZADA") $View = new BecaRejectedView();
-            elseif ($status == "CANCELADA") $View = new BecaCanceledView();
+            $ViewBecas = new BecaView();
+            if ($status == "EN REVISIÓN") $ViewBecas = new BecaInReviewView();
+            elseif ($status == "EN EVALUACIÓN") $ViewBecas = new BecaInEvaluationView();
+            elseif ($status == "APROBADA") $ViewBecas = new BecaApprovedView();
+            elseif ($status == "PAGADA") $ViewBecas = new BecaPaidView();
+            elseif ($status == "ENTREGADA") $ViewBecas = new BecaDeliveredView();
+            elseif ($status == "RECHAZADA") $ViewBecas = new BecaRejectedView();
+            elseif ($status == "CANCELADA") $ViewBecas = new BecaCanceledView();
 
-            $list = $userAuth->role_id == 3 ? $View::where('user_id', $userAuth->id)->get() : $View::all();
-            // if (!$status) $list = $userAuth->role_id == 3 ? $View::where('user_id', $userAuth->id)->get() : $View::all();
-            // else $list = $userAuth->role_id == 3 ? $View::where('user_id', $userAuth->id)->whereIn('status', $values)->get() : $View::whereIn('status', $values)->get();
+            $list = $userAuth->role_id == 3 ? $ViewBecas::where('user_id', $userAuth->id)->get() : $ViewBecas::all();
+            // if (!$status) $list = $userAuth->role_id == 3 ? $ViewBecas::where('user_id', $userAuth->id)->get() : $ViewBecas::all();
+            // else $list = $userAuth->role_id == 3 ? $ViewBecas::where('user_id', $userAuth->id)->whereIn('status', $values)->get() : $ViewBecas::whereIn('status', $values)->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de becas.';
             $response->data["result"] = $list;
