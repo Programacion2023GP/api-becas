@@ -156,17 +156,15 @@ class BecaController extends Controller
                 $beca->approved = false;
                 $beca->rejected_by = $userAuth->id;
                 $beca->rejected_feedback = $request->rejected_feedback;
-                $beca->rejected_at = $request->rejected_at; #new Date();
+                $beca->rejected_at = $request->rejected_at;
             } elseif ($status == "APROBADA") {
                 // $becaApprovedController = new BecaApprovedController();
                 // $beca_approved =  $becaApprovedController->createOrUpdate($response, $request, null, $beca->id, true);
                 $beca->approved = true;
                 $beca->approved_by = $userAuth->id;
                 $beca->approved_feedback = $request->approved_feedback;
-                $beca->approved_at = new Date();
+                $beca->approved_at = $request->paid_at;
             } elseif ($status == "PAGANDO") {
-                // $becaPaidController = new BecaPaidController();
-                // $beca_paid =  $becaPaidController->createOrUpdate($response, $request, null, $beca->id, true);
                 $paid = false;
                 $payments = 0;
                 $total_amount = 0;
@@ -195,7 +193,7 @@ class BecaController extends Controller
             } elseif ($status == "CANCELADA") {
                 $beca->canceled_by = $userAuth->id;
                 $beca->canceled_feedback = $request->canceled_feedback;
-                $beca->approved_at = new Date();
+                $beca->approved_at = $request->canceled_at;
             }
             $beca->save();
 
