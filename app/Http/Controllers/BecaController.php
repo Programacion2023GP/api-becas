@@ -6,6 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\AnswerScore;
 use App\Models\Beca;
 use App\Models\Beca6ScholarshipProgramData;
+use App\Models\BecaApproved;
+use App\Models\BecaApprovedView;
+use App\Models\BecaCanceledView;
+use App\Models\BecaDeliveredView;
+use App\Models\BecaInEvaluationView;
+use App\Models\BecaRejectedView;
+use App\Models\BecaInReviewView;
+use App\Models\BecaPaidView;
 use App\Models\BecaView;
 use App\Models\ObjResponse;
 
@@ -17,7 +25,6 @@ use App\ModelsView;
 use DateTime;
 use Illuminate\Support\Facades\Date;
 
-use function PHPUnit\Framework\countOf;
 
 class BecaController extends Controller
 {
@@ -143,22 +150,50 @@ class BecaController extends Controller
                 $response->data["alert_text"] = "La Beca buscada no fue encontrada";
                 return response()->json($response, $response->data["status_code"]);
             }
+            $userAuth = Auth::user();
             $beca->status = $status;
             if ($status == "RECHAZADA") {
-                $userAuth = Auth::user();
+                $beca->approved = false;
                 $beca->rejected_by = $userAuth->id;
                 $beca->rejected_feedback = $request->rejected_feedback;
                 $beca->rejected_at = $request->rejected_at;
             } elseif ($status == "APROBADA") {
-                $becaApprovedController = new BecaApprovedController();
-                $beca_approved =  $becaApprovedController->createOrUpdate($response, $request, null, $beca->id, true);
-                // return $beca_approved;
-                // return "checkPoint 2 - $status";
+                // $becaApprovedController = new BecaApprovedController();
+                // $beca_approved =  $becaApprovedController->createOrUpdate($response, $request, null, $beca->id, true);
+                $beca->approved = true;
+                $beca->approved_by = $userAuth->id;
+                $beca->approved_feedback = $request->approved_feedback;
+                $beca->approved_at = $request->paid_at;
             } elseif ($status == "PAGANDO") {
-                $becaPaidController = new BecaPaidController();
-                $beca_paid =  $becaPaidController->createOrUpdate($response, $request, null, $beca->id, true);
-                // return $beca_paid;
-                // return "checkPoint 2 - $status";
+                $paid = false;
+                $payments = 0;
+                $total_amount = 0;
+
+                // # VALIDACIONES
+                // # 1.- Cuantos pagos se daran en esta ocasion? (al tener la tabla de configuraciones) obtendremos si ya se pago la beca completamente (es decir 1/1 o 3/3)
+                #consulta
+                $becaPaymentDetailController = new BecaPaymentDetailController();
+                if (!$paid) {
+                    $becaPaymentDetailController->createOrUpdate($response, $request, null, $beca->id, true);
+                }
+
+                // # 2.- Cuantos pagos tiene registrados y su monto?
+                $paymentsDetail = $becaPaymentDetailController->index($response, $beca->id, true);
+                $payments = count($paymentsDetail);
+                foreach ($paymentsDetail as $payment) {
+                    $total_amount += $payment['amount_paid'];
+                }
+
+                $beca->paid = $paid;
+                $beca->payments = $payments;
+                $beca->total_amount = $total_amount;
+                // return $beca;
+
+                if ((bool)$paid) $beca->status = "PAGADO";
+            } elseif ($status == "CANCELADA") {
+                $beca->canceled_by = $userAuth->id;
+                $beca->canceled_feedback = $request->canceled_feedback;
+                $beca->approved_at = $request->canceled_at;
             }
             $beca->save();
 
@@ -177,6 +212,29 @@ class BecaController extends Controller
         }
     }
 
+    /**
+     * Mostrar lista de becas activas por estatus.
+     *
+     * @return \Illuminate\Http\Response $response
+     */
+    public function getBecasByStatus(Response $response, string $status = null)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $userAuth = Auth::user();
+
+            $values = explode(',', $status);
+            if (!$status) $list = $userAuth->role_id == 3 ? BecaView::where('user_id', $userAuth->id)->get() : BecaView::all();
+            else $list = $userAuth->role_id == 3 ? BecaView::where('user_id', $userAuth->id)->whereIn('status', $values)->get() : BecaView::whereIn('status', $values)->get();
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'Peticion satisfactoria | Lista de becas.';
+            $response->data["result"] = $list;
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+
     //#region CRUD
     /**
      * Mostrar lista de becas activas.
@@ -189,9 +247,19 @@ class BecaController extends Controller
         try {
             $userAuth = Auth::user();
 
-            $values = explode(',', $status);
-            if (!$status) $list = $userAuth->role_id == 3 ? BecaView::where('user_id', $userAuth->id)->get() : BecaView::all();
-            else $list = $userAuth->role_id == 3 ? BecaView::where('user_id', $userAuth->id)->whereIn('status', $values)->get() : BecaView::whereIn('status', $values)->get();
+            // $values = explode(',', $status);
+            $ViewBecas = new BecaView();
+            if ($status == "EN REVISIÓN") $ViewBecas = new BecaInReviewView();
+            elseif ($status == "EN EVALUACIÓN") $ViewBecas = new BecaInEvaluationView();
+            elseif ($status == "APROBADA") $ViewBecas = new BecaApprovedView();
+            elseif ($status == "PAGADA") $ViewBecas = new BecaPaidView();
+            elseif ($status == "ENTREGADA") $ViewBecas = new BecaDeliveredView();
+            elseif ($status == "RECHAZADA") $ViewBecas = new BecaRejectedView();
+            elseif ($status == "CANCELADA") $ViewBecas = new BecaCanceledView();
+
+            $list = $userAuth->role_id == 3 ? $ViewBecas::where('user_id', $userAuth->id)->get() : $ViewBecas::all();
+            // if (!$status) $list = $userAuth->role_id == 3 ? $ViewBecas::where('user_id', $userAuth->id)->get() : $ViewBecas::all();
+            // else $list = $userAuth->role_id == 3 ? $ViewBecas::where('user_id', $userAuth->id)->whereIn('status', $values)->get() : $ViewBecas::whereIn('status', $values)->get();
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de becas.';
             $response->data["result"] = $list;

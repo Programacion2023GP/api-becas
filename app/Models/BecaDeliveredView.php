@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BecaApprovedView extends Model
+class BecaDeliveredView extends Model
 {
     /**
      * Especificar la conexion si no es la por default
@@ -17,8 +17,7 @@ class BecaApprovedView extends Model
      * Nombre de la tabla asociada al modelo.
      * @var string
      */
-    protected $table = 'vw_becas_approved';
-    // protected $table = 'becas_approved_view';
+    protected $table = 'vw_becas_delivered';
 
     /**
      * LlavePrimaria asociada a la tabla.

@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('becas_payment_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('beca_paid_id')->constrained('becas_paid', 'id');
+            // $table->foreignId('beca_paid_id')->constrained('becas_paid', 'id');
+            $table->foreignId('beca_id')->constrained('becas', 'id');
             $table->foreignId('paid_by')->constrained('users', 'id');
             $table->foreignId('relationship_id')->constrained('relationships', 'id');
             $table->string('paid_to', 255);

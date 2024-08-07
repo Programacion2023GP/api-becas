@@ -15,11 +15,11 @@ class BecaPaymentDetailController extends Controller
      *
      * @return \Illuminate\Http\Response $response
      */
-    public function index(Response $response, Int $beca_paid_id = null, $internal = false)
+    public function index(Response $response, Int $beca_id = null, $internal = false)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $list = $beca_paid_id > 0 ? BecaPaymentDetail::where('beca_paid_id', $beca_paid_id)->where('active', 1)->get() : BecaPaymentDetail::where('active', 1);
+            $list = $beca_id > 0 ? BecaPaymentDetail::where('beca_id', $beca_id)->where('active', 1)->get() : BecaPaymentDetail::where('active', 1);
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'Peticion satisfactoria | Lista de detalle de pagos.';
             $response->data["result"] = $list;
@@ -37,14 +37,14 @@ class BecaPaymentDetailController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
      */
-    public function createOrUpdate(Response $response, Request $request, Int $id = null, Int $beca_paid_id = null, bool $internal = false)
+    public function createOrUpdate(Response $response, Request $request, Int $id = null, Int $beca_id = null, bool $internal = false)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
             $beca_payment_detail = BecaPaymentDetail::find($id);
             if (!$beca_payment_detail) $beca_payment_detail = new BecaPaymentDetail();
 
-            $beca_payment_detail->beca_paid_id = $beca_paid_id > 0 ? $beca_paid_id : $request->beca_paid_id;
+            $beca_payment_detail->beca_id = $beca_id > 0 ? $beca_id : $request->beca_id;
             $beca_payment_detail->paid_by = $request->paid_by;
             $beca_payment_detail->relationship_id = $request->relationship_id;
             $beca_payment_detail->paid_to = $request->paid_to;
