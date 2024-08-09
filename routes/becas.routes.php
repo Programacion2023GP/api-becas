@@ -163,7 +163,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/becas/report/folio/{folio}', 'getReportRequestByFolio');
       Route::post('/becas/updateStatus/folio/{folio}/status/{status}', 'updateStatus');
 
-      Route::get('/becas/approved', 'getBecasApproved');
+      // Route::get('/becas/approved', 'getBecasApproved');
 
 
       Route::get('/becas/calculateRequest/folio/{folio}', 'calculateRequest');
