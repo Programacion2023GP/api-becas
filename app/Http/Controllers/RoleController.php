@@ -211,6 +211,8 @@ class RoleController extends Controller
 
             $role->save();
 
+            DB::table('personal_access_tokens')->where('abilities', $role->role)->delete();
+
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | permisos actualizado.';
             $response->data["alert_text"] = 'Permisos actualizados';
