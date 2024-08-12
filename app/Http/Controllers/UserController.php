@@ -51,7 +51,7 @@ class UserController extends Controller
                 'alert_icon' => 'error',
             ]);
         }
-        $token = $user->createToken($user->email, ['user'])->plainTextToken;
+        $token = $user->createToken($user->email, [$user->role])->plainTextToken;
         // dd();
         $response->data = ObjResponse::CorrectResponse();
         $response->data["message"] = "peticion satisfactoria | usuario logeado. " . Auth::user();
@@ -101,7 +101,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'username' => $request->username,
                 'password' => Hash::make($request->password),
-                'role_id' => 3,  //usuario normal
+                'role_id' => 3,  //usuario normal - Ciudadano
             ]);
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | usuario registrado.';
