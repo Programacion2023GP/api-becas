@@ -151,19 +151,19 @@ class BecaController extends Controller
                 return response()->json($response, $response->data["status_code"]);
             }
             $userAuth = Auth::user();
+            $datetime = date("Y-m-d H:i:s");
+
             $beca->status = $status;
             if ($status == "RECHAZADA") {
                 $beca->approved = false;
                 $beca->rejected_by = $userAuth->id;
                 $beca->rejected_feedback = $request->rejected_feedback;
-                $beca->rejected_at = $request->rejected_at;
+                $beca->rejected_at = $datetime;
             } elseif ($status == "APROBADA") {
-                // $becaApprovedController = new BecaApprovedController();
-                // $beca_approved =  $becaApprovedController->createOrUpdate($response, $request, null, $beca->id, true);
                 $beca->approved = true;
                 $beca->approved_by = $userAuth->id;
                 $beca->approved_feedback = $request->approved_feedback;
-                $beca->approved_at = $request->paid_at;
+                $beca->approved_at = $datetime;
             } elseif ($status == "PAGANDO") {
                 $paid = false;
                 $payments = 0;
@@ -174,6 +174,7 @@ class BecaController extends Controller
                 #consulta
                 $becaPaymentDetailController = new BecaPaymentDetailController();
                 if (!$paid) {
+                    echo "beca->id: $beca->id";
                     $becaPaymentDetailController->createOrUpdate($response, $request, null, $beca->id, true);
                 }
 
@@ -193,7 +194,7 @@ class BecaController extends Controller
             } elseif ($status == "CANCELADA") {
                 $beca->canceled_by = $userAuth->id;
                 $beca->canceled_feedback = $request->canceled_feedback;
-                $beca->approved_at = $request->canceled_at;
+                $beca->approved_at = $datetime;
             }
             $beca->save();
 
