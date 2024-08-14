@@ -165,17 +165,19 @@ class BecaController extends Controller
                 $beca->approved_feedback = $request->approved_feedback;
                 $beca->approved_at = $datetime;
             } elseif ($status == "PAGANDO") {
+                $becaPaymentDetailController = new BecaPaymentDetailController();
+                $paymentsDetail = $becaPaymentDetailController->index($response, $beca->id, true);
+
                 $paid = false;
-                $payments = 0;
+                $payments = count($paymentsDetail);
                 $total_amount = 0;
 
                 // # VALIDACIONES
                 // # 1.- Cuantos pagos se daran en esta ocasion? (al tener la tabla de configuraciones) obtendremos si ya se pago la beca completamente (es decir 1/1 o 3/3)
                 #consulta
-                $becaPaymentDetailController = new BecaPaymentDetailController();
                 if (!$paid) {
-                    echo "beca->id: $beca->id";
-                    $becaPaymentDetailController->createOrUpdate($response, $request, null, $beca->id, true);
+                    // echo "beca->id: $beca->id";
+                    $becaPaymentDetailController->createOrUpdate($response, $request, null, $beca->id, $payments, true);
                 }
 
                 // # 2.- Cuantos pagos tiene registrados y su monto?
