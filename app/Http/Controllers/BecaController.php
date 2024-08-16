@@ -14,6 +14,9 @@ use App\Models\BecaInEvaluationView;
 use App\Models\BecaRejectedView;
 use App\Models\BecaInReviewView;
 use App\Models\BecaPaidView;
+use App\Models\BecaPayment1View;
+use App\Models\BecaPayment2View;
+use App\Models\BecaPayment3View;
 use App\Models\BecaView;
 use App\Models\ObjResponse;
 
@@ -151,30 +154,34 @@ class BecaController extends Controller
                 return response()->json($response, $response->data["status_code"]);
             }
             $userAuth = Auth::user();
+            $datetime = date("Y-m-d H:i:s");
+            // echo "beca->id: $beca->id : strpos('PAGO ', $status)";
+            // var_dump(strpos($status, "PAGO ") !== false);
+
             $beca->status = $status;
             if ($status == "RECHAZADA") {
                 $beca->approved = false;
                 $beca->rejected_by = $userAuth->id;
                 $beca->rejected_feedback = $request->rejected_feedback;
-                $beca->rejected_at = $request->rejected_at;
+                $beca->rejected_at = $datetime;
             } elseif ($status == "APROBADA") {
-                // $becaApprovedController = new BecaApprovedController();
-                // $beca_approved =  $becaApprovedController->createOrUpdate($response, $request, null, $beca->id, true);
                 $beca->approved = true;
                 $beca->approved_by = $userAuth->id;
                 $beca->approved_feedback = $request->approved_feedback;
-                $beca->approved_at = $request->paid_at;
-            } elseif ($status == "PAGANDO") {
-                $paid = false;
-                $payments = 0;
+                $beca->approved_at = $datetime;
+            } elseif (strpos($status, "PAGO ") !== false) { #($status == "PAGANDO") {
+                $payments = $beca->payments ?? 0;
+                $paid = $payments === 3 ? true : false;
                 $total_amount = 0;
 
                 // # VALIDACIONES
                 // # 1.- Cuantos pagos se daran en esta ocasion? (al tener la tabla de configuraciones) obtendremos si ya se pago la beca completamente (es decir 1/1 o 3/3)
                 #consulta
+                // echo "payments: $payments";
+
                 $becaPaymentDetailController = new BecaPaymentDetailController();
                 if (!$paid) {
-                    $becaPaymentDetailController->createOrUpdate($response, $request, null, $beca->id, true);
+                    $becaPaymentDetailController->createOrUpdate($response, $request, null, $beca->id, $payments, true);
                 }
 
                 // # 2.- Cuantos pagos tiene registrados y su monto?
@@ -183,17 +190,19 @@ class BecaController extends Controller
                 foreach ($paymentsDetail as $payment) {
                     $total_amount += $payment['amount_paid'];
                 }
+                $paid = $payments === 3 ? true : false;
 
                 $beca->paid = $paid;
                 $beca->payments = $payments;
                 $beca->total_amount = $total_amount;
                 // return $beca;
+                $beca->status = "PAGO $payments";
 
-                if ((bool)$paid) $beca->status = "PAGADO";
+                if ((bool)$paid) $beca->status = "PAGADA";
             } elseif ($status == "CANCELADA") {
                 $beca->canceled_by = $userAuth->id;
                 $beca->canceled_feedback = $request->canceled_feedback;
-                $beca->approved_at = $request->canceled_at;
+                $beca->approved_at = $datetime;
             }
             $beca->save();
 
@@ -246,12 +255,16 @@ class BecaController extends Controller
         $response->data = ObjResponse::DefaultResponse();
         try {
             $userAuth = Auth::user();
+            // echo "cual es el status: $status";
 
             // $values = explode(',', $status);
             $ViewBecas = new BecaView();
             if ($status == "EN REVISIÓN") $ViewBecas = new BecaInReviewView();
             elseif ($status == "EN EVALUACIÓN") $ViewBecas = new BecaInEvaluationView();
             elseif ($status == "APROBADA") $ViewBecas = new BecaApprovedView();
+            elseif ($status == "PAGO 1") $ViewBecas = new BecaPayment1View();
+            elseif ($status == "PAGO 2") $ViewBecas = new BecaPayment2View();
+            elseif ($status == "PAGO 3") $ViewBecas = new BecaPayment3View();
             elseif ($status == "PAGADA") $ViewBecas = new BecaPaidView();
             elseif ($status == "ENTREGADA") $ViewBecas = new BecaDeliveredView();
             elseif ($status == "RECHAZADA") $ViewBecas = new BecaRejectedView();
