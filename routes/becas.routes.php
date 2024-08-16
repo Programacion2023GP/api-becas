@@ -16,6 +16,7 @@ use App\Http\Controllers\Beca2FamilyDataController;
 use App\Http\Controllers\Beca7DocumentDataController;
 use App\Http\Controllers\BecaApprovedController;
 use App\Http\Controllers\BecaController;
+use App\Http\Controllers\BecaPaymentDetailController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RelationshipController;
@@ -143,9 +144,10 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::delete('/students/{id}', 'destroy');
    });
 
-   // Route::controller(BecaApprovedController::class)->group(function () {
-   //    Route::get('/becas/approved', 'index');
-   // });
+   Route::controller(BecaPaymentDetailController::class)->group(function () {
+      Route::get('/beca_payment_details', 'index');
+      Route::get('/beca_payment_details/beca_id/{beca_id}', 'index');
+   });
    Route::controller(BecaController::class)->group(function () {
       Route::get('/becas', 'index');
       Route::get('/becas/status/{status}', 'index');
@@ -162,6 +164,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
       Route::get('/becas/report/folio/{folio}', 'getReportRequestByFolio');
       Route::post('/becas/updateStatus/folio/{folio}/status/{status}', 'updateStatus');
+      Route::post('/becas/folio/{folio}/page/{page}/saveBeca', 'saveBeca');
 
       // Route::get('/becas/approved', 'getBecasApproved');
 

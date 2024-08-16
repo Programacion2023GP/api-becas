@@ -170,13 +170,14 @@ class BecaController extends Controller
                 $beca->approved_feedback = $request->approved_feedback;
                 $beca->approved_at = $datetime;
             } elseif (strpos($status, "PAGO ") !== false) { #($status == "PAGANDO") {
-                $paid = false;
                 $payments = $beca->payments ?? 0;
+                $paid = $payments === 3 ? true : false;
                 $total_amount = 0;
 
                 // # VALIDACIONES
                 // # 1.- Cuantos pagos se daran en esta ocasion? (al tener la tabla de configuraciones) obtendremos si ya se pago la beca completamente (es decir 1/1 o 3/3)
                 #consulta
+                // echo "payments: $payments";
 
                 $becaPaymentDetailController = new BecaPaymentDetailController();
                 if (!$paid) {
@@ -189,6 +190,7 @@ class BecaController extends Controller
                 foreach ($paymentsDetail as $payment) {
                     $total_amount += $payment['amount_paid'];
                 }
+                $paid = $payments === 3 ? true : false;
 
                 $beca->paid = $paid;
                 $beca->payments = $payments;

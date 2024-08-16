@@ -48,6 +48,7 @@ class BecaPaymentDetailController extends Controller
             if (!$beca_payment_detail) $beca_payment_detail = new BecaPaymentDetail();
 
             $userAuth = Auth::user();
+            $currentPayment = (int)$payments + 1;
             // $datetime = date("Y-m-d H:i:s");
             // var_dump($request);
 
@@ -58,11 +59,11 @@ class BecaPaymentDetailController extends Controller
             $beca_payment_detail->amount_paid = $request->amount_paid;
             // $beca_payment_detail->img_evidence = $request->img_evidence;
             $beca_payment_detail->paid_feedback = $request->paid_feedback;
+            $beca_payment_detail->payment_number = $currentPayment;
 
             // var_dump($beca_payment_detail);
             $beca_payment_detail->save();
 
-            $currentPayment = (int)$payments + 1;
             $img_evidence = $this->ImageUp($request, 'img_evidence', $beca_id, "Pago-$currentPayment", false, "noImage.png");
             if ($request->hasFile('img_evidence') || $request->img_evidence == "") $beca_payment_detail->img_evidence = $img_evidence;
             $beca_payment_detail->save();
