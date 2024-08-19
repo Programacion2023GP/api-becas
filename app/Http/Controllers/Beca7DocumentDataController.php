@@ -35,11 +35,17 @@ class Beca7DocumentDataController extends Controller
             $document_data->b7_approved_tutor_ine = (bool)$request->b7_approved_tutor_ine;
             $document_data->b7_comments_tutor_ine = $request->b7_comments_tutor_ine;
 
+            $document_data->b7_approved_tutor_ine_back = (bool)$request->b7_approved_tutor_ine_back;
+            $document_data->b7_comments_tutor_ine_back = $request->b7_comments_tutor_ine_back;
+
             $document_data->b7_approved_tutor_power_letter = (bool)$request->b7_approved_tutor_power_letter;
             $document_data->b7_comments_tutor_power_letter = $request->b7_comments_tutor_power_letter;
 
             $document_data->b7_approved_second_ref = (bool)$request->b7_approved_second_ref;
             $document_data->b7_comments_second_ref = $request->b7_comments_second_ref;
+
+            $document_data->b7_approved_second_ref_back = (bool)$request->b7_approved_second_ref_back;
+            $document_data->b7_comments_second_ref_back = $request->b7_comments_second_ref_back;
 
             $document_data->b7_approved_proof_address = (bool)$request->b7_approved_proof_address;
             $document_data->b7_comments_proof_address = $request->b7_comments_proof_address;
@@ -57,8 +63,12 @@ class Beca7DocumentDataController extends Controller
 
             $approvedDocs = [];
             array_push($approvedDocs, $document_data->b7_approved_tutor_ine);
+            array_push($approvedDocs, $document_data->b7_approved_tutor_ine_back);
             if ($request->tutor_relationship_id > 2) array_push($approvedDocs, $document_data->b7_approved_tutor_power_letter);
-            if ($request->second_ref != "NULL") array_push($approvedDocs, $document_data->b7_approved_second_ref);
+            if ($request->second_ref != "NULL") {
+                array_push($approvedDocs, $document_data->b7_approved_second_ref);
+                array_push($approvedDocs, $document_data->b7_approved_second_ref_back);
+            }
             array_push($approvedDocs, $document_data->b7_approved_proof_address);
             array_push($approvedDocs, $document_data->b7_approved_curp);
             array_push($approvedDocs, $document_data->b7_approved_birth_certificate);
@@ -112,6 +122,10 @@ class Beca7DocumentDataController extends Controller
             $document_data->b7_approved_tutor_ine = $request->b7_approved_tutor_ine;
             $document_data->b7_comments_tutor_ine = $request->b7_comments_tutor_ine;
 
+            // $document_data->b7_img_tutor_ine_back = $request->b7_img_tutor_ine_back;
+            $document_data->b7_approved_tutor_ine_back = $request->b7_approved_tutor_ine_back;
+            $document_data->b7_comments_tutor_ine_back = $request->b7_comments_tutor_ine_back;
+
             // $document_data->b7_img_tutor_power_letter = $request->b7_img_tutor_power_letter;
             $document_data->b7_approved_tutor_power_letter = $request->b7_approved_tutor_power_letter;
             $document_data->b7_comments_tutor_power_letter = $request->b7_comments_tutor_power_letter;
@@ -119,6 +133,10 @@ class Beca7DocumentDataController extends Controller
             // $document_data->b7_img_second_ref = $request->b7_img_second_ref;
             $document_data->b7_approved_second_ref = $request->b7_approved_second_ref;
             $document_data->b7_comments_second_ref = $request->b7_comments_second_ref;
+
+            // $document_data->b7_img_second_ref = $request->b7_img_second_ref;
+            $document_data->b7_approved_second_ref_back = $request->b7_approved_second_ref_back;
+            $document_data->b7_comments_second_ref_back = $request->b7_comments_second_ref_back;
 
             // $document_data->b7_img_proof_address = $request->b7_img_proof_address;
             $document_data->b7_approved_proof_address = $request->b7_approved_proof_address;
@@ -142,8 +160,12 @@ class Beca7DocumentDataController extends Controller
 
             $b7_img_tutor_ine = $this->ImageUp($request, 'b7_img_tutor_ine', $request->id, 'INE-Tutor', false, "noImage.png");
             if ($request->hasFile('b7_img_tutor_ine') || $request->b7_img_tutor_ine == "") $document_data->b7_img_tutor_ine = $b7_img_tutor_ine;
+            $b7_img_tutor_ine_back = $this->ImageUp($request, 'b7_img_tutor_ine_back', $request->id, 'INE-Tutor-Atras', false, "noImage.png");
+            if ($request->hasFile('b7_img_tutor_ine_back') || $request->b7_img_tutor_ine_back == "") $document_data->b7_img_tutor_ine_back = $b7_img_tutor_ine_back;
             $b7_img_second_ref = $this->ImageUp($request, 'b7_img_second_ref', $request->id, 'Referencia-2', false, "noImage.png");
             if ($request->hasFile('b7_img_second_ref') || $request->b7_img_second_ref == "") $document_data->b7_img_second_ref = $b7_img_second_ref;
+            $b7_img_second_ref_back = $this->ImageUp($request, 'b7_img_second_ref_back', $request->id, 'Referencia-2-Atras', false, "noImage.png");
+            if ($request->hasFile('b7_img_second_ref_back') || $request->b7_img_second_ref_back == "") $document_data->b7_img_second_ref_back = $b7_img_second_ref_back;
             $b7_img_tutor_power_letter = $this->ImageUp($request, 'b7_img_tutor_power_letter', $request->id, 'Carta-Poder', false, "noImage.png");
             if ($request->hasFile('b7_img_tutor_power_letter') || $request->b7_img_tutor_power_letter == "") $document_data->b7_img_tutor_power_letter = $b7_img_tutor_power_letter;
             $b7_img_proof_address = $this->ImageUp($request, 'b7_img_proof_address', $request->id, 'Comprobante-De-Domicilio', false, "noImage.png");
