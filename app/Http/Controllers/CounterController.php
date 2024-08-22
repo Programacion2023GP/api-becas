@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\BecaPaid;
+use App\Models\BecaPaidView;
 use App\Models\BecaView;
 use App\Models\ObjResponse;
 use App\Models\Level;
@@ -25,13 +26,14 @@ class CounterController extends Controller
         try {
             $list = [];
             $requestList = BecaView::select("status as counter", DB::raw("COUNT(status) as total"), "user_id")->groupBy('status', "user_id")->get();
-            $requestPayments = BecaPaid::select(DB::raw("CONCAT('PAGO',payments) as counter"), DB::raw("COUNT(payments) as total"))->where('active', 1)->groupBy('payments')->get();
+            $requestPayments = BecaPaidView::select(DB::raw("CONCAT('PAGO',payments) as counter"), DB::raw("COUNT(payments) as total"))->where('active', 1)->groupBy('payments')->get();
+            // $requestPayments = BecaPaid::select(DB::raw("CONCAT('PAGO',payments) as counter"), DB::raw("COUNT(payments) as total"))->where('active', 1)->groupBy('payments')->get();
             $usersList = User::select("roles.role as counter", DB::raw("COUNT(role_id) as total"))
                 ->join('roles', 'users.role_id', '=', 'roles.id')
                 ->groupBy('role_id')->get();
 
             array_push($list, ...$requestList);
-            array_push($list, ...$requestPayments);
+            // array_push($list, ...$requestPayments);
             array_push($list, ...$usersList);
 
             $response->data = ObjResponse::CorrectResponse();
