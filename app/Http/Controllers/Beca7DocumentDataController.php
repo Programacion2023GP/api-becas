@@ -267,23 +267,23 @@ class Beca7DocumentDataController extends Controller
             $document_data->save();
 
             $b7_img_tutor_ine = $this->ImageUp($request, 'b7_img_tutor_ine', $beca->id, 'INE-Tutor', false, "noImage.png");
-            if ($request->hasFile('b7_img_tutor_ine') || $request->b7_img_tutor_ine == "") $document_data->b7_img_tutor_ine = $b7_img_tutor_ine;
+            if ($request->hasFile('b7_img_tutor_ine')) $document_data->b7_img_tutor_ine = $b7_img_tutor_ine;
             $b7_img_tutor_ine_back = $this->ImageUp($request, 'b7_img_tutor_ine_back', $beca->id, 'INE-Tutor-Atras', false, "noImage.png");
-            if ($request->hasFile('b7_img_tutor_ine_back') || $request->b7_img_tutor_ine_back == "") $document_data->b7_img_tutor_ine_back = $b7_img_tutor_ine_back;
+            if ($request->hasFile('b7_img_tutor_ine_back')) $document_data->b7_img_tutor_ine_back = $b7_img_tutor_ine_back;
             $b7_img_second_ref = $this->ImageUp($request, 'b7_img_second_ref', $beca->id, 'Referencia-2', false, "noImage.png");
-            if ($request->hasFile('b7_img_second_ref') || $request->b7_img_second_ref == "") $document_data->b7_img_second_ref = $b7_img_second_ref;
+            if ($request->hasFile('b7_img_second_ref')) $document_data->b7_img_second_ref = $b7_img_second_ref;
             $b7_img_second_ref_back = $this->ImageUp($request, 'b7_img_second_ref_back', $beca->id, 'Referencia-2-Atras', false, "noImage.png");
-            if ($request->hasFile('b7_img_second_ref_back') || $request->b7_img_second_ref_back == "") $document_data->b7_img_second_ref_back = $b7_img_second_ref_back;
+            if ($request->hasFile('b7_img_second_ref_back')) $document_data->b7_img_second_ref_back = $b7_img_second_ref_back;
             $b7_img_tutor_power_letter = $this->ImageUp($request, 'b7_img_tutor_power_letter', $beca->id, 'Carta-Poder', false, "noImage.png");
-            if ($request->hasFile('b7_img_tutor_power_letter') || $request->b7_img_tutor_power_letter == "") $document_data->b7_img_tutor_power_letter = $b7_img_tutor_power_letter;
+            if ($request->hasFile('b7_img_tutor_power_letter')) $document_data->b7_img_tutor_power_letter = $b7_img_tutor_power_letter;
             $b7_img_proof_address = $this->ImageUp($request, 'b7_img_proof_address', $beca->id, 'Comprobante-De-Domicilio', false, "noImage.png");
-            if ($request->hasFile('b7_img_proof_address') || $request->b7_img_proof_address == "") $document_data->b7_img_proof_address = $b7_img_proof_address;
+            if ($request->hasFile('b7_img_proof_address')) $document_data->b7_img_proof_address = $b7_img_proof_address;
             $b7_img_curp = $this->ImageUp($request, 'b7_img_curp', $beca->id, 'CURP', false, "noImage.png");
-            if ($request->hasFile('b7_img_curp') || $request->b7_img_curp == "") $document_data->b7_img_curp = $b7_img_curp;
+            if ($request->hasFile('b7_img_curp')) $document_data->b7_img_curp = $b7_img_curp;
             $b7_img_birth_certificate = $this->ImageUp($request, 'b7_img_birth_certificate', $beca->id, 'Acta-De-Nacimineto', false, "noImage.png");
-            if ($request->hasFile('b7_img_birth_certificate') || $request->b7_img_birth_certificate == "") $document_data->b7_img_birth_certificate = $b7_img_birth_certificate;
+            if ($request->hasFile('b7_img_birth_certificate')) $document_data->b7_img_birth_certificate = $b7_img_birth_certificate;
             $b7_img_academic_transcript = $this->ImageUp($request, 'b7_img_academic_transcript', $beca->id, 'Constancia-De-Estudios-Y-Calificaciones', false, "noImage.png");
-            if ($request->hasFile('b7_img_academic_transcript') || $request->b7_img_academic_transcript == "") $document_data->b7_img_academic_transcript = $b7_img_academic_transcript;
+            if ($request->hasFile('b7_img_academic_transcript')) $document_data->b7_img_academic_transcript = $b7_img_academic_transcript;
 
             $document_data->save();
 
