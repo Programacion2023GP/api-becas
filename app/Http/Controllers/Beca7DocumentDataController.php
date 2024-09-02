@@ -210,7 +210,6 @@ class Beca7DocumentDataController extends Controller
     {
         try {
             $response->data = ObjResponse::DefaultResponse();
-            echo "el valor de folio: $folio";
 
             // if ($folio > 0) {
             $becaController = new BecaController();
