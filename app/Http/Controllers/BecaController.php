@@ -111,7 +111,7 @@ class BecaController extends Controller
             if ((int)$page === 9) {
                 // echo ("PAGINA - 8 === $page");
                 $b7Controller = new Beca7DocumentDataController();
-                $object = $b7Controller->createOrUpdateByBeca($request, $response, $beca->id, true);
+                $object = $b7Controller->createOrUpdateByBeca($request, $response, $beca->id, null, true);
                 // return $object;
 
                 if ((bool)$object->b7_finished && (int)$beca->current < 10) {
