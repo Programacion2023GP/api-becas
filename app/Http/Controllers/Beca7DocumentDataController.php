@@ -206,10 +206,11 @@ class Beca7DocumentDataController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
      */
-    public function createOrUpdateByBeca(Request $request, Response $response, Int $id = null, Int $folio = null, bool $internal = false)
+    public function createOrUpdateByBeca(Request $request, Response $response, Int $folio = null, bool $internal = false)
     {
         try {
             $response->data = ObjResponse::DefaultResponse();
+            echo "el valor de folio: $folio";
 
             // if ($folio > 0) {
             $becaController = new BecaController();
