@@ -211,11 +211,11 @@ class Beca7DocumentDataController extends Controller
         try {
             $response->data = ObjResponse::DefaultResponse();
 
-            if ($folio > 0) {
-                $becaController = new BecaController();
-                $beca = $becaController->_getBecaByFolio($folio);
-                $document_data = Beca7DocumentData::where('b7_beca_id', $beca->id)->first();
-            }
+            // if ($folio > 0) {
+            $becaController = new BecaController();
+            $beca = $becaController->_getBecaByFolio($folio);
+            $document_data = Beca7DocumentData::where('b7_beca_id', $beca->id)->first();
+            // }
             // else {
             //     if ($internal) $document_data = Beca7DocumentData::where('b7_beca_id', $id)->first(); #si es internal el id es el id de la beca
             //     else $document_data = Beca7DocumentData::find($id);
