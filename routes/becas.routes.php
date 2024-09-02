@@ -187,6 +187,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
    Route::controller(Beca7DocumentDataController::class)->group(function () {
       Route::post('/documents/folio/{folio}/page/{page}/saveOrFinishReview', 'saveOrFinishReview');
+      Route::post('/documents/folio/{folio}', 'createOrUpdateByBeca');
       // Route::get('/becas/updateStatus/folio/{folio}/status/{status}', 'updateStatus');
    });
 

@@ -99,6 +99,106 @@ class Beca7DocumentDataController extends Controller
         }
     }
 
+    // /**
+    //  * Crear o Actualizar documentos de Becas desde formulario beca.
+    //  *
+    //  * @param  \Illuminate\Http\Request $request
+    //  * @return \Illuminate\Http\Response $response
+    //  */
+    // public function uploadDocument(Request $request, Response $response, Int $id = null, Int $folio = null, bool $internal = false)
+    // {
+    //     try {
+    //         $response->data = ObjResponse::DefaultResponse();
+
+    //         if ($folio > 0) {
+    //             $becaController = new BecaController();
+    //             $beca = $becaController->_getBecaByFolio($folio);
+    //             $document_data = Beca7DocumentData::where('b7_beca_id', $beca->id)->first();
+    //         } else {
+    //             if ($internal) $document_data = Beca7DocumentData::where('b7_beca_id', $id)->first(); #si es internal el id es el id de la beca
+    //             else $document_data = Beca7DocumentData::find($id);
+    //         }
+    //         if (!$document_data) $document_data = new Beca7DocumentData();
+    //         // return $document_data;
+
+    //         $document_data->b7_beca_id = $id;
+
+    //         // $document_data->b7_img_tutor_ine = $request->b7_img_tutor_ine;
+    //         $document_data->b7_approved_tutor_ine = $request->b7_approved_tutor_ine;
+    //         $document_data->b7_comments_tutor_ine = $request->b7_comments_tutor_ine;
+
+    //         // $document_data->b7_img_tutor_ine_back = $request->b7_img_tutor_ine_back;
+    //         $document_data->b7_approved_tutor_ine_back = $request->b7_approved_tutor_ine_back;
+    //         $document_data->b7_comments_tutor_ine_back = $request->b7_comments_tutor_ine_back;
+
+    //         // $document_data->b7_img_tutor_power_letter = $request->b7_img_tutor_power_letter;
+    //         $document_data->b7_approved_tutor_power_letter = $request->b7_approved_tutor_power_letter;
+    //         $document_data->b7_comments_tutor_power_letter = $request->b7_comments_tutor_power_letter;
+
+    //         // $document_data->b7_img_second_ref = $request->b7_img_second_ref;
+    //         $document_data->b7_approved_second_ref = $request->b7_approved_second_ref;
+    //         $document_data->b7_comments_second_ref = $request->b7_comments_second_ref;
+
+    //         // $document_data->b7_img_second_ref = $request->b7_img_second_ref;
+    //         $document_data->b7_approved_second_ref_back = $request->b7_approved_second_ref_back;
+    //         $document_data->b7_comments_second_ref_back = $request->b7_comments_second_ref_back;
+
+    //         // $document_data->b7_img_proof_address = $request->b7_img_proof_address;
+    //         $document_data->b7_approved_proof_address = $request->b7_approved_proof_address;
+    //         $document_data->b7_comments_proof_address = $request->b7_comments_proof_address;
+
+    //         // $document_data->b7_img_curp = $request->b7_img_curp;
+    //         $document_data->b7_approved_curp = $request->b7_approved_curp;
+    //         $document_data->b7_comments_curp = $request->b7_comments_curp;
+
+    //         // $document_data->b7_img_birth_certificate = $request->b7_img_birth_certificate;
+    //         $document_data->b7_approved_birth_certificate = $request->b7_approved_birth_certificate;
+    //         $document_data->b7_comments_birth_certificate = $request->b7_comments_birth_certificate;
+
+    //         // $document_data->b7_img_academic_transcript = $request->b7_img_academic_transcript;
+    //         $document_data->b7_approved_academic_transcript = $request->b7_approved_academic_transcript;
+    //         $document_data->b7_comments_academic_transcript = $request->b7_comments_academic_transcript;
+
+    //         $document_data->b7_finished = (bool)$request->b7_finished;
+
+    //         $document_data->save();
+
+    //         $b7_img_tutor_ine = $this->ImageUp($request, 'b7_img_tutor_ine', $request->id, 'INE-Tutor', false, "noImage.png");
+    //         if ($request->hasFile('b7_img_tutor_ine') || $request->b7_img_tutor_ine == "") $document_data->b7_img_tutor_ine = $b7_img_tutor_ine;
+    //         $b7_img_tutor_ine_back = $this->ImageUp($request, 'b7_img_tutor_ine_back', $request->id, 'INE-Tutor-Atras', false, "noImage.png");
+    //         if ($request->hasFile('b7_img_tutor_ine_back') || $request->b7_img_tutor_ine_back == "") $document_data->b7_img_tutor_ine_back = $b7_img_tutor_ine_back;
+    //         $b7_img_second_ref = $this->ImageUp($request, 'b7_img_second_ref', $request->id, 'Referencia-2', false, "noImage.png");
+    //         if ($request->hasFile('b7_img_second_ref') || $request->b7_img_second_ref == "") $document_data->b7_img_second_ref = $b7_img_second_ref;
+    //         $b7_img_second_ref_back = $this->ImageUp($request, 'b7_img_second_ref_back', $request->id, 'Referencia-2-Atras', false, "noImage.png");
+    //         if ($request->hasFile('b7_img_second_ref_back') || $request->b7_img_second_ref_back == "") $document_data->b7_img_second_ref_back = $b7_img_second_ref_back;
+    //         $b7_img_tutor_power_letter = $this->ImageUp($request, 'b7_img_tutor_power_letter', $request->id, 'Carta-Poder', false, "noImage.png");
+    //         if ($request->hasFile('b7_img_tutor_power_letter') || $request->b7_img_tutor_power_letter == "") $document_data->b7_img_tutor_power_letter = $b7_img_tutor_power_letter;
+    //         $b7_img_proof_address = $this->ImageUp($request, 'b7_img_proof_address', $request->id, 'Comprobante-De-Domicilio', false, "noImage.png");
+    //         if ($request->hasFile('b7_img_proof_address') || $request->b7_img_proof_address == "") $document_data->b7_img_proof_address = $b7_img_proof_address;
+    //         $b7_img_curp = $this->ImageUp($request, 'b7_img_curp', $request->id, 'CURP', false, "noImage.png");
+    //         if ($request->hasFile('b7_img_curp') || $request->b7_img_curp == "") $document_data->b7_img_curp = $b7_img_curp;
+    //         $b7_img_birth_certificate = $this->ImageUp($request, 'b7_img_birth_certificate', $request->id, 'Acta-De-Nacimineto', false, "noImage.png");
+    //         if ($request->hasFile('b7_img_birth_certificate') || $request->b7_img_birth_certificate == "") $document_data->b7_img_birth_certificate = $b7_img_birth_certificate;
+    //         $b7_img_academic_transcript = $this->ImageUp($request, 'b7_img_academic_transcript', $request->id, 'Constancia-De-Estudios-Y-Calificaciones', false, "noImage.png");
+    //         if ($request->hasFile('b7_img_academic_transcript') || $request->b7_img_academic_transcript == "") $document_data->b7_img_academic_transcript = $b7_img_academic_transcript;
+
+    //         $document_data->save();
+
+    //         $response->data = ObjResponse::CorrectResponse();
+    //         $response->data["message"] = $id > 0 ? 'peticion satisfactoria | documentos de Becas editados.' : 'satisfactoria | documentos de Becas registrados.';
+    //         $response->data["alert_text"] = $id > 0 ? "Documento: $request->name cargado" : "Documento: $request->name cargado";
+    //         $response->data["result"] = $document_data;
+    //         if (!$internal) return response()->json($response, $response->data["status_code"]);
+    //         else return $document_data;
+    //     } catch (\Exception $ex) {
+    //         $msg =  "Error al crear o actualizar documentos de Becas por medio de la beca: " . $ex->getMessage();
+    //         error_log("$msg");
+    //         $response->data = ObjResponse::CatchResponse($ex->getMessage());
+    //         if (!$internal) return response()->json($response, $response->data["status_code"]);
+    //         else return "$msg";
+    //     }
+    // }
+
 
     /**
      * Crear o Actualizar documentos de Becas desde formulario beca.
@@ -106,13 +206,19 @@ class Beca7DocumentDataController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
      */
-    public function createOrUpdateByBeca(Request $request, Response $response, Int $id = null, bool $internal = false)
+    public function createOrUpdateByBeca(Request $request, Response $response, Int $id = null, Int $folio = null, bool $internal = false)
     {
         try {
             $response->data = ObjResponse::DefaultResponse();
-            if ($internal) $document_data = Beca7DocumentData::where('b7_beca_id', $id)->first(); #si es internal el id es el id de la beca
-            else $document_data = Beca7DocumentData::find($id);
 
+            if ($folio > 0) {
+                $becaController = new BecaController();
+                $beca = $becaController->_getBecaByFolio($folio);
+                $document_data = Beca7DocumentData::where('b7_beca_id', $beca->id)->first();
+            } else {
+                if ($internal) $document_data = Beca7DocumentData::where('b7_beca_id', $id)->first(); #si es internal el id es el id de la beca
+                else $document_data = Beca7DocumentData::find($id);
+            }
             if (!$document_data) $document_data = new Beca7DocumentData();
             // return $document_data;
 
@@ -181,7 +287,7 @@ class Beca7DocumentDataController extends Controller
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = $id > 0 ? 'peticion satisfactoria | documentos de Becas editados.' : 'satisfactoria | documentos de Becas registrados.';
-            $response->data["alert_text"] = $id > 0 ? 'Documentos de Becas editados' : 'Documentos de Beca registrados';
+            $response->data["alert_text"] = $id > 0 ? "Documento: $request->name cargado" : "Documento: $request->name cargado";
             $response->data["result"] = $document_data;
             if (!$internal) return response()->json($response, $response->data["status_code"]);
             else return $document_data;
