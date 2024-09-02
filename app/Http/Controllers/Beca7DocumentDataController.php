@@ -287,8 +287,8 @@ class Beca7DocumentDataController extends Controller
             $document_data->save();
 
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = $id > 0 ? 'peticion satisfactoria | documentos de Becas editados.' : 'satisfactoria | documentos de Becas registrados.';
-            $response->data["alert_text"] = $id > 0 ? "Documento: $request->name cargado" : "Documento: $request->name cargado";
+            $response->data["message"] = 'satisfactoria | documentos de Becas registrados.';
+            $response->data["alert_text"] = "Documento: $request->name cargado";
             $response->data["result"] = $document_data;
             if (!$internal) return response()->json($response, $response->data["status_code"]);
             else return $document_data;
