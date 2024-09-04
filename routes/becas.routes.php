@@ -18,9 +18,11 @@ use App\Http\Controllers\BecaApprovedController;
 use App\Http\Controllers\BecaController;
 use App\Http\Controllers\BecaPaymentDetailController;
 use App\Http\Controllers\CounterController;
+use App\Http\Controllers\CycleController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RelationshipController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SettingController;
 
 #endregion CONTROLLERS BECAS
 
@@ -33,6 +35,25 @@ Route::middleware('auth:sanctum')->group(function () {
 
    Route::controller(CounterController::class)->group(function () {
       Route::get('/counters/counterOfMenus', 'counterOfMenus');
+   });
+
+   Route::controller(CycleController::class)->group(function () {
+      Route::get('/cycles', 'index');
+      Route::get('/cycles/selectIndex', 'selectIndex');
+      Route::get('/cycles/id/{id}', 'show');
+      Route::post('/cycles/create', 'createOrUpdate');
+      Route::post('/cycles/update/{id?}', 'createOrUpdate');
+      Route::delete('/cycles/delete/{id}', 'destroy');
+   });
+
+   Route::controller(SettingController::class)->group(function () {
+      Route::get('/settings', 'index');
+      Route::get('/settings/selectIndex', 'selectIndex');
+      Route::get('/settings/cycle_id/{cycle_id}', 'show');
+      Route::get('/settings/id/{id}', 'show');
+      Route::post('/settings/create', 'createOrUpdate');
+      Route::post('/settings/update/{id?}', 'createOrUpdate');
+      Route::delete('/settings/delete/{id}', 'destroy');
    });
 
    Route::controller(RoleController::class)->group(function () {

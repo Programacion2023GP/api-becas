@@ -52,6 +52,7 @@ class Beca extends Model
         'canceled_by',
         'canceled_feedback',
         'canceled_at',
+        'cycle_id',
         'active',
         'second_ref',
         'correction_permission',
