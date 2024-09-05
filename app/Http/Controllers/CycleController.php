@@ -170,7 +170,7 @@ class CycleController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $today = date('Y-m-dT00:00:00');
+            $today = date('Y-m-d');
             $cycle = Cycle::where('active', true)->where("start_date", "<=", $today)->where("closing_date", ">=", $today)->orderBy('id', 'desc')->first();
             // echo $cycle->toSql();
 
