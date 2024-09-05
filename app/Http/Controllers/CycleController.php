@@ -112,7 +112,7 @@ class CycleController extends Controller
 
 
     /**
-     * Mostrar ciclos.
+     * Mostrar ciclo.
      *
      * @param   int $id
      * @param  \Illuminate\Http\Request $request
@@ -122,11 +122,11 @@ class CycleController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $student_data = Cycle::find($request->id);
+            $cycle = Cycle::find($request->id);
 
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'peticion satisfactoria | ciclos encontrados.';
-            $response->data["result"] = $student_data;
+            $response->data["message"] = 'peticion satisfactoria | ciclo encontrado.';
+            $response->data["result"] = $cycle;
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
@@ -136,7 +136,7 @@ class CycleController extends Controller
 
 
     /**
-     * Eliminar (cambiar estado activo=false) ciclos.
+     * Eliminar (cambiar estado activo=false) ciclo.
      *
      * @param  int $id
      * @param  \Illuminate\Http\Request $request
@@ -152,8 +152,31 @@ class CycleController extends Controller
                     'deleted_at' => date('Y-m-d H:i:s'),
                 ]);
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'peticion satisfactoria | ciclos eliminados.';
+            $response->data["message"] = 'peticion satisfactoria | ciclo eliminado.';
             $response->data["alert_text"] = 'Documentos de Becas eliminados';
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+
+    /**
+     * Mostrar ciclo.
+     *
+     * @param   int $id
+     * @return \Illuminate\Http\Response $response
+     */
+    public function getCurrent(Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $today = date('Y-m-d');
+            $cycle = Cycle::where('active', true)->where("start_date", "<=", $today)->where("closing_date", ">=", $today)->orderBy('id', 'desc')->first();
+            // echo $cycle->toSql();
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | ciclo actual.';
+            $response->data["result"] = $cycle;
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }

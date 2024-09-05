@@ -44,6 +44,8 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('/cycles/create', 'createOrUpdate');
       Route::post('/cycles/update/{id?}', 'createOrUpdate');
       Route::delete('/cycles/delete/{id}', 'destroy');
+
+      Route::get('/cycles/current', 'getCurrent');
    });
 
    Route::controller(SettingController::class)->group(function () {
@@ -54,6 +56,8 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('/settings/create', 'createOrUpdate');
       Route::post('/settings/update/{id?}', 'createOrUpdate');
       Route::delete('/settings/delete/{id}', 'destroy');
+
+      Route::get('/settings/current', 'getCurrent');
    });
 
    Route::controller(RoleController::class)->group(function () {

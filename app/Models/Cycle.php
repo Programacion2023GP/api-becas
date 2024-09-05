@@ -32,7 +32,7 @@ class Cycle extends Model
      * Los atributos que no se pueden llenar (se protegen).
      * @var array<int, string>
      */
-    protected $guarded = ['id']; // Protege solo ciertos campos
+    // protected $guarded = ['id']; // Protege solo ciertos campos
 
     /**
      * Nombre de la tabla asociada al modelo.
