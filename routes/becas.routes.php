@@ -42,7 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/cycles/selectIndex', 'selectIndex');
       Route::get('/cycles/id/{id}', 'show');
       Route::post('/cycles/create', 'createOrUpdate');
-      Route::post('/cycles/update/{id?}', 'createOrUpdate');
+      Route::put('/cycles/update/{id?}', 'createOrUpdate');
       Route::delete('/cycles/delete/{id}', 'destroy');
 
       Route::get('/cycles/current', 'getCurrent');
@@ -54,7 +54,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::get('/settings/cycle_id/{cycle_id}', 'show');
       Route::get('/settings/id/{id}', 'show');
       Route::post('/settings/create', 'createOrUpdate');
-      Route::post('/settings/update/{id?}', 'createOrUpdate');
+      Route::put('/settings/update/{id?}', 'createOrUpdate');
       Route::delete('/settings/delete/{id}', 'destroy');
 
       Route::get('/settings/current', 'getCurrent');

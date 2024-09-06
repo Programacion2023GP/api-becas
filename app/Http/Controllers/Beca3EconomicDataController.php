@@ -154,11 +154,11 @@ class Beca3EconomicDataController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $student_data = Beca3EconomicData::find($request->id);
+            $economic_data = Beca3EconomicData::find($request->id);
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | datos economicos encontrados.';
-            $response->data["result"] = $student_data;
+            $response->data["result"] = $economic_data;
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }

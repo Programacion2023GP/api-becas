@@ -152,11 +152,11 @@ class Beca4HouseDataController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $student_data = Beca4HouseData::find($request->id);
+            $house_data = Beca4HouseData::find($request->id);
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | datos de la casa encontrados.';
-            $response->data["result"] = $student_data;
+            $response->data["result"] = $house_data;
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
