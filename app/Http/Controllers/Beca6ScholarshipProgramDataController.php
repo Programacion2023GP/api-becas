@@ -153,11 +153,11 @@ class Beca6ScholarshipProgramDataController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $student_data = Beca6ScholarshipProgramData::find($request->id);
+            $scholarship_program_data = Beca6ScholarshipProgramData::find($request->id);
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | datos de Programas de Becas encontrados.';
-            $response->data["result"] = $student_data;
+            $response->data["result"] = $scholarship_program_data;
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }

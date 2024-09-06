@@ -161,7 +161,7 @@ class CycleController extends Controller
     }
 
     /**
-     * Mostrar ciclo.
+     * Mostrar ciclo actual.
      *
      * @param   int $id
      * @return \Illuminate\Http\Response $response

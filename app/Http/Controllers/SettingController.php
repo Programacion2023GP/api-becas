@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class SettingController extends Controller
 {
     /**
-     * Mostrar lista de ajustes activos.
+     * Mostrar lista de configuraciones activos.
      *
      * @return \Illuminate\Http\Response $response
      */
@@ -23,7 +23,7 @@ class SettingController extends Controller
             $list = Setting::where('settings.active', true)
                 ->orderBy('settings.id', 'desc')->get();
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'Peticion satisfactoria | Lista de ajustes.';
+            $response->data["message"] = 'Peticion satisfactoria | Lista de configuraciones.';
             $response->data["result"] = $list;
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
@@ -44,7 +44,7 @@ class SettingController extends Controller
                 ->select('settings.id as id', 'settings.description as label')
                 ->orderBy('settings.description', 'asc')->get();
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'Peticion satisfactoria | Lista de ajustes';
+            $response->data["message"] = 'Peticion satisfactoria | Lista de configuraciones';
             $response->data["result"] = $list;
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
@@ -53,7 +53,7 @@ class SettingController extends Controller
     }
 
     /**
-     * Crear o Actualizar ajustes desde formulario beca.
+     * Crear o Actualizar configuraciones desde formulario beca.
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response $response
@@ -63,21 +63,21 @@ class SettingController extends Controller
         try {
             $response->data = ObjResponse::DefaultResponse();
 
-            $setting = Setting::find($id);
-            if (!$setting) $setting = new Setting();
+            $settings = Setting::find($id);
+            if (!$settings) $settings = new Setting();
 
-            $setting->fill($request->all());
+            $settings->fill($request->all());
 
-            $setting->save();
+            $settings->save();
 
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = $id > 0 ? "satisfactoria | ajustes actualizados" : 'satisfactoria | ajustes registrados.';
+            $response->data["message"] = $id > 0 ? "satisfactoria | configuraciones actualizados" : 'satisfactoria | configuraciones registrados.';
             $response->data["alert_text"] = $id > 0 ? "Ajustes actualizados" : "Ajustes registrados";
-            $response->data["result"] = $setting;
+            $response->data["result"] = $settings;
             if (!$internal) return response()->json($response, $response->data["status_code"]);
-            else return $setting;
+            else return $settings;
         } catch (\Exception $ex) {
-            $msg =  "Error al crear o actualizar ajustes por medio de la beca: " . $ex->getMessage();
+            $msg =  "Error al crear o actualizar configuraciones por medio de la beca: " . $ex->getMessage();
             error_log("$msg");
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
             if (!$internal) return response()->json($response, $response->data["status_code"]);
@@ -86,7 +86,7 @@ class SettingController extends Controller
     }
 
     /**
-     * Eliminar ajustes o ajustes.
+     * Eliminar configuraciones o configuraciones.
      *
      * @param  int $id
      * @param  \Illuminate\Http\Request $request
@@ -101,7 +101,7 @@ class SettingController extends Controller
             $countDeleted = sizeof($request->ids);
             Setting::whereIn('id', $request->ids)->delete();
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = "peticion satisfactoria | ajustes eliminados ($countDeleted).";
+            $response->data["message"] = "peticion satisfactoria | configuraciones eliminados ($countDeleted).";
             $response->data["alert_text"] = "Documentos de Becas eliminados  ($countDeleted)";
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
@@ -112,7 +112,7 @@ class SettingController extends Controller
 
 
     /**
-     * Mostrar ajustes.
+     * Mostrar configuraciones.
      *
      * @param   int $id
      * @param  \Illuminate\Http\Request $request
@@ -122,11 +122,11 @@ class SettingController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $student_data = Setting::find($request->id);
+            $settings = Setting::find($request->id);
 
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'peticion satisfactoria | ajustes encontrados.';
-            $response->data["result"] = $student_data;
+            $response->data["message"] = 'peticion satisfactoria | configuraciones encontrados.';
+            $response->data["result"] = $settings;
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }
@@ -136,7 +136,7 @@ class SettingController extends Controller
 
 
     /**
-     * Eliminar (cambiar estado activo=false) ajustes.
+     * Eliminar (cambiar estado activo=false) configuraciones.
      *
      * @param  int $id
      * @param  \Illuminate\Http\Request $request
@@ -152,8 +152,31 @@ class SettingController extends Controller
                     'deleted_at' => date('Y-m-d H:i:s'),
                 ]);
             $response->data = ObjResponse::CorrectResponse();
-            $response->data["message"] = 'peticion satisfactoria | ajustes eliminados.';
+            $response->data["message"] = 'peticion satisfactoria | configuraciones eliminados.';
             $response->data["alert_text"] = 'Documentos de Becas eliminados';
+        } catch (\Exception $ex) {
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
+    }
+
+    /**
+     * Mostrar configuraciones actual.
+     *
+     * @param   int $id
+     * @return \Illuminate\Http\Response $response
+     */
+    public function getCurrent(Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $today = date('Y-m-d');
+            $settings = Setting::where('active', true)->orderBy('id', 'desc')->first();
+            // echo $settings->toSql();
+
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | configuraciones actuales.';
+            $response->data["result"] = $settings;
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }

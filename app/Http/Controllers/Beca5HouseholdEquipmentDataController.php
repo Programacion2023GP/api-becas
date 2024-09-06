@@ -180,11 +180,11 @@ class Beca5HouseholdEquipmentDataController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $student_data = Beca5HouseholdEquipmentData::find($request->id);
+            $household_equipment_data = Beca5HouseholdEquipmentData::find($request->id);
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | datos del equipamiento de la casa encontrados.';
-            $response->data["result"] = $student_data;
+            $response->data["result"] = $household_equipment_data;
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }

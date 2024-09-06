@@ -189,15 +189,15 @@ class Beca2FamilyDataController extends Controller
             //     $value = $request->curp;
             // }
 
-            $student_data = Beca2FamilyData::find($request->id);
-            // $student_data = Beca2FamilyData::where("$field", "$value")
+            $family_data = Beca2FamilyData::find($request->id);
+            // $family_data = Beca2FamilyData::where("$field", "$value")
             //     ->join('disabilities', 'beca_2_family_data.disability_id', '=', 'disabilities.id')
             //     ->select('beca_2_family_data.*', 'disabilities.disability', 'disabilities.description')
             //     ->first();
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | familiar encontrada.';
-            $response->data["result"] = $student_data;
+            $response->data["result"] = $family_data;
         } catch (\Exception $ex) {
             $response->data = ObjResponse::CatchResponse($ex->getMessage());
         }

@@ -120,7 +120,7 @@ class Beca1TutorDataController extends Controller
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
-            $new_estudent_data = Beca::create([
+            $new_tutor_data = Beca::create([
                 'curp' => $request->curp,
                 'name' => $request->name,
                 'paternal_last_name' => $request->paternal_last_name,
