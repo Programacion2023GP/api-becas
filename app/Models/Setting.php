@@ -21,7 +21,9 @@ class Setting extends Model
      */
     protected $fillable = [
         'id',
-        'description',
+        'cycle_name',
+        'cycle_start',
+        'cycle_end',
         'monthly_income_min',
         'total_expenses_min',
         'budget',
