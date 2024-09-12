@@ -171,16 +171,20 @@ class BecaController extends Controller
                 $beca->approved_at = $datetime;
             } elseif (strpos($status, "PAGO ") !== false) { #($status == "PAGANDO") {
                 $payments = $beca->payments ?? 0;
-                $paid = $payments === 3 ? true : false;
+                $paid = false; #$payments === 3 ? true : false;
                 $total_amount = 0;
 
                 // # VALIDACIONES
-                // # 1.- Cuantos pagos se daran en esta ocasion? (al tener la tabla de configuraciones) obtendremos si ya se pago la beca completamente (es decir 1/1 o 3/3)
+                // # 1.- Cuantos pagos se daran en esta ocasion? (al tener la tabla de configuraciones) obtendremos si ya se pago la beca completamente (es decir 1/1 o 2/2 o 3/3)
                 #consulta
-                // echo "payments: $payments";
+                $settingsController = new SettingController();
+                $settings = $settingsController->getCurrent($response, true);
+                $paid = $payments === $settings->total_payments ? true : false;
+                // echo "EL PAID: " . $payments == $settings->total_payments ? true: false;
+                // echo "payments: $payments || settings->total_payments: $settings->total_payments || PAID:" . (bool)$paid;
 
                 $becaPaymentDetailController = new BecaPaymentDetailController();
-                if (!$paid) {
+                if ((bool)!$paid) {
                     $becaPaymentDetailController->createOrUpdate($response, $request, null, $beca->id, $payments, true);
                 }
 
@@ -190,15 +194,18 @@ class BecaController extends Controller
                 foreach ($paymentsDetail as $payment) {
                     $total_amount += $payment['amount_paid'];
                 }
-                $paid = $payments === 3 ? true : false;
+                $paid = $payments === $settings->total_payments ? true : false;
 
-                $beca->paid = $paid;
+                $beca->paid = (bool)$paid;
                 $beca->payments = $payments;
                 $beca->total_amount = $total_amount;
                 // return $beca;
                 $beca->status = "PAGO $payments";
 
-                if ((bool)$paid) $beca->status = "PAGADA";
+                if ((bool)$paid) {
+                    $beca->status = "PAGADA";
+                    $status = "PAGADA";
+                }
             } elseif ($status == "CANCELADA") {
                 $beca->canceled_by = $userAuth->id;
                 $beca->canceled_feedback = $request->canceled_feedback;
@@ -326,6 +333,8 @@ class BecaController extends Controller
                 // 'single_mother' => $request->single_mother,
                 'tutor_data_id' => $tutor_data->id,
                 'second_ref' => $request->second_ref,
+                'second_ref_relationship_id' => $request->second_ref_relationship_id,
+                'second_ref_fullname' => $request->second_ref_fullname,
                 'student_data_id' => $student_data->id,
                 'school_id' => $request->school_id,
                 'grade' => $request->grade,

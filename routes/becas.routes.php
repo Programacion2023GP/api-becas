@@ -58,6 +58,9 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::delete('/settings/delete/{id}', 'destroy');
 
       Route::get('/settings/current', 'getCurrent');
+
+      Route::post('/settings/create/cycle', 'createOrUpdateCycle');
+      Route::post('/settings/update/cycle/{id?}', 'createOrUpdateCycle');
    });
 
    Route::controller(RoleController::class)->group(function () {
