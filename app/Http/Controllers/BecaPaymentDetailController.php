@@ -54,8 +54,7 @@ class BecaPaymentDetailController extends Controller
 
             $beca_payment_detail->beca_id = $beca_id > 0 ? $beca_id : $request->beca_id;
             $beca_payment_detail->paid_by = $userAuth->id;
-            $beca_payment_detail->relationship_id = $request->relationship_id;
-            $beca_payment_detail->paid_to = $request->paid_to;
+            $beca_payment_detail->paid_to_tutor = (bool)$request->paid_to_tutor;
             $beca_payment_detail->amount_paid = $request->amount_paid;
             // $beca_payment_detail->img_evidence = $request->img_evidence;
             $beca_payment_detail->paid_feedback = $request->paid_feedback;

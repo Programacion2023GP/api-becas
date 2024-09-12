@@ -55,6 +55,8 @@ class Beca extends Model
         'cycle_id',
         'active',
         'second_ref',
+        'second_ref_relationship_id',
+        'second_ref_fullname',
         'correction_permission',
         'correction_completed',
         'deleted_at'

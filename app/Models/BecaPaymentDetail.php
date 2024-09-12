@@ -22,10 +22,9 @@ class BecaPaymentDetail extends Model
      */
     protected $fillable = [
         'id',
-        'beca_paid_id',
+        'beca_id',
         'paid_by',
-        'relationship_id',
-        'paid_to',
+        'paid_to_tutor',
         'amount_paid',
         'img_evidence',
         'paid_feedback',

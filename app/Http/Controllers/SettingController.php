@@ -201,16 +201,17 @@ class SettingController extends Controller
      * @param   int $id
      * @return \Illuminate\Http\Response $response
      */
-    public function getCurrent(Response $response)
+    public function getCurrent(Response $response, bool $internal = false)
     {
         $response->data = ObjResponse::DefaultResponse();
         try {
             $today = date('Y-m-d');
             $settings = Setting::where('active', true)->orderBy('id', 'desc')->first();
+            // $settings = Setting::where('active', true)->where("cycle_start", "<=", $today)->where("cycle_end", ">=", $today)->orderBy('id', 'desc')->first();
 
-            // $today = date('Y-m-d');
             // $cycle = Setting::where('active', true)->where("cycle_start", "<=", $today)->where("cycle_end", ">=", $today)->orderBy('id', 'desc')->first();
             // echo $settings->toSql();
+            if ((bool)$internal) return $settings;
 
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | configuración actual.';
