@@ -25,7 +25,12 @@ class CounterController extends Controller
         $response->data = ObjResponse::DefaultResponse();
         try {
             $list = [];
-            $requestList = BecaView::select("status as counter", DB::raw("COUNT(status) as total"), "user_id")->groupBy('status', "user_id")->get();
+
+            $settingsController = new SettingController();
+            $settings = $settingsController->getCurrent($response, true);
+
+
+            $requestList = BecaView::select("status as counter", DB::raw("COUNT(status) as total"), "user_id")->where("cycle_id", $settings->id)->groupBy('status', "user_id")->get();
             $requestPayments = BecaPaidView::select(DB::raw("CONCAT('PAGO',payments) as counter"), DB::raw("COUNT(payments) as total"))->where('active', 1)->groupBy('payments')->get();
             // $requestPayments = BecaPaid::select(DB::raw("CONCAT('PAGO',payments) as counter"), DB::raw("COUNT(payments) as total"))->where('active', 1)->groupBy('payments')->get();
             $usersList = User::select("roles.role as counter", DB::raw("COUNT(role_id) as total"))

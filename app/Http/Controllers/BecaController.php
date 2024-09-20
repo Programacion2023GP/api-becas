@@ -64,6 +64,7 @@ class BecaController extends Controller
                 if ($request->grade) $beca->grade = $request->grade;
                 if ($request->average) $beca->average = $request->average;
                 if ($request->comments) $beca->comments = $request->comments;
+                // $beca->cycle_id = $request->cycle_id; 
                 if ((int)$beca->current < 4) $beca->current_page = 4;
             }
             if ((int)$page === 4) {
@@ -344,6 +345,7 @@ class BecaController extends Controller
                 'total_expenses' => $request->total_expenses,
                 'under_protest' => $request->under_protest,
                 'comments' => $request->comments,
+                'cycle_id' => $request->cycle_id,
                 // 'socioeconomic_study' => $request->socioeconomic_study,
             ]);
             $response->data = ObjResponse::CorrectResponse();
@@ -776,5 +778,26 @@ class BecaController extends Controller
             $qi += 1;
         }
         return $obj;
+    }
+
+
+
+    function SP_validatePermissionToRequestBeca(Request $request, Response $response)
+    {
+        $response->data = ObjResponse::DefaultResponse();
+        try {
+            $SP_allowed = DB::select("CALL SP_validatePermissionToRequestBeca(?, ?, ?);", [$request->user_id, $request->tutor_curp, $request->curp]);
+            // var_dump($SP_allowed);
+            $response->data = ObjResponse::CorrectResponse();
+            $response->data["message"] = 'peticion satisfactoria | beca encontrada.';
+            $response->data["alert_icon"] = (bool)$SP_allowed[0]->allowed ? 'success' : 'info';
+            $response->data["alert_text"] = $SP_allowed[0]->message;
+            $response->data["result"] = (bool)$SP_allowed[0]->allowed;
+        } catch (\Exception $ex) {
+            $msg =  "Error al crear o actualizar estudiante por medio de la beca: " . $ex->getMessage();
+            echo "$msg";
+            $response->data = ObjResponse::CatchResponse($ex->getMessage());
+        }
+        return response()->json($response, $response->data["status_code"]);
     }
 }
