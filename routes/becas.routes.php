@@ -194,6 +194,7 @@ Route::middleware('auth:sanctum')->group(function () {
       Route::post('/becas/updateStatus/folio/{folio}/status/{status}', 'updateStatus');
       Route::post('/becas/folio/{folio}/page/{page}/saveBeca', 'saveBeca');
 
+      Route::post('/becas/validatePermissionToRequestBeca', 'SP_validatePermissionToRequestBeca');
       // Route::get('/becas/approved', 'getBecasApproved');
 
 
