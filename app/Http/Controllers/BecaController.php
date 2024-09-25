@@ -791,8 +791,8 @@ class BecaController extends Controller
             // var_dump($SP_allowed);
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | beca encontrada.';
-            $response->data["alert_icon"] = (bool)$SP_allowed[0]->allowed ? 'success' : 'info';
-            $response->data["alert_text"] = $SP_allowed[0]->message;
+            $response->data["alert_icon"] = (bool)$SP_allowed[0]->v_allowed ? 'success' : 'info';
+            $response->data["alert_text"] = $SP_allowed[0]->v_message;
             $response->data["result"] = $SP_allowed[0];
         } catch (\Exception $ex) {
             $msg =  "Error al crear o actualizar estudiante por medio de la beca: " . $ex->getMessage();
