@@ -787,7 +787,7 @@ class BecaController extends Controller
         $response->data = ObjResponse::DefaultResponse();
         try {
             $userAuth = Auth::user();
-            $SP_allowed = DB::select("CALL SP_validatePermissionToRequestBeca(?, ?, ?, ?);", [$userAuth->id, $request->tutor_curp, $request->curp, $userAuth->role_id]);
+            $SP_allowed = DB::select("CALL SP_validatePermissionToRequestBeca(?, ?, ?, ?, ?);", [$userAuth->id, "'$request->tutor_curp'", "'$request->curp'", $userAuth->role_id, $request->continue]);
             // var_dump($SP_allowed);
             $response->data = ObjResponse::CorrectResponse();
             $response->data["message"] = 'peticion satisfactoria | beca encontrada.';
